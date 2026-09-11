@@ -1,0 +1,106 @@
+# Defect probabilities for the five mock vendor APIs.
+# Every value here is deliberate: the pipeline exists to clean this up.
+# Probabilities are per record unless stated otherwise.
+
+seed: 20240901
+
+roster:
+  source: snapshot            # snapshot | nflverse (nflverse needs nfl_data_py + network; falls back to snapshot)
+  season: 2024
+  teams: [KC, PHI, DET, BUF]
+
+history_days: 60              # how far back each service back-fills on first boot
+page_size_default: 100
+page_size_max: 500
+
+# ---- shared defects (all five services) -------------------------------------
+identity:
+  style_swap_prob: 0.06       # emit a different player-ref style than the service default
+  name_variant_prob: 0.20     # mangle the name: drop/keep suffix, nickname, punctuation, "Last, First", CASE, whitespace
+  nickname_map:
+    Patrick: Pat
+    Christopher: Chris
+    Matthew: Matt
+    Michael: Mike
+    Joshua: Josh
+    Nicholas: Nick
+    Jonathan: Jon
+    Andrew: Drew
+    Daniel: Dan
+    Zachary: Zach
+    Alexander: Alex
+    Benjamin: Ben
+    Samuel: Sam
+    Joseph: Joe
+    Anthony: Tony
+    William: Will
+    James: Jimmy
+    Robert: Rob
+
+timestamps:
+  format_swap_prob: 0.05      # emit a timestamp in a format the service does not normally use
+
+# ---- 1. catapult_svc (GPS load) ----------------------------------------------
+catapult:
+  default_ref_style: vendor   # CAT-xxxxxx athlete id + display name
+  default_ts_style: iso_utc
+  session_prob_per_day: 0.55
+  distance_in_yards_prob: 0.08
+  velocity_in_mph_prob: 0.08
+  unit_field_missing_prob: 0.06
+  sensor_spike_prob: 0.02
+  late_arrival_prob: 0.07
+  late_arrival_max_hours: 72
+  missing_session_prob: 0.04
+
+# ---- 2. forcedeck_svc (force plates) ------------------------------------------
+forcedeck:
+  default_ref_style: nfl_id   # integer nflId
+  default_ts_style: epoch_s
+  test_prob_per_day: 0.28
+  reps_per_test: 3
+  duplicate_upload_prob: 0.07
+  force_in_lbs_prob: 0.06
+  unit_field_missing_prob: 0.08
+  aborted_rep_prob: 0.04
+
+# ---- 3. ams_wellness_svc (daily survey) ---------------------------------------
+ams_wellness:
+  default_ref_style: gsis
+  default_ts_style: naive_local
+  skip_day_prob: 0.12
+  duplicate_submission_prob: 0.05
+  utc_timestamp_prob: 0.35    # some submissions come through as ISO UTC instead of naive local
+  likert_switch_day_offset: 30  # days after history start: 1-5 scale becomes 1-10 (form v2)
+  schema_drift_day_offset: 42   # days after history start: player_id -> athlete_id (form v3)
+
+# ---- 4. nutrition_svc (body comp) ---------------------------------------------
+nutrition:
+  default_ref_style: name     # name only + vendor client id
+  default_ts_style: us_date
+  mean_days_between_measurements: 6
+  weight_in_lbs_prob: 0.25
+  bia_body_fat_bias_pct: 3.5  # BIA reads this much higher than DEXA
+  impossible_value_prob: 0.02
+
+# ---- 5. emr_svc (injury / availability) ---------------------------------------
+emr:
+  default_ref_style: name     # names with Jr./III, MRN only sometimes
+  default_ts_style: us_date
+  injury_prob_per_player_week: 0.06
+  out_of_order_prob: 0.15
+  correction_prob: 0.10
+  mrn_present_prob: 0.35
+  body_parts:
+    hamstring: ["Hamstring", "Ham", "left hamstring", "Hamstring (L)", "HAMSTRING", "hamstring strain", "R ham"]
+    knee: ["Knee", "knee", "Knee (R)", "left knee", "KNEE", "MCL/knee"]
+    ankle: ["Ankle", "ankle", "Ankle (L)", "right ankle", "ANKLE", "high ankle"]
+    shoulder: ["Shoulder", "shoulder", "Shoulder (R)", "left shoulder", "AC joint"]
+    groin: ["Groin", "groin", "Groin (L)", "adductor", "GROIN"]
+    calf: ["Calf", "calf", "Calf (R)", "left calf", "CALF"]
+    foot: ["Foot", "foot", "Foot (L)", "right foot", "plantar"]
+    concussion: ["Concussion", "concussion", "Head", "HEAD/concussion"]
+    back: ["Back", "back", "Low back", "lumbar", "BACK"]
+    quad: ["Quad", "quad", "Quadricep (R)", "left quad", "QUAD"]
+    hip: ["Hip", "hip", "Hip (L)", "right hip", "hip flexor"]
+    illness: ["Illness", "illness", "ILLNESS", "non-injury illness"]
