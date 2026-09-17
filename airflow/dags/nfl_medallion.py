@@ -1,9 +1,13 @@
 """GridironOps medallion pipeline.
 
 Bronze: land every source's raw payloads (cursor-walked mocks, snapshot real
-feeds). Silver: resolve identity once (dim_player_master + vendor_player_map),
-then rebuild one typed, deduplicated table per source. Gold / dbt / GX come
-after all five Silver tables have been seen with real dirt.
+feeds). Validate: Great Expectations suites against the unpacked staging
+views route failing rows to silver.quarantine_<source> (the task fails only
+on systemic breakage). Silver: resolve identity once (dim_player_master +
+vendor_player_map), rebuild one typed, deduplicated table per source from the
+rows that passed. dq_summary: one reconciled scorecard row per source per run.
+
+    extract_* -> warehouse_schema -> validate_* -> silver_* -> dq_summary
 
 Mock vendors are walked by cursor (airflow/plugins/extract.py). The two real
 feeds have no cursor: each run lands the full current snapshot and the
@@ -132,17 +136,30 @@ def nfl_medallion():
 
     extracts += [extract_nflverse(), extract_open_meteo()]
 
-    # ---------------------------------------------------------------- silver
+    # ---------------------------------------------------------------- schema
     @task
-    def silver_schema() -> None:
-        """Apply warehouse/init/03_silver.sql (all IF NOT EXISTS) so a warehouse
-        created before Silver existed picks the tables up without a reset."""
+    def warehouse_schema() -> None:
+        """Apply warehouse/init/03_silver.sql + 04_staging.sql (all IF NOT EXISTS /
+        OR REPLACE) so a warehouse created earlier picks up new objects without a reset."""
         from silver.common import warehouse_conn
-        sql = open("/opt/airflow/warehouse/init/03_silver.sql").read()
         with warehouse_conn() as conn, conn.cursor() as cur:
-            cur.execute(sql)
+            for f in ("03_silver.sql", "04_staging.sql"):
+                cur.execute(open(f"/opt/airflow/warehouse/init/{f}").read())
             conn.commit()
 
+    # -------------------------------------------------------------- validate
+    def validate_task(name: str, source: str):
+        @task(task_id=f"validate_{name}")
+        def _run(run_id: str = None) -> dict:
+            from airflow.providers.postgres.hooks.postgres import PostgresHook
+            from dq.validate import validate
+            hook = PostgresHook(postgres_conn_id="warehouse")
+            c = hook.get_connection("warehouse")
+            url = f"postgresql+psycopg2://{c.login}:{c.password}@{c.host}:{c.port or 5432}/{c.schema}"
+            return validate(hook.get_conn(), source, run_id, url)
+        return _run()
+
+    # ---------------------------------------------------------------- silver
     @task
     def silver_player_master() -> dict:
         from silver import player_master
@@ -151,16 +168,34 @@ def nfl_medallion():
 
     def silver_task(name: str):
         @task(task_id=f"silver_{name}")
-        def _run() -> dict:
+        def _run(run_id: str = None) -> dict:
             import importlib
             from silver.common import warehouse_conn
-            return importlib.import_module(f"silver.{name}").build(warehouse_conn())
+            return importlib.import_module(f"silver.{name}").build(warehouse_conn(), run_id=run_id)
         return _run()
 
-    schema = silver_schema()
+    @task
+    def dq_summary(validations: list, silvers: list, run_id: str = None) -> list:
+        from dq.summary import write_summary
+        from silver.common import warehouse_conn
+        return write_summary(warehouse_conn(), run_id, validations, silvers)
+
+    # source name in Bronze/identity -> (validate/silver task suffix)
+    SOURCES = {"forcedeck": "forcedeck", "catapult": "catapult", "ams_wellness": "wellness",
+               "nutrition": "nutrition", "emr": "emr"}
+
+    schema = warehouse_schema()
     master = silver_player_master()
     extracts >> schema >> master
-    master >> [silver_task(n) for n in ("forcedeck", "nutrition", "wellness", "emr", "catapult")]
+    validations, silvers = [], []
+    for source, name in SOURCES.items():
+        v = validate_task(name, source)
+        s = silver_task(name)
+        schema >> v
+        [v, master] >> s
+        validations.append(v)
+        silvers.append(s)
+    dq_summary(validations, silvers)
 
 
 def _df_records(df) -> list[dict]:

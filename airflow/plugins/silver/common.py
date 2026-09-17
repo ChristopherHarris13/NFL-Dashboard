@@ -153,3 +153,34 @@ def num(v: Any) -> float | None:
         return None if v is None else float(v)
     except (TypeError, ValueError):
         return None
+
+
+# ------------------------------------------------------------- quarantine
+
+def quarantined_ids(conn, qtable: str, run_id: str) -> set[int]:
+    """Bronze ids the validate task quarantined in this run; Silver skips them."""
+    with conn.cursor() as cur:
+        cur.execute(f"SELECT DISTINCT bronze_id FROM silver.{qtable} WHERE run_id = %s", (run_id,))
+        return {r[0] for r in cur.fetchall()}
+
+
+def quarantine_identity_failures(conn, qtable: str, run_id: str, rows: list[tuple]) -> int:
+    """rows: (bronze_id, endpoint, raw_identifier, reason). Same table as the DQ
+    failures so 'why is this row not in Silver' has exactly one answer."""
+    if rows:
+        execute_values(conn.cursor(), f"""INSERT INTO silver.{qtable}
+            (bronze_id, endpoint, run_id, expectation_name, column_name, observed_value, reason)
+            VALUES %s""", [(b, e, run_id, "player_resolved", "player", raw, reason) for b, e, raw, reason in rows])
+    return len(rows)
+
+
+def pct(n: int, d: int) -> float | None:
+    return None if not d else round(100.0 * n / d, 2)
+
+
+def schema_versions(rows: list[dict[str, Any]]) -> dict[str, int]:
+    out: dict[str, int] = {}
+    for r in rows:
+        k = r.get("_schema_version") or "none"
+        out[k] = out.get(k, 0) + 1
+    return out

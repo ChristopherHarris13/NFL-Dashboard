@@ -1,0 +1,101 @@
+{
+  "name": "catapult",
+  "meta": {
+    "source": "catapult",
+    "endpoint": "/v1/sessions",
+    "table": "stg_catapult",
+    "notes": "Validated against silver.<table>: Bronze unpacked, deduplicated, units converted. in_set/regex/between ignore NULLs; pair not_null expectations where a value is required."
+  },
+  "expectations": [
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "session_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "session_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "player_id",
+        "regex": "^cat_[0-9a-f]{8}$"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "session_ts"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "session_type",
+        "value_set": [
+          "practice",
+          "walkthrough",
+          "game"
+        ]
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "duration_min",
+        "min_value": 20,
+        "max_value": 180
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "total_distance_m",
+        "min_value": 500,
+        "max_value": 12000
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "high_speed_distance_m",
+        "min_value": 0,
+        "max_value": 3000
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "max_speed_ms",
+        "min_value": 3,
+        "max_value": 12
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "player_load"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "player_load",
+        "min_value": 100,
+        "max_value": 1000
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "sprint_count",
+        "min_value": 0,
+        "max_value": 60
+      }
+    }
+  ]
+}

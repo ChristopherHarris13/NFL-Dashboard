@@ -24,12 +24,15 @@ Unit inference:
 from __future__ import annotations
 
 import logging
-from silver.common import (M_PER_YD, MPH_PER_MS, et_date, fetch_bronze, latest_per_key, load_resolver,
-                           num, parse_iso_utc, persist_resolver, replace_table)
+from silver.common import (M_PER_YD, MPH_PER_MS, et_date, fetch_bronze, latest_per_key, load_resolver, num,
+                           parse_iso_utc, pct, persist_resolver, quarantine_identity_failures, quarantined_ids,
+                           replace_table, schema_versions)
 
 log = logging.getLogger(__name__)
 
 VENDOR = "catapult"
+ENDPOINT = "/v1/sessions"
+QTABLE = "quarantine_catapult"
 COLUMNS = ["bronze_id", "session_id", "player_sk", "resolved_by", "vendor_player_id", "session_ts",
            "session_date", "session_type", "duration_min", "total_distance_m", "high_speed_distance_m",
            "distance_unit_raw", "distance_unit_inferred", "max_speed_ms", "speed_unit_raw",
@@ -54,8 +57,9 @@ def normalise_distance(value: float | None, label: str | None) -> tuple[float | 
     return value, label is None
 
 
-def build(conn) -> dict:
+def build(conn, run_id: str = "manual") -> dict:
     resolver = load_resolver(conn)
+    dq = quarantined_ids(conn, QTABLE, run_id)
 
     # Athlete list: pins cat_<id> -> player_sk by name (no team in the feed).
     athletes = fetch_bronze(conn, VENDOR, "/v1/athletes")
@@ -67,15 +71,21 @@ def build(conn) -> dict:
                          context={"bronze_id": next(r["id"] for r in athlete_rows if r["payload"]["athlete_id"] == aid)})
     athlete_methods = dict(resolver.method_counts)
 
-    bronze = fetch_bronze(conn, VENDOR, "/v1/sessions")
+    bronze = fetch_bronze(conn, VENDOR, ENDPOINT)
     rows, dropped = latest_per_key(bronze, lambda r: r["payload"]["session_id"])
-    out = []
+    rows = [r for r in rows if r["id"] not in dq]
+    out, identity_q = [], []
     for r in rows:
         p = r["payload"]
         # Sessions carry only the vendor id; the athlete list supplies the name
         # so an unpinned id quarantines with the same reason/candidates.
         res = resolver.resolve(VENDOR, vendor_player_id=p["player_id"],
                                name=athlete_name.get(p["player_id"]), context={"bronze_id": r["id"]})
+        if not res.ok:
+            identity_q.append((r["id"], ENDPOINT, p["player_id"],
+                               f"player {res.reason}: {p['player_id']} = {athlete_name.get(p['player_id'])!r}"
+                               + (f" candidates={list(res.candidates)}" if res.candidates else "")))
+            continue
         flags = []
         dist_m, dist_inf = normalise_distance(num(p.get("total_distance")), p.get("distance_unit"))
         hsd_m, _ = normalise_distance(num(p.get("high_speed_distance")), p.get("distance_unit"))
@@ -84,13 +94,7 @@ def build(conn) -> dict:
             flags.append("distance_unit_inferred")
         if speed_inf:
             flags.append("speed_unit_inferred")
-        if dist_m is not None and dist_m > 15000:
-            flags.append("distance_outlier")
-        if p.get("player_load") is None:
-            flags.append("null_player_load")
         ts = parse_iso_utc(p["session_ts"])
-        if not res.ok:
-            flags.append("unresolved_player")
         out.append((
             r["id"], p["session_id"], res.player_sk, res.resolved_by, p["player_id"], ts, et_date(ts),
             p.get("session_type"), p.get("duration_min"),
@@ -103,11 +107,16 @@ def build(conn) -> dict:
 
     n = replace_table(conn, "catapult_sessions", COLUMNS, out)
     idstats = persist_resolver(conn, resolver, VENDOR)
+    quarantine_identity_failures(conn, QTABLE, run_id, identity_q)
     conn.commit()
-    stats = {"athletes": len(athlete_rows), "athlete_resolution": athlete_methods,
-             "bronze_rows": len(bronze), "duplicates_dropped": dropped, "silver_rows": n,
-             "resolved_by": dict(resolver.method_counts),
-             "distance_unit_inferred": sum(1 for o in out if o[12]),
-             "speed_unit_inferred": sum(1 for o in out if o[15]), **idstats}
+    session_methods = {k: v - athlete_methods.get(k, 0) for k, v in resolver.method_counts.items()}
+    stats = {"source": VENDOR, "rows_in": len(bronze), "duplicates_removed": dropped,
+             "rows_quarantined_dq": len(dq), "rows_quarantined_identity": len(identity_q), "rows_in_silver": n,
+             "resolved_by": {k: v for k, v in session_methods.items() if v},
+             "athletes": len(athlete_rows), "athlete_resolution": athlete_methods,
+             "distance_unit_inferred": sum(1 for o in out if o[12]), "speed_unit_inferred": sum(1 for o in out if o[15]),
+             "pct_units_inferred": pct(sum(1 for o in out if o[12] or o[15]), n),
+             "pct_timestamps_reformatted": pct(sum(1 for r in rows if not str(r["payload"].get("session_ts", "")).endswith("Z")), len(rows)),
+             "schema_versions_seen": schema_versions(bronze), **idstats}
     log.info("%s: %s", VENDOR, stats)
     return stats

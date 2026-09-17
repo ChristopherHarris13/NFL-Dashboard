@@ -21,6 +21,7 @@ from silver.wellness import rescale, shape_of
     (562.0, "lbf", 2499.9, False),
     (562.0, None, 2499.9, True),      # no label, <1500 -> lbf
     (2500.0, None, 2500.0, True),     # no label, >=1500 -> already N
+    (562.0, "N", 2499.9, True),       # stale 'N' label on an lbf value: magnitude wins
 ])
 def test_force_normalisation(value, unit, expected_n, inferred):
     n, inf = normalise_force(value, unit)

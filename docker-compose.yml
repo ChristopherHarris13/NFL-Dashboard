@@ -110,6 +110,7 @@ services:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
       - ./warehouse:/opt/airflow/warehouse:ro
+      - ./great_expectations:/opt/airflow/great_expectations:ro
       - airflow_logs:/opt/airflow/logs
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]

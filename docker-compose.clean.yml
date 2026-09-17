@@ -1,0 +1,15 @@
+# Overlay: run every mock vendor with all dirt probabilities at 0.0.
+#   docker compose -f docker-compose.yml -f docker-compose.clean.yml up -d
+# Used to prove the DQ layer: clean feeds should yield a near-empty quarantine.
+x-clean: &clean
+  environment:
+    DIRT_CONFIG_PATH: /app/mock_vendors/dirt_config.clean.yaml
+  volumes:
+    - ./mock_vendors/dirt_config.clean.yaml:/app/mock_vendors/dirt_config.clean.yaml:ro
+
+services:
+  catapult_svc:     *clean
+  forcedeck_svc:    *clean
+  ams_wellness_svc: *clean
+  nutrition_svc:    *clean
+  emr_svc:          *clean

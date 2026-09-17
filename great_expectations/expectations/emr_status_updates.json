@@ -1,0 +1,63 @@
+{
+  "name": "emr_status_updates",
+  "meta": {
+    "source": "emr",
+    "endpoint": "/v1/status_updates",
+    "table": "stg_emr_status_updates",
+    "notes": "Validated against silver.<table>: Bronze unpacked, deduplicated, units converted. in_set/regex/between ignore NULLs; pair not_null expectations where a value is required."
+  },
+  "expectations": [
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "update_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "update_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "injury_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "player"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "updated_at"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "practice_status",
+        "value_set": [
+          "DNP",
+          "LP",
+          "FP"
+        ]
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "game_status",
+        "value_set": [
+          "Out",
+          "Doubtful",
+          "Questionable"
+        ]
+      }
+    }
+  ]
+}

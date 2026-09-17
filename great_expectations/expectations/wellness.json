@@ -1,0 +1,104 @@
+{
+  "name": "wellness",
+  "meta": {
+    "source": "ams_wellness",
+    "endpoint": "/v1/surveys",
+    "table": "stg_wellness",
+    "notes": "Validated against silver.<table>: Bronze unpacked, deduplicated, units converted. in_set/regex/between ignore NULLs; pair not_null expectations where a value is required."
+  },
+  "expectations": [
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "survey_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "survey_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "nfl_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "submitted_at"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "sleep_hours",
+        "min_value": 3,
+        "max_value": 12
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "srpe",
+        "min_value": 0,
+        "max_value": 10
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "sleep_quality",
+        "min_value": 1,
+        "max_value": 10
+      }
+    },
+    {
+      "type": "expect_column_pair_values_a_to_be_greater_than_b",
+      "kwargs": {
+        "column_A": "scale_max",
+        "column_B": "sleep_quality",
+        "or_equal": true,
+        "ignore_row_if": "either_value_is_missing"
+      }
+    },
+    {
+      "type": "expect_column_pair_values_a_to_be_greater_than_b",
+      "kwargs": {
+        "column_A": "scale_max",
+        "column_B": "soreness",
+        "or_equal": true,
+        "ignore_row_if": "either_value_is_missing"
+      }
+    },
+    {
+      "type": "expect_column_pair_values_a_to_be_greater_than_b",
+      "kwargs": {
+        "column_A": "scale_max",
+        "column_B": "fatigue",
+        "or_equal": true,
+        "ignore_row_if": "either_value_is_missing"
+      }
+    },
+    {
+      "type": "expect_column_pair_values_a_to_be_greater_than_b",
+      "kwargs": {
+        "column_A": "scale_max",
+        "column_B": "stress",
+        "or_equal": true,
+        "ignore_row_if": "either_value_is_missing"
+      }
+    },
+    {
+      "type": "expect_column_pair_values_a_to_be_greater_than_b",
+      "kwargs": {
+        "column_A": "scale_max",
+        "column_B": "mood",
+        "or_equal": true,
+        "ignore_row_if": "either_value_is_missing"
+      }
+    }
+  ]
+}

@@ -1,0 +1,80 @@
+{
+  "name": "nutrition",
+  "meta": {
+    "source": "nutrition",
+    "endpoint": "/v1/measurements",
+    "table": "stg_nutrition",
+    "notes": "Validated against silver.<table>: Bronze unpacked, deduplicated, units converted. in_set/regex/between ignore NULLs; pair not_null expectations where a value is required."
+  },
+  "expectations": [
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "measurement_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_unique",
+      "kwargs": {
+        "column": "measurement_id"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "player_name"
+      }
+    },
+    {
+      "type": "expect_column_values_to_match_regex",
+      "kwargs": {
+        "column": "team",
+        "regex": "^[A-Z]{2,3}$"
+      }
+    },
+    {
+      "type": "expect_column_values_to_not_be_null",
+      "kwargs": {
+        "column": "measured_on"
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "method",
+        "value_set": [
+          "DEXA",
+          "BIA",
+          "scale"
+        ]
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "weight_kg",
+        "min_value": 60,
+        "max_value": 180
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_between",
+      "kwargs": {
+        "column": "body_fat_pct",
+        "min_value": 3,
+        "max_value": 40
+      }
+    },
+    {
+      "type": "expect_column_values_to_be_in_set",
+      "kwargs": {
+        "column": "hydration_status",
+        "value_set": [
+          "hydrated",
+          "mild",
+          "dehydrated"
+        ]
+      }
+    }
+  ]
+}

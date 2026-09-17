@@ -9,7 +9,8 @@ nflverse (nfl_data_py)    ─┼─▶  Airflow 2.11 ─▶  Postgres warehouse
 Open-Meteo (Arrowhead)    ─┘    :8080              :5432  bronze / silver / gold
 
 nfl_medallion DAG (every 15 min):
-  extract_* (9)  ─▶  silver_schema  ─▶  silver_player_master  ─▶  silver_{forcedeck,nutrition,wellness,emr,catapult}
+  extract_* (9) ─▶ warehouse_schema ─▶ validate_* (GX) ─▶ silver_* ─▶ dq_summary
+                                    └▶ silver_player_master ─┘
 ```
 
 ## Run the stack
@@ -43,8 +44,12 @@ select _source, _endpoint, count(*) from bronze.forcedeck group by 1, 2;
 | `warehouse/init/` | Postgres first-boot scripts: medallion schemas + the generic `bronze.<source>` tables |
 | `airflow/plugins/extract.py` | the one write path into Bronze (`land_records`) and the cursor-walking mock extractor (`extract_resource`) |
 | `airflow/plugins/identity.py` | `clean_player_name()` and the six-rule `PlayerResolver` — pure Python, no DB |
-| `airflow/plugins/silver/` | one transform module per source (`build(conn)`), plus `player_master.py` and shared `common.py` |
-| `airflow/plugins/tests/` | unit tests: name cleaning against real nflverse pairs, resolver rules, unit inference, body-part parsing |
+| `airflow/plugins/silver/` | one transform module per source (`build(conn, run_id)`), plus `player_master.py` and shared `common.py` |
+| `airflow/plugins/dq/` | `validate.py` runs a source's GX suites and routes failing rows to quarantine; `summary.py` writes the reconciled scorecard |
+| `great_expectations/expectations/` | the six expectation suites as JSON — the source of truth, loaded at run time |
+| `warehouse/init/04_staging.sql` | `silver.stg_*` views (Bronze unpacked, deduped, unit-converted) that the suites validate; quarantine + scorecard tables |
+| `docker-compose.clean.yml`, `mock_vendors/dirt_config.clean.yaml` | overlay that runs every mock with all dirt at 0.0 |
+| `airflow/plugins/tests/` | 94 unit tests: name cleaning against real nflverse pairs, resolver rules, unit inference, body-part parsing, suite well-formedness, quarantine routing |
 | `airflow/dags/nfl_medallion.py` | the pipeline DAG: Bronze extracts → Silver |
 | `airflow/Dockerfile` | `apache/airflow:2.11.2` + `dbt-postgres`, `great_expectations`, `nfl_data_py` (baked in now so the image isn't rebuilt per stage) |
 
@@ -151,14 +156,96 @@ select * from silver.quarantine_identity;   -- currently: one "Marcus Harris" (K
 | `emr_injuries` / `emr_status_updates` | `injury_id` / `update_id`, latest `updated_at` wins | `"Last Jr., First"` names; free-text body parts → canonical + `side` pulled from `(R)` / `L mcl` / `left …` (`side_source`); out-of-order updates ordered by event time; corrections marked `is_correction`; `stale_expected_rtp` when RTP predates the last DNP |
 | `catapult_sessions` | `session_id` | `cat_…` ids resolved via `/v1/athletes` names and pinned; speed unit by magnitude (m/s and mph don't overlap, so a stale label loses); distance trusts a `yd` label and flags a missing one — a stale `m` on a yd value is not detectable by magnitude and is left for GX to catch distributionally; late arrival is *not* computed (Bronze lacks emission time and the sim clock runs ahead of wall-clock) — `_ingested_at` is carried so Gold can compare across runs |
 
-Every table has `qc_flags text[]` so nothing is silently dropped or fixed:
-Silver records what it did, Gold decides what to trust.
+Every table has `qc_flags text[]` so nothing is silently fixed: Silver
+records what it did. Rows that fail validation never reach Silver at all —
+see below.
+
+## Validation and the DQ scorecard
+
+Gold only ever sees rows that passed. Between Bronze and Silver:
+
+1. **Staging views** (`silver.stg_<source>`) unpack the JSON, deduplicate
+   (latest ingest per business key) and convert units, so range checks run
+   on typed columns in canonical units — a 250 lb weight is checked as
+   113 kg, not against a kg range.
+2. **Great Expectations suites** — one per source in
+   `great_expectations/expectations/*.json`, 7–12 expectations each, mapped
+   to the injected dirt (aborted reps, null test types, impossible
+   distances, null player load, outlier weights and body-fat, Likert answers
+   above `scale_max`, unparseable timestamps, `expected_rtp` before
+   `event_date`, …). The JSON is loaded at run time; nothing is generated.
+3. **`validate_<source>` routes, it doesn't fail.** Every row that fails an
+   expectation is written to `silver.quarantine_<source>` with the
+   expectation, the column, the observed value and a readable reason
+   (`jump_height_cm outside 5..90: jump_height_cm=113.8`). The task succeeds.
+   It fails — and stops that source's Silver — only on a *systemic* problem:
+   an expectation with ≥ 50 % of the batch unexpected, or a column that has
+   vanished. That's an alert, not dirt.
+4. **`silver_<source>`** skips quarantined rows, resolves identity, and
+   routes the unresolvable to the same quarantine table
+   (`expectation_name = 'player_resolved'`), so "why isn't this row in
+   Silver?" has exactly one place to look.
+5. **`dq_summary`** writes one `silver.dq_run_summary` row per source per
+   run and asserts `rows_in − duplicates − quarantined = rows_in_silver`.
+   The quarantined count comes from the validator, the rest from Silver, so
+   the two can't agree by construction — if the SQL view and the Python
+   transform ever dedupe differently, the run fails.
+   `silver.dq_expectation_results` keeps one row per expectation per run
+   for the trend chart.
+
+```sql
+select source, rows_in, duplicates_removed, rows_quarantined, rows_in_silver, reconciles
+from silver.dq_run_summary order by created_at desc limit 5;
+select expectation_name, column_name, unexpected_count, unexpected_percent
+from silver.dq_expectation_results where not success order by validated_at desc;
+select reason, count(*) from silver.quarantine_forcedeck group by 1;
+```
+
+### What it found
+
+With the default dirt, the observed failure rates match the injected
+probabilities to the decimal: catapult `player_load is null` 5.0 % (p = 0.05),
+`total_distance_m` outliers 2.0 % (0.02), forcedeck `test_type is null` 3.1 %
+(0.03), `jump_height_cm` aborted reps 4.0 % (0.04), nutrition outliers
+1.8 % (0.02).
+
+It also found a Silver bug on its first run: 2,203 ForceDecks rows at
+450–800 "newtons". The mock mislabels a quarter of its lbf swaps as `N`, and
+Silver had trusted the label. lbf (337–1461) and N (1500–6500) never
+overlap, so magnitude now decides and the label is only evidence of whether
+the vendor got it right.
+
+### The two experiments
+
+**One dirt to 1.0.** `forcedeck_svc.aborted_rep.p: 1.0`, rebuild the mock,
+delete the `bronze_cursor__forcedeck__tests` Variable so the re-dirtied
+stream lands, run the DAG. `jump_height_cm` failed on 57.3 % of the batch →
+`validate_forcedeck` **failed** (`systemic = true` in
+`dq_expectation_results`), `silver_forcedeck` did not run and kept the last
+good table, 28,331 rows sat in `quarantine_forcedeck` with reasons, and the
+other four sources completed normally.
+
+Reverting the config and re-walking does **not** undo it, and that's worth
+understanding: the reverted stream is byte-identical to the original rows,
+so the hash index lands nothing, and "latest ingest wins" keeps the bad
+versions on top. Bronze cannot represent a revert to a payload it has
+already seen. The recovery is to delete the experiment's `_batch_id` from
+Bronze (or `down -v`); in production the equivalent is a re-emission with
+any difference at all, or a dedup rule that prefers the latest *valid*
+version — an open design choice noted below.
+
+**All dirt to 0.0.** `docker compose down -v && docker compose -f
+docker-compose.yml -f docker-compose.clean.yml up -d`, run the DAG:
+61 / 61 expectations pass, 0 duplicates, 0 rows DQ-quarantined across
+~70 k rows. The only quarantine entries are the 160 Catapult sessions of the
+one genuinely ambiguous name (two active "Marcus Harris", no team in the
+feed) — identity, not dirt.
 
 ### Tests
 
 ```bash
 python -m venv .venv && .venv/bin/pip install pytest psycopg2-binary
-.venv/bin/python -m pytest airflow/plugins/tests     # 81 tests, no DB needed
+.venv/bin/python -m pytest airflow/plugins/tests     # 94 tests, no DB needed
 .venv/bin/python -m pytest mock_vendors               # the vendors themselves
 ```
 
