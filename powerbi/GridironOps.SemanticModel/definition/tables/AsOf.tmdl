@@ -1,9 +1,11 @@
 /// Disconnected as-of control: 0 = latest simulated day, N = N days back.
 table AsOf
+	lineageTag: 3a2f95b1-500c-4d4b-af8d-98bb837d5c8e
 
 	column 'Days back'
 		dataType: int64
 		formatString: 0
+		lineageTag: f3366bf2-9e05-41bc-aad2-f3a78563f8e3
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Days back]
@@ -11,3 +13,4 @@ table AsOf
 	partition AsOf = calculated
 		mode: import
 		source = SELECTCOLUMNS ( GENERATESERIES ( 0, 60, 1 ), "Days back", [Value] )
+

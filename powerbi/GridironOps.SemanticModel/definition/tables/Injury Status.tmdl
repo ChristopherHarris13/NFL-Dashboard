@@ -1,60 +1,73 @@
 /// gold.fact_injury_status — practice / game status per open injury per day.
 /// Reaches Player through Injury; no direct relationship to Player (ambiguity).
 table 'Injury Status'
+	lineageTag: 3b74539c-490d-4f28-9615-5fb6326c5401
 
 	column injury_status_sk
 		dataType: string
 		isHidden
+		lineageTag: a21aa250-8440-4381-9f74-164c4f3de72c
 		summarizeBy: none
 		sourceColumn: injury_status_sk
 
 	column injury_id
 		dataType: string
 		isHidden
+		lineageTag: 621de2cd-6dff-4292-bdce-8588776d2e45
 		summarizeBy: none
 		sourceColumn: injury_id
 
 	column player_sk
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: 9cf9e0fb-816a-433a-9455-08b444405cc3
 		summarizeBy: none
 		sourceColumn: player_sk
 
 	column date_day
 		dataType: dateTime
 		formatString: d mmm yyyy
+		lineageTag: c30413b0-e0e4-4628-bb34-56a87498153c
 		summarizeBy: none
 		sourceColumn: date_day
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column season_week
 		dataType: int64
 		formatString: 0
+		lineageTag: 4ab6d329-82b7-4f2d-888e-de63d166b13a
 		summarizeBy: none
 		sourceColumn: season_week
 
 	column day_type
 		dataType: string
+		lineageTag: ba30279a-27cc-431e-8be4-269481bc5259
 		summarizeBy: none
 		sourceColumn: day_type
 
 	column counts_for_availability
 		dataType: boolean
+		lineageTag: 97470580-ed21-4ae6-865a-d3f72b2fe45c
 		summarizeBy: none
 		sourceColumn: counts_for_availability
 
 	column practice_status
 		dataType: string
+		lineageTag: 6048ed88-26a2-40f6-92c7-3cd41ce5db05
 		summarizeBy: none
 		sourceColumn: practice_status
 
 	column game_status
 		dataType: string
+		lineageTag: 607c0f17-9ed0-40c2-a4ac-afc68752fefc
 		summarizeBy: none
 		sourceColumn: game_status
 
 	column is_unavailable
 		dataType: boolean
+		lineageTag: 4d410d36-982c-4059-bd52-47224e5d5c3c
 		summarizeBy: none
 		sourceColumn: is_unavailable
 
@@ -67,3 +80,4 @@ table 'Injury Status'
 					Typed = Table.TransformColumnTypes(gold_fact_injury_status, {{"injury_id", type text}})
 				in
 					Typed
+

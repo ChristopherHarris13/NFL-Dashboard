@@ -1,0 +1,819 @@
+cultureInfo en-US
+
+	linguisticMetadata =
+			{
+			  "Version": "2.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "player_day.flag_rank": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "flag_rank"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "#": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.flag": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "flag"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Flag": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.availability": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "availability"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Availability": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.game_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "game_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Game": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.readiness_score": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "readiness_score"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Readiness": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.readiness_delta": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "readiness_delta"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Δ vs 28d": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.acwr_coupled": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "acwr_coupled"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ACWR": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.load_7d": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "load_7d"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "7-day load": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.days_since_survey": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "days_since_survey"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Days since survey": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.open_injury_body_parts": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "open_injury_body_parts"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Open injury": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.expected_return": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "expected_return"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expected return": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.flag_reasons": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "flag_reasons"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Why": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.acwr_band": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "acwr_band"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "ACWR band": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        },
+			        {
+			          "Band": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.load_28d_avg_week": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "load_28d_avg_week"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "28d norm (avg week)": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player_day.sessions": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player Day",
+			          "ConceptualProperty": "sessions"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Sessions": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player.full_name": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player",
+			          "ConceptualProperty": "full_name"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Player": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "player.position": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Player",
+			          "ConceptualProperty": "position"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Pos": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "date.date_day": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Date",
+			          "ConceptualProperty": "date_day"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Day": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.body_part": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "body_part"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Body part": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.side": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "side"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Side": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.injury_type": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "injury_type"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Type": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.severity": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "severity"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Severity": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.event_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "event_date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Event": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.expected_rtp": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "expected_rtp"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expected RTP": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.days_out": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "days_out"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Days out": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.body_region": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "body_region"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Body region": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury.return_date": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury",
+			          "ConceptualProperty": "return_date"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Returned": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury_status.practice_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury Status",
+			          "ConceptualProperty": "practice_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Practice": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "injury_status.game_status": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "Injury Status",
+			          "ConceptualProperty": "game_status"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Game": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.source": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "source"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Source": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.rows_in": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "rows_in"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rows in": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.duplicates_removed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "duplicates_removed"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Duplicates removed": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.rows_quarantined": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "rows_quarantined"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Quarantined": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.rows_in_silver": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "rows_in_silver"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Rows in silver": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.reconciles": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "reconciles"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Reconciles": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.expectations_failed": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "expectations_failed"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Expectations failed": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.pct_units_inferred": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "pct_units_inferred"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "% units inferred": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    },
+			    "dq_run.created_at": {
+			      "Definition": {
+			        "Binding": {
+			          "ConceptualEntity": "DQ Run",
+			          "ConceptualProperty": "created_at"
+			        }
+			      },
+			      "State": "Generated",
+			      "Terms": [
+			        {
+			          "Run": {
+			            "State": "Suggested",
+			            "Source": {
+			              "Type": "External",
+			              "Agent": "PowerBI.VisualColumnRename"
+			            },
+			            "Weight": 0.9
+			          }
+			        }
+			      ]
+			    }
+			  }
+			}
+		contentType: json
+

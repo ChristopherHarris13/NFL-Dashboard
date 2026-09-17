@@ -1,92 +1,108 @@
 /// gold.dq_run_summary — the DQ scorecard behind the Data page.
 /// run_recency 1 = latest run. jsonb columns are dropped in M.
 table 'DQ Run'
+	lineageTag: 4b41f9ec-755f-4f63-bd8c-d03ed1070993
 
 	column run_id
 		dataType: string
 		isHidden
+		lineageTag: 2761a80a-1281-4024-8a51-03a2c0530092
 		summarizeBy: none
 		sourceColumn: run_id
 
 	column source
 		dataType: string
+		lineageTag: b8f8852e-6dda-4c68-a48b-7c8752cc1f8c
 		summarizeBy: none
 		sourceColumn: source
 
 	column rows_in
 		dataType: int64
 		formatString: #,0
+		lineageTag: c9dcace7-cf4d-4056-80bf-5784b174ca46
 		summarizeBy: sum
 		sourceColumn: rows_in
 
 	column duplicates_removed
 		dataType: int64
 		formatString: #,0
+		lineageTag: 2076923d-a7d1-4927-9378-9bb6f1458eb7
 		summarizeBy: sum
 		sourceColumn: duplicates_removed
 
 	column rows_quarantined
 		dataType: int64
 		formatString: #,0
+		lineageTag: c5a12917-3fc7-4798-a2d6-b2177000211a
 		summarizeBy: sum
 		sourceColumn: rows_quarantined
 
 	column rows_quarantined_dq
 		dataType: int64
 		formatString: #,0
+		lineageTag: fbc744e6-76d9-4424-bc5f-d2db6d9ea2f9
 		summarizeBy: sum
 		sourceColumn: rows_quarantined_dq
 
 	column rows_quarantined_identity
 		dataType: int64
 		formatString: #,0
+		lineageTag: 95557d41-6bc0-40b6-82c5-55911c09c181
 		summarizeBy: sum
 		sourceColumn: rows_quarantined_identity
 
 	column rows_in_silver
 		dataType: int64
 		formatString: #,0
+		lineageTag: cec257f0-8f8d-470a-b63f-db99063a3c6c
 		summarizeBy: sum
 		sourceColumn: rows_in_silver
 
 	column reconciles
 		dataType: boolean
+		lineageTag: 8bcc3c8e-b12e-45fb-9e3b-b33d232a7790
 		summarizeBy: none
 		sourceColumn: reconciles
 
 	column pct_units_inferred
 		dataType: double
 		formatString: 0.0
+		lineageTag: ed659f25-578d-41bc-82b6-8e065532a368
 		summarizeBy: average
 		sourceColumn: pct_units_inferred
 
 	column pct_timestamps_reformatted
 		dataType: double
 		formatString: 0.0
+		lineageTag: ba2ed9ae-50d0-4c2d-a744-5c9a4d706068
 		summarizeBy: average
 		sourceColumn: pct_timestamps_reformatted
 
 	column expectations_run
 		dataType: int64
 		formatString: 0
+		lineageTag: 36c03fc3-0f6e-4a12-8939-4a79855eaf3b
 		summarizeBy: sum
 		sourceColumn: expectations_run
 
 	column expectations_failed
 		dataType: int64
 		formatString: 0
+		lineageTag: 2dbde86b-5a8d-4772-bdc5-dc2c0e5b35d0
 		summarizeBy: sum
 		sourceColumn: expectations_failed
 
 	column created_at
 		dataType: dateTime
 		formatString: d mmm yyyy hh:nn
+		lineageTag: f8ecf097-4fbe-404b-a156-c5dabbcdf65e
 		summarizeBy: none
 		sourceColumn: created_at
 
 	column run_recency
 		dataType: int64
 		formatString: 0
+		lineageTag: af1d5004-4203-48b3-a000-99627743d1f0
 		summarizeBy: none
 		sourceColumn: run_recency
 
@@ -100,3 +116,4 @@ table 'DQ Run'
 					Typed = Table.TransformColumnTypes(NoJson, {{"created_at", type datetime}})
 				in
 					Typed
+

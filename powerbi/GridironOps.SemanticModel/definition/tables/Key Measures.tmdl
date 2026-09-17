@@ -1,112 +1,150 @@
 /// Home for every measure. The one data column is hidden; only measures show.
-table Measures
+table 'Key Measures'
+	lineageTag: a970c420-e547-4515-9d56-38791d114f39
 
 	measure 'Latest Data Day' = CALCULATE ( MAX ( 'Player Day'[date_day] ), REMOVEFILTERS () )
 		formatString: d mmm yyyy
+		lineageTag: d7c4ec83-1321-405f-bcee-d4a4c217fe44
 
-	measure 'As-of' = [Latest Data Day] - SELECTEDVALUE ( AsOf[Days back], 0 )
+	measure As-of = [Latest Data Day] - SELECTEDVALUE ( AsOf[Days back], 0 )
 		formatString: d mmm yyyy
+		lineageTag: a185c646-9725-46eb-b0de-1de539016d11
 
 	measure 'As-of Label' = FORMAT ( [As-of], "ddd d mmm yyyy" )
+		lineageTag: 67f6656d-8955-4310-9669-e7ed212d0b2d
 
 	measure 'Window Days' = SELECTEDVALUE ( Window[Days], 28 )
 		formatString: 0
+		lineageTag: 41f389f9-ea45-4235-9be6-ccac9063494e
 
 	/// 1 on the as-of day, else 0. Visual-level filter (= 1) on every table/card built from Player Day.
 	measure 'Is As-of' = IF ( MAX ( 'Player Day'[date_day] ) = [As-of], 1, 0 )
 		formatString: 0
+		lineageTag: 095e86cf-8f46-4819-a229-29e542445b6a
 
 	/// Same, for visuals built from Injury Status.
 	measure 'Is As-of (Injury)' = IF ( MAX ( 'Injury Status'[date_day] ) = [As-of], 1, 0 )
 		formatString: 0
+		lineageTag: 76b48bdd-995b-438e-9913-aeecefd34981
 
 	/// 1 inside the trailing window ending on the as-of day. Visual-level filter on
 	/// Player-page charts, whose axis must be Date[date_day].
 	measure 'In Window' = VAR d = [As-of] RETURN IF ( MAX ( 'Date'[date_day] ) > d - [Window Days] && MAX ( 'Date'[date_day] ) <= d, 1, 0 )
 		formatString: 0
+		lineageTag: 25267b2b-db92-42ef-a28f-bc0c00367b27
 
 	measure Players = VAR d = [As-of] RETURN CALCULATE ( DISTINCTCOUNT ( 'Player Day'[player_sk] ), 'Player Day'[date_day] = d )
 		formatString: 0
+		lineageTag: 0e48115f-8304-447c-9e49-6e5c645f766f
 
 	measure Red = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "red" )
 		formatString: 0
+		lineageTag: 2ee4e292-3ead-47c9-ba97-228ff0fedcee
 
 	measure Amber = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "amber" )
 		formatString: 0
+		lineageTag: 8594dddc-1ea7-4115-bceb-2a4c9b2074f5
 
 	measure Green = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "green" )
 		formatString: 0
+		lineageTag: 9754012c-30fc-40ae-83ec-cd5ef254a6e2
 
 	measure Out = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Out" )
 		formatString: 0
+		lineageTag: 536e5316-3e3e-4f24-908b-116d2e93d1fd
 
 	measure Limited = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Limited" )
 		formatString: 0
+		lineageTag: 440763a1-50fa-4339-b9d5-07bd1b41d35a
 
 	measure Silent = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[is_silent] = TRUE () )
 		formatString: 0
+		lineageTag: ed03fe08-b6da-4079-b1c6-a57fbbdf63d4
 
 	measure 'Open Injuries' = VAR d = [As-of] RETURN CALCULATE ( DISTINCTCOUNT ( 'Injury Status'[injury_id] ), 'Injury Status'[date_day] = d )
 		formatString: 0
+		lineageTag: ab218967-c887-4af3-b702-c5f7d11d5269
 
 	measure 'Load 7d' = VAR d = [As-of] RETURN CALCULATE ( SUM ( 'Player Day'[load_7d] ), 'Player Day'[date_day] = d )
 		formatString: #,0
+		lineageTag: 7a1eb65b-56ad-480a-94db-1efea1a56497
 
 	measure 'Load Norm' = VAR d = [As-of] RETURN CALCULATE ( SUM ( 'Player Day'[load_28d_avg_week] ), 'Player Day'[date_day] = d )
 		formatString: #,0
+		lineageTag: bc9ce39a-17f5-49c9-85b8-00e43763880b
 
 	measure 'Load vs Norm %' = DIVIDE ( [Load 7d] - [Load Norm], [Load Norm] )
 		formatString: +0.0%;-0.0%;0.0%
+		lineageTag: cebc0bd6-5213-48e1-8751-436d94556095
 
 	measure ACWR = VAR d = [As-of] RETURN CALCULATE ( AVERAGE ( 'Player Day'[acwr_coupled] ), 'Player Day'[date_day] = d )
 		formatString: 0.00
+		lineageTag: 9b854188-eee0-4687-b3ef-096567f2a447
 
 	measure 'Last Run' = CALCULATE ( MAX ( 'DQ Run'[created_at] ), 'DQ Run'[run_recency] = 1 )
 		formatString: d mmm yyyy hh:nn
+		lineageTag: a46d78ea-2777-4b9b-976b-b8f30cf4d0dc
 
 	measure 'Rows In' = CALCULATE ( SUM ( 'DQ Run'[rows_in] ), 'DQ Run'[run_recency] = 1 )
 		formatString: #,0
+		lineageTag: 9ea9099f-b61a-4007-85df-8ab67ea133dc
 
 	measure 'Rows In Silver' = CALCULATE ( SUM ( 'DQ Run'[rows_in_silver] ), 'DQ Run'[run_recency] = 1 )
 		formatString: #,0
+		lineageTag: d5f82d12-884c-42bd-a940-343207398a4b
 
 	measure 'Quarantined %' = DIVIDE ( CALCULATE ( SUM ( 'DQ Run'[rows_quarantined] ), 'DQ Run'[run_recency] = 1 ), [Rows In] )
 		formatString: 0.00%
+		lineageTag: 70102009-6a28-48d7-9b72-25ab16e193b6
 
 	measure Reconciles = IF ( CALCULATE ( COUNTROWS ( 'DQ Run' ), 'DQ Run'[run_recency] = 1, 'DQ Run'[reconciles] = FALSE () ) = 0, "All sources reconcile", "RECONCILIATION FAILED" )
+		lineageTag: d97a3384-69d7-4c67-810e-4b83fafd648b
 
 	measure Expectations = CALCULATE ( SUM ( 'DQ Run'[expectations_run] ) - SUM ( 'DQ Run'[expectations_failed] ), 'DQ Run'[run_recency] = 1 ) & " / " & CALCULATE ( SUM ( 'DQ Run'[expectations_run] ), 'DQ Run'[run_recency] = 1 )
+		lineageTag: 7c10279c-29a3-41cf-beaf-ea0f1d51467f
 
 	/// Player drill-through page header values (the as-of row as measures).
 	measure 'Selected Player' = SELECTEDVALUE ( Player[full_name] )
+		lineageTag: 38b97e62-1656-4c97-ada3-f0991ba7ef27
 
 	measure 'Selected Pos' = SELECTEDVALUE ( Player[position] )
+		lineageTag: c657fc7f-01be-4a22-89b7-d875b280fa77
 
 	measure 'Selected Team' = SELECTEDVALUE ( Player[team] )
+		lineageTag: db4ecb55-f086-4660-b57b-bb13573b1eef
 
 	measure 'Flag (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag] ), 'Player Day'[date_day] = d )
+		lineageTag: c2386a54-c274-447a-8673-64a430336046
 
 	measure 'Availability (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[availability] ), 'Player Day'[date_day] = d )
+		lineageTag: 9acb5544-6388-4ac7-bd63-78620239eca3
 
 	measure 'Game Status (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[game_status] ), 'Player Day'[date_day] = d )
+		lineageTag: 609a726e-7326-4c53-b999-3d9f4c87070c
 
 	measure 'Readiness (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[readiness_score] ), 'Player Day'[date_day] = d )
 		formatString: 0.0
+		lineageTag: d2c09655-61fe-4ea3-9781-0e86e013ccc6
 
 	measure 'ACWR Band (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[acwr_band] ), 'Player Day'[date_day] = d )
+		lineageTag: ded84869-b1ac-444c-964d-549a7e3e8609
 
 	measure 'Weight (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[weight_kg] ), 'Player Day'[date_day] = d )
 		formatString: 0.0
+		lineageTag: feb8edd8-be5d-444e-9920-64d36c7491e4
 
 	measure 'Flag Reasons (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag_reasons] ), 'Player Day'[date_day] = d )
+		lineageTag: 3069928c-6201-497c-a510-076e0da527ec
 
 	column Column1
 		dataType: string
 		isHidden
+		lineageTag: 70492553-b5a5-479b-8197-058dd3d0eb26
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Column1]
 
-	partition Measures = calculated
+	partition 'Key Measures' = calculated
 		mode: import
 		source = ROW ( "Column1", "" )
+

@@ -9,13 +9,15 @@ BI Desktop on the Windows box where the stack runs. Vocabulary is in
 Work top to bottom. Each part ends with a check so you know it worked before
 moving on.
 
-> **Status (17 Sep 2026):** Parts 1–4 are pre-built as a text-format Power BI
-> project in [`powerbi/GridironOps.pbip`](../powerbi/GridironOps.pbip) — the
-> model, relationships, AsOf/Window tables, all measures and the five pages
-> with their visuals are already in git. Open the `.pbip`, Refresh (credentials
-> `warehouse` / `warehouse`), then do the short Desktop-only list in
-> [`powerbi/README.md`](../powerbi/README.md) (sync slicers, drill-through
-> field, conditional formatting, constant lines) and Part 5 below.
+> **Status (17 Sep 2026):** Parts 0–4 are done. The project lives in
+> [`powerbi/GridironOps.pbip`](../powerbi/GridironOps.pbip) — model,
+> relationships, AsOf/Window tables, all measures, five pages, NE slicer
+> default and the Player drill-through, all built, opened, refreshed and
+> verified in Power BI Desktop (screenshots in `docs/screenshots/`). Note:
+> the measures table is named **Key Measures** ("Measures" is a reserved
+> table name and Desktop refuses to open the project). What's left is the
+> optional polish in [`powerbi/README.md`](../powerbi/README.md) (sync
+> slicers, conditional formatting, constant lines) and Part 5 below.
 
 ---
 

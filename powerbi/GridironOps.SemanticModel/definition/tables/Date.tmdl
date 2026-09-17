@@ -1,56 +1,68 @@
 /// gold.dim_date — the calendar; marked as the model's date table.
 table Date
+	lineageTag: 3f4bdff5-162d-458b-bbba-39b0d5eb3769
 	dataCategory: Time
 
 	column date_day
 		dataType: dateTime
 		isKey
 		formatString: d mmm yyyy
+		lineageTag: 4f93fafc-f505-4e94-8431-cb27532e182a
 		summarizeBy: none
 		sourceColumn: date_day
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column iso_dow
 		dataType: int64
 		formatString: 0
+		lineageTag: 40020d6e-ced6-46ae-a80f-bb5da8785e2f
 		summarizeBy: none
 		sourceColumn: iso_dow
 
 	column day_name
 		dataType: string
+		lineageTag: ef081a10-541e-46d4-9008-5e5bb706d73d
 		summarizeBy: none
-		sortByColumn: iso_dow
 		sourceColumn: day_name
+		sortByColumn: iso_dow
 
 	column season_week
 		dataType: int64
 		formatString: 0
+		lineageTag: a260c340-8cdd-4ded-a841-a6234331a177
 		summarizeBy: none
 		sourceColumn: season_week
 
 	column day_type
 		dataType: string
+		lineageTag: b5c995b6-4d93-4ce3-a395-1b690f015751
 		summarizeBy: none
 		sourceColumn: day_type
 
 	column is_scheduled
 		dataType: boolean
+		lineageTag: 2ae58dbb-8d03-4828-9306-383fb0c8f926
 		summarizeBy: none
 		sourceColumn: is_scheduled
 
 	column counts_for_availability
 		dataType: boolean
+		lineageTag: 3c45def4-e9e7-4f84-b834-6450fe57a594
 		summarizeBy: none
 		sourceColumn: counts_for_availability
 
 	column year
 		dataType: int64
 		formatString: 0
+		lineageTag: c899b46d-ad8a-4a5d-98ee-390b9dbed605
 		summarizeBy: none
 		sourceColumn: year
 
 	column month
 		dataType: int64
 		formatString: 0
+		lineageTag: c1ab6c56-d559-4ab8-8d90-00bccaac5957
 		summarizeBy: none
 		sourceColumn: month
 
@@ -62,3 +74,4 @@ table Date
 					gold_dim_date = Source{[Schema="gold",Item="dim_date"]}[Data]
 				in
 					gold_dim_date
+

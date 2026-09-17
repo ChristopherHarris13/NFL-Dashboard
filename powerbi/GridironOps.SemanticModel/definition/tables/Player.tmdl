@@ -1,89 +1,105 @@
 /// gold.dim_player_current — the current version of every player, one row each.
 table Player
+	lineageTag: 8a94d7b0-feaf-422e-973e-6ed01571f209
 
 	column player_sk
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: 147f498f-d168-4878-96c8-cea68a570204
 		summarizeBy: none
 		sourceColumn: player_sk
 
 	column gsis_id
 		dataType: string
 		isHidden
+		lineageTag: 6b6adaaf-722d-45ef-b606-c912d6ec1e2a
 		summarizeBy: none
 		sourceColumn: gsis_id
 
 	column nfl_id
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: 2e233059-b5a0-4c72-a177-f1eee784e232
 		summarizeBy: none
 		sourceColumn: nfl_id
 
 	column espn_id
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: 8ceea9da-3b96-41ad-bd5d-657a36bfa228
 		summarizeBy: none
 		sourceColumn: espn_id
 
 	column pfr_id
 		dataType: string
 		isHidden
+		lineageTag: d15b2995-8b7f-4553-a166-45e23602ad41
 		summarizeBy: none
 		sourceColumn: pfr_id
 
 	column full_name
 		dataType: string
+		lineageTag: d60d8bdb-e392-49f4-989c-8ad88eb4fedd
 		summarizeBy: none
 		sourceColumn: full_name
 
 	column first_name
 		dataType: string
+		lineageTag: 023c3241-cb24-471f-a0ac-3911af7ae83f
 		summarizeBy: none
 		sourceColumn: first_name
 
 	column last_name
 		dataType: string
+		lineageTag: 7fa114a3-6d06-4cd4-8fe0-9a82435ed8b9
 		summarizeBy: none
 		sourceColumn: last_name
 
 	column football_name
 		dataType: string
+		lineageTag: 674004f1-02c7-446b-bd49-c421cd4e6df0
 		summarizeBy: none
 		sourceColumn: football_name
 
 	column team
 		dataType: string
+		lineageTag: 117b15e3-9c4f-41d5-bd34-9914ade68dd2
 		summarizeBy: none
 		sourceColumn: team
 
 	column position
 		dataType: string
+		lineageTag: 3dd4e185-6c30-426f-be11-9cb7f33ccf5d
 		summarizeBy: none
 		sourceColumn: position
 
 	column roster_weight_lbs
 		dataType: double
 		formatString: 0
+		lineageTag: ba414f8d-e7d9-4cb6-bb6e-1b10953e23d5
 		summarizeBy: none
 		sourceColumn: roster_weight_lbs
 
 	column roster_height_in
 		dataType: double
 		formatString: 0
+		lineageTag: 2e2c9062-e12e-4c43-97f5-c889a453efa4
 		summarizeBy: none
 		sourceColumn: roster_height_in
 
 	column on_roster
 		dataType: boolean
+		lineageTag: c84fc18e-1ca3-4fed-87ab-53b56de87355
 		summarizeBy: none
 		sourceColumn: on_roster
 
 	column valid_from
 		dataType: dateTime
 		formatString: d mmm yyyy
+		lineageTag: f3f001ae-c003-4cdd-9a73-7fc5c86646b9
 		summarizeBy: none
 		sourceColumn: valid_from
 
@@ -95,3 +111,4 @@ table Player
 					gold_dim_player_current = Source{[Schema="gold",Item="dim_player_current"]}[Data]
 				in
 					gold_dim_player_current
+

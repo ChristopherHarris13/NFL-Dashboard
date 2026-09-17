@@ -25,3 +25,4 @@ relationship c7600b89-b87a-49d0-b51f-16954ba4af25
 relationship 21aa4de0-aeee-46b8-b517-5b7a38931462
 	fromColumn: 'Force Plate Test'.test_date
 	toColumn: Date.date_day
+

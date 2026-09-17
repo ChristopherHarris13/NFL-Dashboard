@@ -1,100 +1,119 @@
 /// gold.fact_strength — one row per force-plate test, with the rolling
 /// 4-week asymmetry view.
 table 'Force Plate Test'
+	lineageTag: fdba9361-1920-42b1-a8f2-5ca29632b1c1
 
 	column strength_sk
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: e3b0a767-7908-4bae-9ffd-074949c4255d
 		summarizeBy: none
 		sourceColumn: strength_sk
 
 	column test_id
 		dataType: string
 		isHidden
+		lineageTag: 46ec56f3-b466-4845-9602-c8811fa5a0dc
 		summarizeBy: none
 		sourceColumn: test_id
 
 	column player_sk
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: 415da9af-885f-4213-a4a7-49add63eac53
 		summarizeBy: none
 		sourceColumn: player_sk
 
 	column test_ts
 		dataType: dateTime
 		formatString: d mmm yyyy hh:nn
+		lineageTag: 76811e2b-315e-42e2-a18d-167bf7b270ec
 		summarizeBy: none
 		sourceColumn: test_ts
 
 	column test_date
 		dataType: dateTime
 		formatString: d mmm yyyy
+		lineageTag: 7207dc3f-d5ca-44cd-9a7c-7c7e81fe0cbe
 		summarizeBy: none
 		sourceColumn: test_date
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column test_type
 		dataType: string
+		lineageTag: 84a3fe3c-25b5-458e-a5dd-826a16437095
 		summarizeBy: none
 		sourceColumn: test_type
 
 	column rep
 		dataType: int64
 		formatString: 0
+		lineageTag: 8733e4e1-802f-41a4-9a43-3f120ffaa041
 		summarizeBy: none
 		sourceColumn: rep
 
 	column jump_height_cm
 		dataType: double
 		formatString: 0.0
+		lineageTag: 44ee7e07-6b50-4ea2-93cc-bc3b2d69601c
 		summarizeBy: average
 		sourceColumn: jump_height_cm
 
 	column peak_force_n
 		dataType: double
 		formatString: #,0
+		lineageTag: c026cd4a-f425-4163-98ce-c67ade2cf1d3
 		summarizeBy: average
 		sourceColumn: peak_force_n
 
 	column force_unit_inferred
 		dataType: boolean
+		lineageTag: 42a82248-5ef7-4ede-be81-331e38fea63c
 		summarizeBy: none
 		sourceColumn: force_unit_inferred
 
 	column rfd
 		dataType: double
 		formatString: #,0
+		lineageTag: ef5503e0-7411-4bcf-97ed-597e36ebec2f
 		summarizeBy: average
 		sourceColumn: rfd
 
 	column asymmetry_pct
 		dataType: double
 		formatString: 0.0
+		lineageTag: b60c82c6-e1d1-46d5-9919-8549728dd1d2
 		summarizeBy: average
 		sourceColumn: asymmetry_pct
 
 	column device_id
 		dataType: string
 		isHidden
+		lineageTag: 607ff372-7dce-4794-af6c-ce097a232c6d
 		summarizeBy: none
 		sourceColumn: device_id
 
 	column asymmetry_4w_avg
 		dataType: double
 		formatString: 0.0
+		lineageTag: e139eb73-bab2-4021-862e-8dbabdb4dcbc
 		summarizeBy: average
 		sourceColumn: asymmetry_4w_avg
 
 	column asymmetry_trend
 		dataType: double
 		formatString: +0.0;-0.0;0.0
+		lineageTag: 94d88ad5-d7c0-4ad4-9cf6-f9075b2e22c3
 		summarizeBy: average
 		sourceColumn: asymmetry_trend
 
 	column jump_height_4w_max
 		dataType: double
 		formatString: 0.0
+		lineageTag: 8c396111-99e0-4d24-9478-c998dc4e1691
 		summarizeBy: average
 		sourceColumn: jump_height_4w_max
 
@@ -107,3 +126,4 @@ table 'Force Plate Test'
 					Typed = Table.TransformColumnTypes(gold_fact_strength, {{"test_id", type text}, {"test_ts", type datetime}})
 				in
 					Typed
+

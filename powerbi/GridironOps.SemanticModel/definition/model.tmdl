@@ -10,6 +10,8 @@ annotation PBI_QueryOrder = ["Player Day","Player","Date","Injury","Injury Statu
 
 annotation __PBI_TimeIntelligenceEnabled = 0
 
+annotation PBI_ProTooling = ["DevMode"]
+
 ref table 'Player Day'
 ref table Player
 ref table Date
@@ -19,4 +21,7 @@ ref table 'Force Plate Test'
 ref table 'DQ Run'
 ref table AsOf
 ref table Window
-ref table Measures
+ref table 'Key Measures'
+
+ref cultureInfo en-US
+

@@ -1,105 +1,130 @@
 /// gold.fact_injury — one row per injury. qc_flags (array) is dropped in M.
 table Injury
+	lineageTag: fcccd8d7-61aa-4bfb-9b09-b91e89c8a51b
 
 	column injury_sk
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: bca05188-d4a1-4323-8125-9de455e22c98
 		summarizeBy: none
 		sourceColumn: injury_sk
 
 	column injury_id
 		dataType: string
 		isHidden
+		lineageTag: 014edf2f-69b5-49b6-aa62-b19085e92dd6
 		summarizeBy: none
 		sourceColumn: injury_id
 
 	column player_sk
 		dataType: int64
-		formatString: 0
 		isHidden
+		formatString: 0
+		lineageTag: 62ab8b02-07c0-4853-b8b9-b04fa0e66a7b
 		summarizeBy: none
 		sourceColumn: player_sk
 
 	column team
 		dataType: string
+		lineageTag: ed5b42c2-bec4-47a2-ab31-f331455bc70e
 		summarizeBy: none
 		sourceColumn: team
 
 	column event_ts
 		dataType: dateTime
 		formatString: d mmm yyyy hh:nn
+		lineageTag: c297f33a-54c7-4aac-980b-712ad9b9b145
 		summarizeBy: none
 		sourceColumn: event_ts
 
 	column event_date
 		dataType: dateTime
 		formatString: d mmm yyyy
+		lineageTag: 8ec2ac51-128b-4367-a1c1-fb495288b641
 		summarizeBy: none
 		sourceColumn: event_date
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column opened_at
 		dataType: dateTime
 		formatString: d mmm yyyy hh:nn
+		lineageTag: c9c9b460-877f-4b01-b09c-aa9faea3c72e
 		summarizeBy: none
 		sourceColumn: opened_at
 
 	column body_part
 		dataType: string
+		lineageTag: d3884042-d150-4bed-9f91-ec297856254c
 		summarizeBy: none
 		sourceColumn: body_part
 
 	column body_region
 		dataType: string
+		lineageTag: cd0cdaa0-8e11-4535-a444-9ba0b3058be9
 		summarizeBy: none
 		sourceColumn: body_region
 
 	column side
 		dataType: string
+		lineageTag: c45de54a-fe96-4676-ab7f-33d0660e5df3
 		summarizeBy: none
 		sourceColumn: side
 
 	column body_part_raw
 		dataType: string
+		lineageTag: 4a80803e-b5bc-48a6-bb5e-44e38f3e851c
 		summarizeBy: none
 		sourceColumn: body_part_raw
 
 	column injury_type
 		dataType: string
+		lineageTag: 6f715f49-ebf5-4acb-b081-90a7c26e1dfd
 		summarizeBy: none
 		sourceColumn: injury_type
 
 	column severity
 		dataType: string
+		lineageTag: b3abcbbc-1ef2-4cb2-9dfe-ab5e403541e2
 		summarizeBy: none
 		sourceColumn: severity
 
 	column expected_rtp
 		dataType: dateTime
 		formatString: d mmm yyyy
+		lineageTag: d943d3bc-3405-40fd-aad7-e66e240d4aaa
 		summarizeBy: none
 		sourceColumn: expected_rtp
+
+		annotation UnderlyingDateTimeDataType = Date
 
 	column return_date
 		dataType: dateTime
 		formatString: d mmm yyyy
+		lineageTag: 9eb77cb9-0e43-43dc-9d3b-9bb40a0e174a
 		summarizeBy: none
 		sourceColumn: return_date
 
+		annotation UnderlyingDateTimeDataType = Date
+
 	column is_open
 		dataType: boolean
+		lineageTag: ef9d77ac-ee26-45c7-a242-274d0c941fc8
 		summarizeBy: none
 		sourceColumn: is_open
 
 	column days_out
 		dataType: int64
 		formatString: 0
+		lineageTag: 2562f542-99bb-4192-be03-7e0475dff46f
 		summarizeBy: none
 		sourceColumn: days_out
 
 	column status_updates
 		dataType: int64
 		formatString: 0
+		lineageTag: 39ed62e9-de83-4dfe-a3a1-875f9f349f3d
 		summarizeBy: none
 		sourceColumn: status_updates
 
@@ -113,3 +138,4 @@ table Injury
 					Typed = Table.TransformColumnTypes(NoArrays, {{"injury_id", type text}, {"event_ts", type datetime}, {"opened_at", type datetime}})
 				in
 					Typed
+

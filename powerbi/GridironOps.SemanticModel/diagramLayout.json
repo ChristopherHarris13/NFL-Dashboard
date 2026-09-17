@@ -1,0 +1,142 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 999.66557582781,
+            "y": 353.72086176708831
+          },
+          "nodeIndex": "Key Measures",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1283.66557582781,
+            "y": 403.72086176708831
+          },
+          "nodeIndex": "AsOf",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 587.23247964017537,
+            "y": 303.61358052130248
+          },
+          "nodeIndex": "Date",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1567.66557582781,
+            "y": 353.72086176708831
+          },
+          "nodeIndex": "DQ Run",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 336.31809714440806,
+            "y": -50
+          },
+          "nodeIndex": "Force Plate Test",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 313.60752452115838,
+            "y": 657.44172353417662
+          },
+          "nodeIndex": "Injury",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 765.66557582781,
+            "y": 653.29147376105357
+          },
+          "nodeIndex": "Injury Status",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 105.27089203407218,
+            "y": 303.73431862282985
+          },
+          "nodeIndex": "Player",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": -49.934754712622407
+          },
+          "nodeIndex": "Player Day",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1851.66557582781,
+            "y": 439.72086176708831
+          },
+          "nodeIndex": "Window",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

@@ -1,16 +1,19 @@
 /// Disconnected trailing-window picker for the Load and Player pages.
 table Window
+	lineageTag: ebaae7c3-6fd6-4cd0-9a0b-733d89269af3
 
 	column Window
 		dataType: string
+		lineageTag: 1f389555-48ba-4e58-95d6-9a7adc20f6fa
 		summarizeBy: none
-		sortByColumn: Days
 		isNameInferred
 		sourceColumn: [Window]
+		sortByColumn: Days
 
 	column Days
 		dataType: int64
 		formatString: 0
+		lineageTag: bb08ed74-1a02-485a-89e4-ffba6580fd98
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Days]
@@ -18,3 +21,4 @@ table Window
 	partition Window = calculated
 		mode: import
 		source = DATATABLE ( "Window", STRING, "Days", INTEGER, { { "28 days", 28 }, { "Season", 400 } } )
+
