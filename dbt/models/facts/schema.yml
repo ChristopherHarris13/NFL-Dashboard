@@ -21,6 +21,50 @@ models:
         tests:
           - is_between: {min_value: 0, max_value: 20}
 
+  - name: fact_player_day
+    description: >
+      Player-day as-of reading for the report: availability and game status (NFL injury-report terms),
+      readiness against the player's own 28-day mean, days since the last survey, ACWR, asymmetry, weight,
+      open injuries, and the red/amber/green flag with its reasons (see CONTEXT.md).
+    columns:
+      - name: player_day_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: date_day
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_date'), field: date_day}
+      - name: availability
+        tests:
+          - not_null
+          - accepted_values: {values: [Out, Limited, Available]}
+      - name: game_status
+        tests:
+          - accepted_values: {values: [Out, Doubtful, Questionable]}
+      - name: flag
+        tests:
+          - not_null
+          - accepted_values: {values: [red, amber, green]}
+      - name: is_silent
+        tests: [not_null]
+      - name: readiness_delta
+        tests:
+          - is_between: {min_value: -9, max_value: 9}
+    tests:
+      # the flag is never green while a reason exists, and never red/amber without one
+      - dbt_utils.expression_is_true:
+          expression: "(flag = 'green') = (flag_reasons is null)"
+      # Out always reads red; Limited never reads green
+      - dbt_utils.expression_is_true:
+          expression: "not (availability = 'Out' and flag <> 'red')"
+      - dbt_utils.expression_is_true:
+          expression: "not (availability = 'Limited' and flag = 'green')"
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [player_sk, date_day]
+
   - name: fact_wellness
     columns:
       - name: wellness_sk
@@ -122,3 +166,13 @@ models:
           - relationships: {to: ref('dim_player'), field: player_sk}
       - name: game_id
         tests: [not_null]
+
+  - name: fact_game_weather
+    description: Game sessions with stadium weather (Open-Meteo, forecast window only) and EPA.
+    columns:
+      - name: game_weather_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}

@@ -6,7 +6,7 @@ NFL performance data, orchestrated by Airflow, landing in Postgres.
 ```
 5 mock vendors (FastAPI)  ─┐
 nflverse (nfl_data_py)    ─┼─▶  Airflow 2.11 ─▶  Postgres warehouse
-Open-Meteo (Arrowhead)    ─┘    :8080              :5432  bronze / silver / gold
+Open-Meteo (Gillette)     ─┘    :8080              :5432  bronze / silver / gold
 
 nfl_medallion DAG (every 15 min):
   extract_* (9) ─▶ warehouse_schema ─▶ validate_* (GX) ─▶ silver_* ─▶ dq_summary
@@ -48,7 +48,9 @@ select _source, _endpoint, count(*) from bronze.forcedeck group by 1, 2;
 | `airflow/plugins/dq/` | `validate.py` runs a source's GX suites and routes failing rows to quarantine; `summary.py` writes the reconciled scorecard |
 | `great_expectations/expectations/` | the six expectation suites as JSON — the source of truth, loaded at run time |
 | `warehouse/init/04_staging.sql` | `silver.stg_*` views (Bronze unpacked, deduped, unit-converted) that the suites validate; quarantine + scorecard tables |
-| `dbt/` | Gold: dims, facts, `mart_player_week`, snapshot, seeds, 86 tests; `dbt/docs/index.html` is the generated lineage/docs site |
+| `dbt/` | Gold: dims, facts, `mart_player_week`, snapshot, seeds, 114 tests; `dbt/docs/index.html` is the generated lineage/docs site |
+| `powerbi/` | the report: `GridironOps.pbip` (Power BI project, text-based), `theme.json`, and the build plan in `docs/powerbi-build-plan.md` |
+| `CONTEXT.md` | the glossary: Flag, Availability, Practice/Game status, As-of date, Silent player… |
 | `docker-compose.clean.yml`, `mock_vendors/dirt_config.clean.yaml` | overlay that runs every mock with all dirt at 0.0 |
 | `airflow/plugins/tests/` | 94 unit tests: name cleaning against real nflverse pairs, resolver rules, unit inference, body-part parsing, suite well-formedness, quarantine routing |
 | `airflow/dags/nfl_medallion.py` | the pipeline DAG: Bronze extracts → Silver |
@@ -92,7 +94,7 @@ the beginning — the hash index means that still inserts nothing new.
 ### Real feeds: snapshot + dedup
 
 `nflverse` (seasonal rosters + the id crosswalk via `nfl_data_py`) and
-`open_meteo` (hourly forecast for GEHA Field at Arrowhead, ±7 days, one row
+`open_meteo` (hourly forecast for Gillette Stadium, ±7 days, one row
 per hour) have no cursor. Every run lands the full current snapshot and the
 hash index drops what's already there. Roster rows stay flat between runs;
 forecast rows grow a little each run as the forecast for a given hour changes.
@@ -144,7 +146,7 @@ resolved once. That table is the per-player "resolution by method" source;
 ```sql
 select resolved_by, count(*) from silver.forcedeck_tests group by 1;
 select vendor, resolved_by, count(*) from silver.vendor_player_map group by 1, 2;
-select * from silver.quarantine_identity;   -- currently: one "Marcus Harris" (KC DL vs TEN DB)
+select * from silver.quarantine_identity;   -- e.g. two active players sharing a name, no team in the feed
 ```
 
 ### Fact tables and their wrinkles
@@ -255,7 +257,7 @@ docker compose exec -w /opt/airflow/dbt airflow dbt test   # 86 Gold tests again
 
 `dbt/` — profile reads `DATABASE_URL`; target schema `gold`; sources are
 `silver.*` (plus `bronze.nflverse` for the two clean real feeds). `dbt build`
-runs 2 seeds, 1 snapshot, 15 models and 86 tests. The Airflow tasks
+runs 2 seeds, 1 snapshot, 23 models and 114 tests. The Airflow tasks
 `dbt_seed → dbt_snapshot → dbt_run → dbt_test` follow every Silver rebuild.
 
 ```bash
@@ -270,6 +272,7 @@ open dbt/docs/index.html          # lineage graph + column docs (dbt docs genera
 | `dim_date` | `dbt_utils.date_spine` from `SIM_START_DATE`; `season_week` = Monday-anchored weeks since camp; `day_type` off/practice/walkthrough/game from the mocks' schedule |
 | `dim_team` | teams on the nflverse roster + `seeds/stadiums.csv` (lat/long, `is_dome`, surface) |
 | `dim_player` | **SCD-2** from `snapshots/dim_player_snapshot.sql` (check strategy on name/team/position/weight/height/roster status) over `silver.dim_player_master`; one row per version with `valid_from`/`valid_to`/`is_current`, stable `player_sk` across versions |
+| `dim_player_current` | the `is_current` row of `dim_player`, one per player — the report's Player table |
 | `dim_injury_type` | `seeds/injury_body_parts.csv`: EMR free text → `body_part`, `body_region`, `side`. Edit the CSV to teach it a new phrasing |
 
 ### Facts
@@ -283,6 +286,7 @@ open dbt/docs/index.html          # lineage graph + column docs (dbt docs genera
 | `fact_injury` | one per injury | `days_out` to the first FP status (or to today if `is_open`), `body_region`/`side` via the seed |
 | `fact_injury_status` | injury × day | status carried forward from the latest update on or before the day; `is_unavailable` = DNP |
 | `fact_availability` | player × season week | `availability_pct` = (practices + games not DNP) ÷ scheduled |
+| `fact_player_day` | player × day | the report's as-of row: availability, game status, readiness vs own 28-day mean, days since survey, ACWR, asymmetry, weight, open injuries, `flag` + `flag_reasons` (see `CONTEXT.md`) |
 | `fact_play` | player × game (nflverse) | EPA by role (passer/rusher/receiver, GSIS-keyed), snap counts (PFR-keyed via the crosswalk), mapped onto `season_week` by game date |
 
 ### `mart_player_week`
@@ -320,6 +324,28 @@ it). To make the >1.5 band light up as the simulator's docstring intends,
 the Catapult generator would need to preserve spike magnitude in
 `total_distance`/`player_load` rather than compress it — a mock change,
 not a Gold one.
+
+## Report (Power BI)
+
+The reader is performance and medical staff: who's red, who's amber, who
+plays. Five pages over `gold.*`, built in Power BI Desktop against the local
+warehouse — the step-by-step is [`docs/powerbi-build-plan.md`](docs/powerbi-build-plan.md),
+the vocabulary is [`CONTEXT.md`](CONTEXT.md), the files land in [`powerbi/`](powerbi/).
+
+| Page | Answers |
+|---|---|
+| **Today** | the roster board on the as-of day: Flag (red / amber / green with reasons), availability and game status in NFL injury-report terms, readiness vs the player's own 28-day mean, ACWR, 7-day load, days since survey, open injury and expected return. Drill to Player. |
+| **Load** | 7-day load vs each player's own norm; players by ACWR band by day |
+| **Injury report** | open injuries as the department files them: body part, side, practice/game status, expected return |
+| **Data** | last run, reconciles, quarantined %, expectations passed — why the numbers can be trusted |
+| **Player** | one player's trailing 28 days (or season): ACWR, load, readiness, asymmetry, weight, injuries |
+
+The Flag lives in `gold.fact_player_day` (one row per player per day, dbt-tested):
+red = Out, game status Out/Doubtful, or ACWR high · amber = Limited, any other
+open injury, ACWR elevated, readiness 1.5+ below own 28-day mean, asymmetry
+> 10 %, or no survey in 3 days · green otherwise, with `flag_reasons` spelled out.
+The report's as-of day defaults to the latest data day and steps back with a
+"days back" control, so every page is a filter on that table.
 
 ## Reset
 

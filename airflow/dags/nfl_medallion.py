@@ -45,13 +45,13 @@ PBP_COLUMNS = ["play_id", "game_id", "season", "week", "game_date", "posteam", "
                "passer_player_id", "rusher_player_id", "receiver_player_id", "epa", "success",
                "yards_gained", "touchdown", "qb_epa", "air_epa", "yac_epa"]
 
-# GEHA Field at Arrowhead Stadium (SEED_TEAM=KC in the mocks).
+# Gillette Stadium (SEED_TEAM=NE in the mocks); dbt/seeds/stadiums.csv has the same coordinates.
 STADIUM = {
-    "stadium": "GEHA Field at Arrowhead Stadium",
-    "team": "KC",
-    "latitude": 39.0489,
-    "longitude": -94.4839,
-    "timezone": "America/Chicago",
+    "stadium": "Gillette Stadium",
+    "team": "NE",
+    "latitude": 42.0909,
+    "longitude": -71.2643,
+    "timezone": "America/New_York",
 }
 OPEN_METEO_HOURLY = [
     "temperature_2m", "relative_humidity_2m", "apparent_temperature",

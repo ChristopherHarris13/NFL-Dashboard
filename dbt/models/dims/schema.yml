@@ -36,6 +36,14 @@ models:
       - dbt_utils.unique_combination_of_columns:
           combination_of_columns: [player_sk, valid_from]
 
+  - name: dim_player_current
+    description: One row per player, the is_current version of dim_player. The Player table for the report.
+    columns:
+      - name: player_sk
+        tests: [unique, not_null]
+      - name: full_name
+        tests: [not_null]
+
   - name: dim_injury_type
     description: EMR free-text body-part vocabulary -> canonical body_part / body_region / side (seeds/injury_body_parts.csv).
     columns:

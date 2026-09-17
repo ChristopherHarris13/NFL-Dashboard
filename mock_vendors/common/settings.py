@@ -48,6 +48,6 @@ class Settings:
             scale_change_date=_env_date("SCALE_CHANGE_DATE", "2026-08-25"),
             dirt_config_path=Path(os.environ.get("DIRT_CONFIG_PATH", DEFAULT_DIRT_CONFIG)),
             seed_path=Path(os.environ.get("SEED_PATH", DEFAULT_SEED_PATH)),
-            seed_team=os.environ.get("SEED_TEAM", "KC"),
+            seed_team=os.environ.get("SEED_TEAM", "NE"),
             global_seed=os.environ.get("GLOBAL_SEED", "gridironops"),
         )

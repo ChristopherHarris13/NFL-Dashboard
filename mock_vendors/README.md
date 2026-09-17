@@ -123,7 +123,7 @@ Probabilities below are the defaults in `dirt_config.yaml`.
 
 `common/seed/players.parquet` caches all active players (real 2026 rosters via
 `nfl_data_py.import_seasonal_rosters` + `import_ids`) so services boot offline.
-The roster is every active player on `SEED_TEAM` (default `KC`, capped at 55)
+The roster is every active player on `SEED_TEAM` (default `NE`, capped at 55)
 plus 20 random others — ~75 players, sampled deterministically from
 `GLOBAL_SEED`. Rebuild with:
 

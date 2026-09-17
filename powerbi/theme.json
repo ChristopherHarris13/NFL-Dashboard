@@ -1,0 +1,56 @@
+{
+  "name": "GridironOps clinical",
+  "dataColors": ["#2F5D8A", "#6B7B8C", "#9AA5B1", "#C2CBD3", "#1E8A2E", "#D98A00", "#D63A2F", "#5B6FD0"],
+  "background": "#FFFFFF",
+  "foreground": "#1F2933",
+  "tableAccent": "#2F5D8A",
+  "good": "#1E8A2E",
+  "neutral": "#D98A00",
+  "bad": "#D63A2F",
+  "maximum": "#2F5D8A",
+  "center": "#9AA5B1",
+  "minimum": "#E4E7EB",
+  "null": "#E4E7EB",
+  "textClasses": {
+    "title":    { "fontFace": "Segoe UI Semibold", "fontSize": 14, "color": "#1F2933" },
+    "header":   { "fontFace": "Segoe UI Semibold", "fontSize": 12, "color": "#1F2933" },
+    "label":    { "fontFace": "Segoe UI", "fontSize": 10, "color": "#3E4C59" },
+    "callout":  { "fontFace": "Segoe UI Semibold", "fontSize": 28, "color": "#1F2933" }
+  },
+  "visualStyles": {
+    "*": {
+      "*": {
+        "*": [{ "fontFamily": "Segoe UI", "fontSize": 10 }],
+        "background": [{ "show": true, "color": { "solid": { "color": "#FFFFFF" } }, "transparency": 0 }],
+        "border": [{ "show": true, "color": { "solid": { "color": "#E4E7EB" } }, "radius": 4 }],
+        "title": [{ "show": true, "fontSize": 12, "fontFamily": "Segoe UI Semibold", "fontColor": { "solid": { "color": "#1F2933" } } }],
+        "visualHeader": [{ "show": false }]
+      }
+    },
+    "page": {
+      "*": {
+        "background": [{ "color": { "solid": { "color": "#F5F7FA" } }, "transparency": 0 }],
+        "outspace":   [{ "color": { "solid": { "color": "#F5F7FA" } }, "transparency": 0 }]
+      }
+    },
+    "tableEx": {
+      "*": {
+        "grid":         [{ "gridVertical": false, "gridHorizontal": true, "gridHorizontalColor": { "solid": { "color": "#EEF1F4" } }, "rowPadding": 4 }],
+        "columnHeaders":[{ "fontColor": { "solid": { "color": "#3E4C59" } }, "backColor": { "solid": { "color": "#FFFFFF" } }, "bold": true }],
+        "values":       [{ "fontColorPrimary": { "solid": { "color": "#1F2933" } } }]
+      }
+    },
+    "card": {
+      "*": {
+        "labels":         [{ "fontSize": 28, "fontFamily": "Segoe UI Semibold", "color": { "solid": { "color": "#1F2933" } } }],
+        "categoryLabels": [{ "show": true, "fontSize": 10, "color": { "solid": { "color": "#3E4C59" } } }]
+      }
+    },
+    "slicer": {
+      "*": {
+        "header": [{ "show": true, "fontSize": 10, "fontColor": { "solid": { "color": "#3E4C59" } } }],
+        "items":  [{ "fontSize": 10 }]
+      }
+    }
+  }
+}

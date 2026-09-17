@@ -14,8 +14,15 @@ sources:
       - name: emr_injuries
       - name: emr_status_updates
       - name: dq_run_summary
+      - name: dq_expectation_results
+      - name: quarantine_forcedeck
+      - name: quarantine_catapult
+      - name: quarantine_wellness
+      - name: quarantine_nutrition
+      - name: quarantine_emr
   - name: bronze
     schema: bronze
     description: Raw payloads. Only the clean nflverse feeds are read directly.
     tables:
       - name: nflverse
+      - name: open_meteo

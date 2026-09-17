@@ -1,0 +1,22 @@
+version: 2
+
+models:
+  - name: dq_run_summary
+    description: Per source per run scorecard (view over silver.dq_run_summary). run_recency 1 = latest run.
+    columns:
+      - name: reconciles
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [run_id, source]
+  - name: dq_expectation_results
+  - name: dq_quarantine
+    columns:
+      - name: source
+        tests:
+          - accepted_values: {values: [forcedeck, catapult, wellness, nutrition, emr]}
+  - name: dq_resolution_by_method
+    columns:
+      - name: resolved_by
+        tests:
+          - accepted_values: {values: [gsis_id, nfl_id, vendor_map, name_team, name_unique]}

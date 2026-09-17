@@ -31,6 +31,8 @@ models:
       +schema: gold
     marts:
       +schema: gold
+    dq:
+      +schema: gold
 
 seeds:
   gridironops:

@@ -10,7 +10,7 @@ services:
       SIM_START_DATE: "2026-07-20"
       SCHEMA_DRIFT_DATE: "2026-09-01"
       SCALE_CHANGE_DATE: "2026-08-25"
-      SEED_TEAM: "KC"
+      SEED_TEAM: "NE"
       GLOBAL_SEED: "gridironops"
       # Optional: pin the wall-clock anchor so containers restarted on a
       # different UTC day still agree on the simulated date.
