@@ -3,3 +3,5 @@ __pycache__/
 .venv/
 .venv-seed/
 .pytest_cache/
+.env
+airflow/logs/
