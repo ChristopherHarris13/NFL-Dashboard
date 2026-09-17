@@ -1,0 +1,67 @@
+# GridironOps dirt configuration.
+# Every defect has a probability; 0.0 disables it so demos can be dialed
+# clean or filthy. Date-driven behaviors (schema drift, Likert scale change)
+# are controlled by SCHEMA_DRIFT_DATE / SCALE_CHANGE_DATE env vars, not here.
+
+catapult_svc:
+  unit_swap_distance:
+    p: 0.25            # m -> yd; 40% keep stale 'm' label, 30% omit, 30% honest
+  unit_swap_speed:
+    p: 0.25            # m/s -> mph, same label behavior
+  outlier_distance:
+    p: 0.02            # total_distance 30000-50000
+  late_emit:
+    p: 0.15
+    max_days: 3
+  missing_session:
+    p: 0.08            # silently skip a player-day
+  null_player_load:
+    p: 0.05
+
+forcedeck_svc:
+  duplicate:
+    p: 0.12            # same test_id re-emitted 2-3x, one copy re-rounded
+  unit_swap_force:
+    p: 0.30            # N -> lbf; omit force_unit 50% of the time
+  aborted_rep:
+    p: 0.04            # jump_height_cm < 5 or > 90
+  null_test_type:
+    p: 0.03
+  missing_device:
+    p: 0.05            # drop device_id key
+
+ams_wellness_svc:
+  skipped_day:
+    p: 0.15
+  duplicate_submission:
+    p: 0.06            # second record 2-20 min later, 1-2 answers changed
+  wrong_tz:
+    p: 0.05            # append +00:00 to a local time that is really ET
+
+nutrition_svc:
+  unit_swap_weight:
+    p: 0.30            # lb -> kg; omit weight_unit 40% of the time
+  method_disagreement:
+    p: 0.20            # DEXA + BIA same date, body_fat_pct differs 3-6 pts
+  outlier:
+    p: 0.02            # weight 600 or 45; body_fat_pct 1.5
+  lean_mass_ambiguity:
+    p: 0.35            # lean_mass as percent, no indicator
+  sparse:
+    p: 0.20            # skip a scheduled weigh-in
+  name_mangle:
+    p: 0.50
+
+emr_svc:
+  free_text_body_part:
+    p: 1.0
+  out_of_order_updates:
+    p: 0.20            # Thursday's update lands before Wednesday's
+  correction_overwrite:
+    p: 0.10            # re-emit an update_id with changed status, later ts
+  side_embedded:
+    p: 0.30            # drop side key, put L/R inside body_part
+  name_mangle:
+    p: 0.30
+  stale_expected_rtp:
+    p: 0.15            # expected_rtp earlier than the last DNP update

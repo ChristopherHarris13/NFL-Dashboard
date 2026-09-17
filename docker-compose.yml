@@ -1,0 +1,45 @@
+services:
+  catapult_svc:
+    build:
+      context: ./mock_vendors
+      dockerfile: catapult_svc/Dockerfile
+    ports: ["8001:8001"]
+    environment: &sim_env
+      GEN_INTERVAL_SECONDS: "300"
+      BACKFILL_DAYS: "45"
+      SIM_START_DATE: "2026-07-20"
+      SCHEMA_DRIFT_DATE: "2026-09-01"
+      SCALE_CHANGE_DATE: "2026-08-25"
+      SEED_TEAM: "KC"
+      GLOBAL_SEED: "gridironops"
+      # Optional: pin the wall-clock anchor so containers restarted on a
+      # different UTC day still agree on the simulated date.
+      # SIM_WALL_EPOCH: "2026-09-15T00:00:00Z"
+
+  forcedeck_svc:
+    build:
+      context: ./mock_vendors
+      dockerfile: forcedeck_svc/Dockerfile
+    ports: ["8002:8002"]
+    environment: *sim_env
+
+  ams_wellness_svc:
+    build:
+      context: ./mock_vendors
+      dockerfile: ams_wellness_svc/Dockerfile
+    ports: ["8003:8003"]
+    environment: *sim_env
+
+  nutrition_svc:
+    build:
+      context: ./mock_vendors
+      dockerfile: nutrition_svc/Dockerfile
+    ports: ["8004:8004"]
+    environment: *sim_env
+
+  emr_svc:
+    build:
+      context: ./mock_vendors
+      dockerfile: emr_svc/Dockerfile
+    ports: ["8005:8005"]
+    environment: *sim_env
