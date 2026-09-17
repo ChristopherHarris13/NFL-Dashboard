@@ -1,0 +1,124 @@
+version: 2
+
+models:
+  - name: fact_training_load
+    description: Player-day grid with external/internal load, 7:28 coupled ACWR, EWMA ACWR and the ACWR band.
+    columns:
+      - name: training_load_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: date_day
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_date'), field: date_day}
+      - name: acwr_band
+        tests:
+          - accepted_values: {values: [low, sweet, elevated, high]}
+      - name: acwr_coupled
+        tests:
+          - is_between: {min_value: 0, max_value: 20}
+
+  - name: fact_wellness
+    columns:
+      - name: wellness_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: readiness_score
+        tests:
+          - not_null
+          - is_between: {min_value: 1, max_value: 10}
+
+  - name: fact_strength
+    columns:
+      - name: strength_sk
+        tests: [unique, not_null]
+      - name: test_id
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: peak_force_n
+        tests:
+          - is_between: {min_value: 800, max_value: 7000}
+
+  - name: fact_nutrition
+    columns:
+      - name: nutrition_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: method
+        tests:
+          - accepted_values: {values: [DEXA, BIA, scale]}
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "not is_preferred or method_rank = (select min(case method when 'DEXA' then 1 when 'BIA' then 2 else 3 end) from {{ source('silver', 'nutrition_measurements') }} x where x.player_sk = fact_nutrition.player_sk and x.measured_on = fact_nutrition.measured_on)"
+
+  - name: fact_injury
+    columns:
+      - name: injury_sk
+        tests: [unique, not_null]
+      - name: injury_id
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: body_part
+        tests:
+          - accepted_values: {values: [hamstring, knee, ankle, shoulder, concussion]}
+      - name: side
+        tests:
+          - accepted_values: {values: [L, R]}
+      - name: days_out
+        tests:
+          - is_between: {min_value: 0, max_value: 400}
+
+  - name: fact_injury_status
+    columns:
+      - name: injury_status_sk
+        tests: [unique, not_null]
+      - name: injury_id
+        tests:
+          - not_null
+          - relationships: {to: ref('fact_injury'), field: injury_id}
+      - name: practice_status
+        tests:
+          - not_null
+          - accepted_values: {values: [DNP, LP, FP]}
+      - name: game_status
+        tests:
+          - accepted_values: {values: [Out, Doubtful, Questionable]}
+
+  - name: fact_availability
+    columns:
+      - name: availability_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: availability_pct
+        tests:
+          - not_null
+          - is_between: {min_value: 0, max_value: 1}
+
+  - name: fact_play
+    columns:
+      - name: play_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: game_id
+        tests: [not_null]

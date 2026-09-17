@@ -1,0 +1,28 @@
+version: 2
+
+models:
+  - name: mart_player_week
+    description: >
+      One row per tracked player per season week. ACWR/readiness/asymmetry/weight/availability/
+      injury status/EPA side by side; the table every dashboard page reads.
+    columns:
+      - name: player_week_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests:
+          - not_null
+          - relationships: {to: ref('dim_player'), field: player_sk}
+      - name: season_week
+        tests: [not_null]
+      - name: acwr_band
+        tests:
+          - accepted_values: {values: [low, sweet, elevated, high]}
+      - name: practice_status
+        tests:
+          - accepted_values: {values: [DNP, LP, FP]}
+      - name: availability_pct
+        tests:
+          - is_between: {min_value: 0, max_value: 1}
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [player_sk, season_week]

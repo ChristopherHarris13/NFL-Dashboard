@@ -106,11 +106,16 @@ services:
       _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:-admin}
       # Connection id "warehouse" used by the extract plugin / PostgresHook
       AIRFLOW_CONN_WAREHOUSE: postgresql://${WAREHOUSE_USER:-warehouse}:${WAREHOUSE_PASSWORD:-warehouse}@warehouse:5432/${WAREHOUSE_DB:-warehouse}
+      # dbt (dbt/profiles.yml reads DATABASE_URL)
+      DATABASE_URL: postgresql://${WAREHOUSE_USER:-warehouse}:${WAREHOUSE_PASSWORD:-warehouse}@warehouse:5432/${WAREHOUSE_DB:-warehouse}
+      DBT_PROFILES_DIR: /opt/airflow/dbt
+      DBT_PROJECT_DIR: /opt/airflow/dbt
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
       - ./warehouse:/opt/airflow/warehouse:ro
       - ./great_expectations:/opt/airflow/great_expectations:ro
+      - ./dbt:/opt/airflow/dbt
       - airflow_logs:/opt/airflow/logs
     healthcheck:
       test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]

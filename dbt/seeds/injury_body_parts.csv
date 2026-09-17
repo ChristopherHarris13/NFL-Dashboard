@@ -1,0 +1,55 @@
+raw_text,body_part,body_region,side
+hamstring,hamstring,lower_body,
+ham,hamstring,lower_body,
+hammy,hamstring,lower_body,
+left hamstring,hamstring,lower_body,L
+right hamstring,hamstring,lower_body,R
+hamstring (l),hamstring,lower_body,L
+hamstring (r),hamstring,lower_body,R
+l hamstring,hamstring,lower_body,L
+r hamstring,hamstring,lower_body,R
+knee,knee,lower_body,
+mcl,knee,lower_body,
+knee (l),knee,lower_body,L
+knee (r),knee,lower_body,R
+mcl (l),knee,lower_body,L
+mcl (r),knee,lower_body,R
+l knee,knee,lower_body,L
+r knee,knee,lower_body,R
+l mcl,knee,lower_body,L
+r mcl,knee,lower_body,R
+left knee,knee,lower_body,L
+right knee,knee,lower_body,R
+left mcl,knee,lower_body,L
+right mcl,knee,lower_body,R
+ankle,ankle,lower_body,
+high ankle,ankle,lower_body,
+ankle (l),ankle,lower_body,L
+ankle (r),ankle,lower_body,R
+high ankle (l),ankle,lower_body,L
+high ankle (r),ankle,lower_body,R
+l ankle,ankle,lower_body,L
+r ankle,ankle,lower_body,R
+l high ankle,ankle,lower_body,L
+r high ankle,ankle,lower_body,R
+left ankle,ankle,lower_body,L
+right ankle,ankle,lower_body,R
+left high ankle,ankle,lower_body,L
+right high ankle,ankle,lower_body,R
+shoulder,shoulder,upper_body,
+ac joint,shoulder,upper_body,
+shoulder (l),shoulder,upper_body,L
+shoulder (r),shoulder,upper_body,R
+ac joint (l),shoulder,upper_body,L
+ac joint (r),shoulder,upper_body,R
+l shoulder,shoulder,upper_body,L
+r shoulder,shoulder,upper_body,R
+l ac joint,shoulder,upper_body,L
+r ac joint,shoulder,upper_body,R
+left shoulder,shoulder,upper_body,L
+right shoulder,shoulder,upper_body,R
+left ac joint,shoulder,upper_body,L
+right ac joint,shoulder,upper_body,R
+concussion,concussion,head,
+concussion protocol,concussion,head,
+head,concussion,head,

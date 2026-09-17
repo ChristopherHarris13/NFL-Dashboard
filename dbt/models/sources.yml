@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: silver
+    schema: silver
+    description: Validated, deduplicated, unit-normalised events keyed on player_sk. Built by airflow/plugins/silver.
+    tables:
+      - name: dim_player_master
+      - name: vendor_player_map
+      - name: catapult_sessions
+      - name: wellness_surveys
+      - name: forcedeck_tests
+      - name: nutrition_measurements
+      - name: emr_injuries
+      - name: emr_status_updates
+      - name: dq_run_summary
+  - name: bronze
+    schema: bronze
+    description: Raw payloads. Only the clean nflverse feeds are read directly.
+    tables:
+      - name: nflverse

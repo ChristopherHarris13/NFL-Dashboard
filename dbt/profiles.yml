@@ -1,0 +1,14 @@
+# Reads DATABASE_URL (postgresql://user:pass@host:port/dbname). dbt renders each
+# value as Jinja, so the URL is picked apart per field.
+gridironops:
+  target: gold
+  outputs:
+    gold:
+      type: postgres
+      host:     "{{ env_var('DATABASE_URL').split('@')[1].split('/')[0].split(':')[0] }}"
+      port:     "{{ (env_var('DATABASE_URL').split('@')[1].split('/')[0].split(':') + ['5432'])[1] | int }}"
+      user:     "{{ env_var('DATABASE_URL').split('://')[1].split('@')[0].split(':')[0] }}"
+      password: "{{ env_var('DATABASE_URL').split('://')[1].split('@')[0].split(':')[1] }}"
+      dbname:   "{{ env_var('DATABASE_URL').split('@')[1].split('/')[1].split('?')[0] }}"
+      schema: gold
+      threads: 4

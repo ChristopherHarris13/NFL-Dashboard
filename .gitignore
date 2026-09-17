@@ -5,3 +5,6 @@ __pycache__/
 .pytest_cache/
 .env
 airflow/logs/
+dbt/target/
+dbt/dbt_packages/
+dbt/logs/

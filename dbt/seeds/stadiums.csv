@@ -1,0 +1,33 @@
+team,stadium,city,state,latitude,longitude,is_dome,surface
+ARI,State Farm Stadium,Glendale,AZ,33.5276,-112.2626,true,grass
+ATL,Mercedes-Benz Stadium,Atlanta,GA,33.7553,-84.4006,true,turf
+BAL,M&T Bank Stadium,Baltimore,MD,39.2780,-76.6227,false,grass
+BUF,Highmark Stadium,Orchard Park,NY,42.7738,-78.7870,false,turf
+CAR,Bank of America Stadium,Charlotte,NC,35.2258,-80.8528,false,turf
+CHI,Soldier Field,Chicago,IL,41.8623,-87.6167,false,grass
+CIN,Paycor Stadium,Cincinnati,OH,39.0954,-84.5160,false,turf
+CLE,Huntington Bank Field,Cleveland,OH,41.5061,-81.6995,false,grass
+DAL,AT&T Stadium,Arlington,TX,32.7473,-97.0945,true,turf
+DEN,Empower Field at Mile High,Denver,CO,39.7439,-105.0201,false,grass
+DET,Ford Field,Detroit,MI,42.3400,-83.0456,true,turf
+GB,Lambeau Field,Green Bay,WI,44.5013,-88.0622,false,grass
+HOU,NRG Stadium,Houston,TX,29.6847,-95.4107,true,turf
+IND,Lucas Oil Stadium,Indianapolis,IN,39.7601,-86.1639,true,turf
+JAX,EverBank Stadium,Jacksonville,FL,30.3239,-81.6373,false,grass
+KC,GEHA Field at Arrowhead Stadium,Kansas City,MO,39.0489,-94.4839,false,grass
+LA,SoFi Stadium,Inglewood,CA,33.9535,-118.3392,true,turf
+LAC,SoFi Stadium,Inglewood,CA,33.9535,-118.3392,true,turf
+LV,Allegiant Stadium,Las Vegas,NV,36.0909,-115.1833,true,grass
+MIA,Hard Rock Stadium,Miami Gardens,FL,25.9580,-80.2389,false,grass
+MIN,U.S. Bank Stadium,Minneapolis,MN,44.9736,-93.2575,true,turf
+NE,Gillette Stadium,Foxborough,MA,42.0909,-71.2643,false,turf
+NO,Caesars Superdome,New Orleans,LA,29.9511,-90.0812,true,turf
+NYG,MetLife Stadium,East Rutherford,NJ,40.8135,-74.0745,false,turf
+NYJ,MetLife Stadium,East Rutherford,NJ,40.8135,-74.0745,false,turf
+PHI,Lincoln Financial Field,Philadelphia,PA,39.9008,-75.1675,false,grass
+PIT,Acrisure Stadium,Pittsburgh,PA,40.4468,-80.0158,false,grass
+SEA,Lumen Field,Seattle,WA,47.5952,-122.3316,false,turf
+SF,Levi's Stadium,Santa Clara,CA,37.4033,-121.9694,false,grass
+TB,Raymond James Stadium,Tampa,FL,27.9759,-82.5033,false,grass
+TEN,Nissan Stadium,Nashville,TN,36.1665,-86.7713,false,turf
+WAS,Northwest Stadium,Landover,MD,38.9076,-76.8645,false,grass

@@ -10,7 +10,7 @@ Open-Meteo (Arrowhead)    ─┘    :8080              :5432  bronze / silver / 
 
 nfl_medallion DAG (every 15 min):
   extract_* (9) ─▶ warehouse_schema ─▶ validate_* (GX) ─▶ silver_* ─▶ dq_summary
-                                    └▶ silver_player_master ─┘
+                                    └▶ silver_player_master ─┘   └▶ dbt_seed ─▶ dbt_snapshot ─▶ dbt_run ─▶ dbt_test
 ```
 
 ## Run the stack
@@ -48,6 +48,7 @@ select _source, _endpoint, count(*) from bronze.forcedeck group by 1, 2;
 | `airflow/plugins/dq/` | `validate.py` runs a source's GX suites and routes failing rows to quarantine; `summary.py` writes the reconciled scorecard |
 | `great_expectations/expectations/` | the six expectation suites as JSON — the source of truth, loaded at run time |
 | `warehouse/init/04_staging.sql` | `silver.stg_*` views (Bronze unpacked, deduped, unit-converted) that the suites validate; quarantine + scorecard tables |
+| `dbt/` | Gold: dims, facts, `mart_player_week`, snapshot, seeds, 86 tests; `dbt/docs/index.html` is the generated lineage/docs site |
 | `docker-compose.clean.yml`, `mock_vendors/dirt_config.clean.yaml` | overlay that runs every mock with all dirt at 0.0 |
 | `airflow/plugins/tests/` | 94 unit tests: name cleaning against real nflverse pairs, resolver rules, unit inference, body-part parsing, suite well-formedness, quarantine routing |
 | `airflow/dags/nfl_medallion.py` | the pipeline DAG: Bronze extracts → Silver |
@@ -247,7 +248,78 @@ feed) — identity, not dirt.
 python -m venv .venv && .venv/bin/pip install pytest psycopg2-binary
 .venv/bin/python -m pytest airflow/plugins/tests     # 94 tests, no DB needed
 .venv/bin/python -m pytest mock_vendors               # the vendors themselves
+docker compose exec -w /opt/airflow/dbt airflow dbt test   # 86 Gold tests against the warehouse
 ```
+
+## Gold (dbt)
+
+`dbt/` — profile reads `DATABASE_URL`; target schema `gold`; sources are
+`silver.*` (plus `bronze.nflverse` for the two clean real feeds). `dbt build`
+runs 2 seeds, 1 snapshot, 15 models and 86 tests. The Airflow tasks
+`dbt_seed → dbt_snapshot → dbt_run → dbt_test` follow every Silver rebuild.
+
+```bash
+docker compose exec -w /opt/airflow/dbt airflow dbt build
+open dbt/docs/index.html          # lineage graph + column docs (dbt docs generate --static)
+```
+
+### Dimensions
+
+| Model | What |
+|---|---|
+| `dim_date` | `dbt_utils.date_spine` from `SIM_START_DATE`; `season_week` = Monday-anchored weeks since camp; `day_type` off/practice/walkthrough/game from the mocks' schedule |
+| `dim_team` | teams on the nflverse roster + `seeds/stadiums.csv` (lat/long, `is_dome`, surface) |
+| `dim_player` | **SCD-2** from `snapshots/dim_player_snapshot.sql` (check strategy on name/team/position/weight/height/roster status) over `silver.dim_player_master`; one row per version with `valid_from`/`valid_to`/`is_current`, stable `player_sk` across versions |
+| `dim_injury_type` | `seeds/injury_body_parts.csv`: EMR free text → `body_part`, `body_region`, `side`. Edit the CSV to teach it a new phrasing |
+
+### Facts
+
+| Model | Grain | Notable columns |
+|---|---|---|
+| `fact_training_load` | player × day, complete zero-filled grid | `external_load` (Catapult player_load), `internal_load` (sRPE × session minutes), `acute_7d`, `chronic_28d` (28-day sum / 4), `acwr_coupled`, `acwr_ewma` (EWMA 7 / EWMA 28, normalised weights, 56-day lookback), `internal_acwr`, `acwr_band` low <0.8 · sweet 0.8–1.3 · elevated 1.3–1.5 · high >1.5. ACWR is null until 28 days of history |
+| `fact_wellness` | player × day (latest submission) | Likert on 1–10, `readiness_score` = 0.20 sleep_quality + 0.15 sleep_hours + 0.25 (11−soreness) + 0.20 (11−fatigue) + 0.10 (11−stress) + 0.10 mood |
+| `fact_strength` | one per force-plate test | `asymmetry_4w_avg` (trailing 28 days), `asymmetry_trend` (trailing 4 weeks minus the 4 before) |
+| `fact_nutrition` | one per measurement | `method_rank`, `is_preferred` — DEXA over BIA over scale when a date has several |
+| `fact_injury` | one per injury | `days_out` to the first FP status (or to today if `is_open`), `body_region`/`side` via the seed |
+| `fact_injury_status` | injury × day | status carried forward from the latest update on or before the day; `is_unavailable` = DNP |
+| `fact_availability` | player × season week | `availability_pct` = (practices + games not DNP) ÷ scheduled |
+| `fact_play` | player × game (nflverse) | EPA by role (passer/rusher/receiver, GSIS-keyed), snap counts (PFR-keyed via the crosswalk), mapped onto `season_week` by game date |
+
+### `mart_player_week`
+
+One row per tracked player (anyone with Silver activity — 72) per season
+week (33): end-of-week ACWR and band, weekly load, readiness, asymmetry,
+preferred weight, availability, new and open injuries with practice status,
+EPA and snaps. A player's slice reads like a season log:
+
+```
+ wk | full_name  | load_wk |  acwr | band     | ready | weight_kg | avail | inj | body_part | status | epa
+  3 | Joe Burrow |  1409.1 |       |          |  6.10 |      96.3 | 1.000 |   0 |           | FP     |
+  4 | Joe Burrow |  2720.3 | 1.243 | sweet    |  6.78 |     97.25 | 0.750 |   1 | hamstring | DNP    |
+  5 | Joe Burrow |  3408.5 | 1.364 | elevated |  5.61 |           | 0.000 |   0 |           | DNP    |
+  6 | Joe Burrow |  2745.7 | 1.068 | sweet    |  6.45 |      99.4 | 0.500 |   0 |           | LP     |
+  7 | Joe Burrow |  2736.3 | 0.943 | sweet    |  6.42 |           | 1.000 |   0 |           | LP     |
+  8 | Joe Burrow |  2693.7 | 0.930 | sweet    |  6.55 |    100.61 | 1.000 |   0 |           | FP     | -2.14
+```
+
+### Does the injected load → injury correlation flow through?
+
+Partly, and the reason is instructive. The simulator raises injury risk 6×
+when its hidden load *driver* has ACWR > 1.5 three days earlier (spike
+weeks are ×2.2). But the Catapult mock maps that driver onto `player_load`
+through a clamp at 1.7× and a linear map with a 200 offset, which
+arithmetically turns a ×2.2 spike week into an observed ACWR of ≈ 1.2. In
+the feed the pipeline actually receives, weekly load never exceeds 1.55× a
+player's own mean (p95 = 1.25×), so `acwr_band = 'high'` is essentially
+unpopulated — 0.2 % of player-days — whatever the pipeline does.
+
+What *is* visible: next-week injury rate by end-of-week band is low 3.3 % →
+sweet 5.0 % → elevated 8.6 %, and daily hazard is 15.6 vs 11.5 injuries per
+1,000 player-days above/below ACWR 1.15 at d−3 (where the mock evaluates
+it). To make the >1.5 band light up as the simulator's docstring intends,
+the Catapult generator would need to preserve spike magnitude in
+`total_distance`/`player_load` rather than compress it — a mock change,
+not a Gold one.
 
 ## Reset
 

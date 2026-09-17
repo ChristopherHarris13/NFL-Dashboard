@@ -1,0 +1,48 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: One row per day from SIM_START_DATE; season_week and day_type follow the mocks' schedule.
+    columns:
+      - name: date_day
+        tests: [unique, not_null]
+      - name: season_week
+        tests: [not_null]
+      - name: day_type
+        tests:
+          - not_null
+          - accepted_values: {values: ['off', practice, walkthrough, game]}
+
+  - name: dim_team
+    description: Teams on the nflverse roster with stadium location and dome flag (seeds/stadiums.csv).
+    columns:
+      - name: team_sk
+        tests: [unique, not_null]
+      - name: is_dome
+        tests: [not_null]
+
+  - name: dim_player
+    description: SCD-2 player dimension (one row per version) from the dim_player_snapshot.
+    columns:
+      - name: player_version_sk
+        tests: [unique, not_null]
+      - name: player_sk
+        tests: [not_null]
+      - name: gsis_id
+        tests: [not_null]
+      - name: valid_from
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [player_sk, valid_from]
+
+  - name: dim_injury_type
+    description: EMR free-text body-part vocabulary -> canonical body_part / body_region / side (seeds/injury_body_parts.csv).
+    columns:
+      - name: injury_type_sk
+        tests: [unique, not_null]
+      - name: raw_text
+        tests: [unique, not_null]
+      - name: body_region
+        tests:
+          - accepted_values: {values: [lower_body, upper_body, head]}

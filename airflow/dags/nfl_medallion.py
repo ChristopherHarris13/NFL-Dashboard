@@ -8,6 +8,9 @@ vendor_player_map), rebuild one typed, deduplicated table per source from the
 rows that passed. dq_summary: one reconciled scorecard row per source per run.
 
     extract_* -> warehouse_schema -> validate_* -> silver_* -> dq_summary
+                                                            -> dbt_seed -> dbt_snapshot -> dbt_run -> dbt_test
+
+Gold is dbt (dbt/): dims, facts and mart_player_week, built from Silver only.
 
 Mock vendors are walked by cursor (airflow/plugins/extract.py). The two real
 feeds have no cursor: each run lands the full current snapshot and the
@@ -23,6 +26,7 @@ from datetime import datetime, timedelta
 
 import httpx
 from airflow.decorators import dag, task
+from airflow.operators.bash import BashOperator
 
 from extract import extract_resource, land_records
 
@@ -36,6 +40,10 @@ MOCK_VENDORS = {
     "nutrition_svc":    ("nutrition",    8004, ["measurements"]),
     "emr_svc":          ("emr",          8005, ["injuries", "status_updates"]),
 }
+
+PBP_COLUMNS = ["play_id", "game_id", "season", "week", "game_date", "posteam", "defteam", "play_type",
+               "passer_player_id", "rusher_player_id", "receiver_player_id", "epa", "success",
+               "yards_gained", "touchdown", "qb_epa", "air_epa", "yac_epa"]
 
 # GEHA Field at Arrowhead Stadium (SEED_TEAM=KC in the mocks).
 STADIUM = {
@@ -102,6 +110,18 @@ def nfl_medallion():
         ids = nfl.import_ids()
         stats["ids"] = land_records(
             source="nflverse", endpoint="ids", batch_id=batch_id, records=_df_records(ids),
+        )
+        # Play-by-play is ~370 columns; land the ones Gold's fact_play needs.
+        # Values are untouched, this is a column projection, not a transform.
+        pbp = nfl.import_pbp_data([season], columns=PBP_COLUMNS, downcast=False)
+        stats["pbp"] = land_records(
+            source="nflverse", endpoint="pbp", batch_id=batch_id, records=_df_records(pbp),
+            schema_version=f"season={season}",
+        )
+        snaps = nfl.import_snap_counts([season])
+        stats["snap_counts"] = land_records(
+            source="nflverse", endpoint="snap_counts", batch_id=batch_id, records=_df_records(snaps),
+            schema_version=f"season={season}",
         )
         log.info("nflverse: %s new rows", stats)
         return stats
@@ -195,7 +215,18 @@ def nfl_medallion():
         [v, master] >> s
         validations.append(v)
         silvers.append(s)
-    dq_summary(validations, silvers)
+    summary = dq_summary(validations, silvers)
+
+    # ------------------------------------------------------------------ gold
+    # dbt/profiles.yml reads DATABASE_URL; DBT_PROFILES_DIR / DBT_PROJECT_DIR
+    # are set in docker-compose.yml. dbt deps runs once (dbt_packages/ is
+    # bind-mounted and gitignored).
+    dbt = "cd $DBT_PROJECT_DIR && (test -d dbt_packages/dbt_utils || dbt deps) && dbt"
+    dbt_seed = BashOperator(task_id="dbt_seed", bash_command=f"{dbt} seed")
+    dbt_snapshot = BashOperator(task_id="dbt_snapshot", bash_command=f"{dbt} snapshot")
+    dbt_run = BashOperator(task_id="dbt_run", bash_command=f"{dbt} run")
+    dbt_test = BashOperator(task_id="dbt_test", bash_command=f"{dbt} test")
+    silvers >> dbt_seed >> dbt_snapshot >> dbt_run >> dbt_test
 
 
 def _df_records(df) -> list[dict]:

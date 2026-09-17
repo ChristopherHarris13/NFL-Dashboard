@@ -1,0 +1,17 @@
+version: 2
+
+models:
+  - name: stg_pbp
+    description: nflverse play-by-play. epa is null on non-plays (timeouts, quarter ends) by design.
+    columns:
+      - name: play_id
+        tests: [not_null]
+      - name: game_date
+        tests: [not_null]
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [game_id, play_id]
+  - name: stg_snap_counts
+    tests:
+      - dbt_utils.unique_combination_of_columns:
+          combination_of_columns: [pfr_game_id, pfr_player_id]

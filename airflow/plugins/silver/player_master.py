@@ -61,11 +61,15 @@ def build(conn) -> dict:
                 football_name = EXCLUDED.football_name, team = EXCLUDED.team, position = EXCLUDED.position,
                 weight_lbs = EXCLUDED.weight_lbs, height_in = EXCLUDED.height_in,
                 bronze_id = EXCLUDED.bronze_id, valid_to = NULL, updated_at = now()
-            WHERE (silver.dim_player_master.nfl_id, silver.dim_player_master.team,
-                   silver.dim_player_master.position, silver.dim_player_master.full_name,
+            WHERE (silver.dim_player_master.nfl_id, silver.dim_player_master.espn_id, silver.dim_player_master.pfr_id,
+                   silver.dim_player_master.team, silver.dim_player_master.position,
+                   silver.dim_player_master.full_name, silver.dim_player_master.football_name,
+                   silver.dim_player_master.weight_lbs, silver.dim_player_master.height_in,
                    silver.dim_player_master.valid_to)
-               IS DISTINCT FROM (EXCLUDED.nfl_id, EXCLUDED.team, EXCLUDED.position,
-                                 EXCLUDED.full_name, NULL::timestamptz)
+               IS DISTINCT FROM (EXCLUDED.nfl_id, EXCLUDED.espn_id, EXCLUDED.pfr_id,
+                                 EXCLUDED.team, EXCLUDED.position,
+                                 EXCLUDED.full_name, EXCLUDED.football_name,
+                                 EXCLUDED.weight_lbs, EXCLUDED.height_in, NULL::timestamptz)
         """, rows, page_size=1000)
         cur.execute("""UPDATE silver.dim_player_master SET valid_to = now(), updated_at = now()
                        WHERE valid_to IS NULL AND gsis_id <> ALL(%s)""", ([r[0] for r in rows],))
