@@ -39,6 +39,16 @@ class CatapultSession(BaseModel):
     max_speed: float = Field(ge=6, le=10.5)
 
 
+class CatapultAthlete(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    athlete_id: str = Field(pattern=r"^cat_[0-9a-f]{8}$")
+    first_name: str
+    last_name: str
+    jersey: int = Field(ge=1, le=99)
+    position_name: str
+
+
 class ForcedeckTest(BaseModel):
     model_config = ConfigDict(extra="forbid")
 
@@ -136,7 +146,7 @@ class EmrStatusUpdate(BaseModel):
 
 
 CLEAN_MODELS = {
-    "catapult_svc": {"sessions": CatapultSession},
+    "catapult_svc": {"sessions": CatapultSession, "athletes": CatapultAthlete},
     "forcedeck_svc": {"tests": ForcedeckTest},
     "ams_wellness_svc": {"surveys": WellnessSurvey},
     "nutrition_svc": {"measurements": NutritionMeasurement},

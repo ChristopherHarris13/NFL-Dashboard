@@ -1,6 +1,9 @@
-"""GridironOps medallion pipeline. Bronze stage only for now: land every
-source's raw payloads. Silver/Gold (dbt) and data-quality (GX) tasks hang off
-the extracts later.
+"""GridironOps medallion pipeline.
+
+Bronze: land every source's raw payloads (cursor-walked mocks, snapshot real
+feeds). Silver: resolve identity once (dim_player_master + vendor_player_map),
+then rebuild one typed, deduplicated table per source. Gold / dbt / GX come
+after all five Silver tables have been seen with real dirt.
 
 Mock vendors are walked by cursor (airflow/plugins/extract.py). The two real
 feeds have no cursor: each run lands the full current snapshot and the
@@ -23,7 +26,7 @@ log = logging.getLogger(__name__)
 
 # Compose service name -> (bronze source, resources). One extract task per resource.
 MOCK_VENDORS = {
-    "catapult_svc":     ("catapult",     8001, ["sessions"]),
+    "catapult_svc":     ("catapult",     8001, ["sessions", "athletes"]),
     "forcedeck_svc":    ("forcedeck",    8002, ["tests"]),
     "ams_wellness_svc": ("ams_wellness", 8003, ["surveys"]),
     "nutrition_svc":    ("nutrition",    8004, ["measurements"]),
@@ -55,6 +58,8 @@ OPEN_METEO_HOURLY = [
 )
 def nfl_medallion():
 
+    extracts = []
+
     # ------------------------------------------------------------ mock vendors
     for service, (source, port, resources) in MOCK_VENDORS.items():
         for resource in resources:
@@ -65,7 +70,7 @@ def nfl_medallion():
                              base_url: str = f"http://{service}:{port}") -> dict:
                 return extract_resource(source=source, base_url=base_url, resource=resource)
 
-            extract_mock()
+            extracts.append(extract_mock())
 
     # -------------------------------------------------------------- nflverse
     @task
@@ -125,8 +130,37 @@ def nfl_medallion():
         log.info("open_meteo: %d hours fetched, %d new", len(records), inserted)
         return {"fetched": len(records), "inserted": inserted}
 
-    extract_nflverse()
-    extract_open_meteo()
+    extracts += [extract_nflverse(), extract_open_meteo()]
+
+    # ---------------------------------------------------------------- silver
+    @task
+    def silver_schema() -> None:
+        """Apply warehouse/init/03_silver.sql (all IF NOT EXISTS) so a warehouse
+        created before Silver existed picks the tables up without a reset."""
+        from silver.common import warehouse_conn
+        sql = open("/opt/airflow/warehouse/init/03_silver.sql").read()
+        with warehouse_conn() as conn, conn.cursor() as cur:
+            cur.execute(sql)
+            conn.commit()
+
+    @task
+    def silver_player_master() -> dict:
+        from silver import player_master
+        from silver.common import warehouse_conn
+        return player_master.build(warehouse_conn())
+
+    def silver_task(name: str):
+        @task(task_id=f"silver_{name}")
+        def _run() -> dict:
+            import importlib
+            from silver.common import warehouse_conn
+            return importlib.import_module(f"silver.{name}").build(warehouse_conn())
+        return _run()
+
+    schema = silver_schema()
+    master = silver_player_master()
+    extracts >> schema >> master
+    master >> [silver_task(n) for n in ("forcedeck", "nutrition", "wellness", "emr", "catapult")]
 
 
 def _df_records(df) -> list[dict]:

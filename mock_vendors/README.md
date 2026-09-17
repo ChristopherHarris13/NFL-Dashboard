@@ -9,7 +9,7 @@ data clean. Dial it up or down in [`dirt_config.yaml`](dirt_config.yaml)
 
 | Service | Port | Resource(s) | Mimics |
 |---|---|---|---|
-| `catapult_svc` | 8001 | `/v1/sessions` | Catapult GPS/LPS practice & game load |
+| `catapult_svc` | 8001 | `/v1/sessions`, `/v1/athletes` | Catapult GPS/LPS practice & game load; athlete list (names, no league id) emitted once on day 0 |
 | `forcedeck_svc` | 8002 | `/v1/tests` | VALD ForceDecks dual force plates |
 | `ams_wellness_svc` | 8003 | `/v1/surveys` | Teamworks/Kitman daily wellness |
 | `nutrition_svc` | 8004 | `/v1/measurements` | Dietitian body-comp exports (DEXA/BIA/scale) |
@@ -19,7 +19,7 @@ data clean. Dial it up or down in [`dirt_config.yaml`](dirt_config.yaml)
 
 | Service | Player identity |
 |---|---|
-| catapult | Vendor UUID `cat_<8 hex>`; the gsis mapping is internal and **never exposed** |
+| catapult | Vendor UUID `cat_<8 hex>`; the gsis mapping is internal and **never exposed**. `/v1/athletes` gives `athlete_id` + first/last name + position (like OpenField's athlete export), so ids resolve by name |
 | forcedeck | NFL GSIS id, `00-00xxxxx` |
 | ams_wellness | Integer `nflId` (`player_id`, renamed `athlete_id` in schema v2) |
 | nutrition | **Name only**, heavily mangled (`A.J.`/`AJ`, nicknames, `Jr.`/`III` come and go, occasional `Last First`) |

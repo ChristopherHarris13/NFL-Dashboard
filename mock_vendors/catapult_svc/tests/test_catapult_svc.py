@@ -2,7 +2,7 @@ import pytest
 from pydantic import TypeAdapter
 
 from mock_vendors.catapult_svc.app import build_vendor
-from mock_vendors.common.clean_schemas import CatapultSession
+from mock_vendors.common.clean_schemas import CatapultAthlete, CatapultSession
 from mock_vendors.testing import CLEAN, make_client, make_settings, walk
 
 SERVICE = "catapult_svc"
@@ -31,7 +31,8 @@ def test_pagination_walks_full_stream_without_gaps_or_repeats(default_client):
     small = walk(default_client, "sessions", limit=73)
     big = walk(default_client, "sessions", limit=500)
     assert small == big
-    assert len(small) == default_client.get("/health").json()["records"]
+    athletes = walk(default_client, "athletes", limit=500)
+    assert len(small) + len(athletes) == default_client.get("/health").json()["records"]
 
 
 def test_clean_config_passes_clean_schema(clean_client):
@@ -71,3 +72,16 @@ def test_unit_swap_forced_always_converts(tmp_path):
 def test_vendor_ids_never_expose_gsis(default_client):
     records = walk(default_client, "sessions", limit=500)
     assert all(r["player_id"].startswith("cat_") for r in records)
+    athletes = walk(default_client, "athletes", limit=500)
+    assert athletes and not any("gsis" in k for a in athletes for k in a)
+
+
+def test_athletes_cover_every_session_player(default_client, clean_client):
+    athletes = walk(default_client, "athletes", limit=500)
+    ids = {a["athlete_id"] for a in athletes}
+    assert len(ids) == len(athletes)  # emitted once, no dupes
+    sessions = walk(default_client, "sessions", limit=500)
+    assert {s["player_id"] for s in sessions} <= ids
+    adapter = TypeAdapter(CatapultAthlete)
+    for a in walk(clean_client, "athletes", limit=500):
+        adapter.validate_python(a)

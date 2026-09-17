@@ -1,7 +1,9 @@
 """Catapult GPS/LPS mock: practice and game load sessions.
 
 Identity: vendor UUIDs (cat_<8 hex>); the gsis mapping is internal and
-never exposed. Timestamps: ISO 8601 UTC with Z.
+never exposed. Like the real OpenField API, /v1/athletes lists the account's
+athletes by name (no league id) — emitted once, on day 0 — so a pipeline can
+pin each vendor id to a player by name. Timestamps: ISO 8601 UTC with Z.
 """
 
 from __future__ import annotations
@@ -24,7 +26,7 @@ _BASE_LOAD = {PRACTICE: 1.0, GAME: 1.45, WALKTHROUGH: 0.38}
 
 
 class CatapultGenerator:
-    resources = ["sessions"]
+    resources = ["sessions", "athletes"]
 
     def __init__(self, settings: Settings):
         self.settings = settings
@@ -38,10 +40,12 @@ class CatapultGenerator:
         }
 
     def generate_day(self, day_index: int, d: date) -> list[Pending]:
+        out: list[Pending] = []
+        if day_index == 0:
+            out.extend(self._athletes(day_index))
         dt = day_type(d)
         if dt == OFF:
-            return []
-        out: list[Pending] = []
+            return out
         for player in self.roster:
             rng = rng_for(self.seed, SERVICE, player.gsis_id, d.toordinal())
             if rng.random() < self.dirt.p(SERVICE, "missing_session"):
@@ -114,6 +118,24 @@ class CatapultGenerator:
                 sort_key=(day_index, hour, player.gsis_id),
                 resource="sessions",
                 record=record,
+            ))
+        return out
+
+    def _athletes(self, day_index: int) -> list[Pending]:
+        """The account's athlete list, as Catapult's athlete export shows it."""
+        out = []
+        for player in self.roster:
+            rng = rng_for(self.seed, SERVICE, "athlete", player.gsis_id)
+            record = {
+                "athlete_id": self.vendor_ids[player.gsis_id],
+                "first_name": player.first_name,
+                "last_name": player.last_name,
+                "jersey": rng.randint(1, 99),
+                "position_name": player.position,
+            }
+            out.append(Pending(
+                emit_day=day_index, sort_key=(day_index, 0, player.gsis_id),
+                resource="athletes", record=record,
             ))
         return out
 
