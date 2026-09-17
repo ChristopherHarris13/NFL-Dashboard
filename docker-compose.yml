@@ -45,9 +45,8 @@ services:
     environment: *sim_env
 
   # ---------------------------------------------------------------------------
-  # Warehouse: one Postgres with two databases — `warehouse` (bronze/silver/
-  # gold/meta schemas, see warehouse/init/) and `airflow` (scheduler metadata).
-  # Init scripts only run on an empty volume; `docker compose down -v` resets.
+  # Warehouse: the medallion Postgres. warehouse/init/ runs once on an empty
+  # volume and creates bronze/silver/gold + the generic bronze.<source> tables.
   # ---------------------------------------------------------------------------
   warehouse:
     image: postgres:17.9-alpine
@@ -56,9 +55,6 @@ services:
       POSTGRES_DB: ${WAREHOUSE_DB:-warehouse}
       POSTGRES_USER: ${WAREHOUSE_USER:-warehouse}
       POSTGRES_PASSWORD: ${WAREHOUSE_PASSWORD:-warehouse}
-      AIRFLOW_DB_NAME: ${AIRFLOW_DB_NAME:-airflow}
-      AIRFLOW_DB_USER: ${AIRFLOW_DB_USER:-airflow}
-      AIRFLOW_DB_PASSWORD: ${AIRFLOW_DB_PASSWORD:-airflow}
     volumes:
       - warehouse_data:/var/lib/postgresql/data
       - ./warehouse/init:/docker-entrypoint-initdb.d:ro
@@ -68,37 +64,60 @@ services:
       timeout: 5s
       retries: 12
 
+  # Airflow's own metadata DB — separate instance, not exposed on the host.
+  airflow_db:
+    image: postgres:17.9-alpine
+    environment:
+      POSTGRES_DB: ${AIRFLOW_DB_NAME:-airflow}
+      POSTGRES_USER: ${AIRFLOW_DB_USER:-airflow}
+      POSTGRES_PASSWORD: ${AIRFLOW_DB_PASSWORD:-airflow}
+    volumes:
+      - airflow_db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${AIRFLOW_DB_USER:-airflow} -d ${AIRFLOW_DB_NAME:-airflow}"]
+      interval: 5s
+      timeout: 5s
+      retries: 12
+
   # ---------------------------------------------------------------------------
-  # Airflow 3 in standalone mode: api-server + scheduler + dag-processor +
-  # triggerer in one container, LocalExecutor, metadata in the warehouse
-  # container's `airflow` DB. UI on http://localhost:8080 (no login locally).
+  # Airflow 2.11 `standalone` (webserver + scheduler + triggerer in one
+  # container), LocalExecutor. UI http://localhost:8080, login admin/admin.
   # ---------------------------------------------------------------------------
   airflow:
     build: ./airflow
     command: standalone
     ports: ["8080:8080"]
     depends_on:
+      airflow_db:
+        condition: service_healthy
       warehouse:
         condition: service_healthy
     environment:
       AIRFLOW__CORE__EXECUTOR: LocalExecutor
       AIRFLOW__CORE__LOAD_EXAMPLES: "False"
-      AIRFLOW__CORE__SIMPLE_AUTH_MANAGER_ALL_ADMINS: "True"
-      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER:-airflow}:${AIRFLOW_DB_PASSWORD:-airflow}@warehouse:5432/${AIRFLOW_DB_NAME:-airflow}
-      AIRFLOW__API_AUTH__JWT_SECRET: ${AIRFLOW_JWT_SECRET:-change-me-local-only}
-      # Connection id "warehouse" used by DAGs (PostgresHook / SQL operators)
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER:-airflow}:${AIRFLOW_DB_PASSWORD:-airflow}@airflow_db:5432/${AIRFLOW_DB_NAME:-airflow}
+      AIRFLOW__WEBSERVER__SECRET_KEY: ${AIRFLOW_SECRET_KEY:-change-me-local-only}
+      AIRFLOW__WEBSERVER__EXPOSE_CONFIG: "True"
+      # Image entrypoint: migrate the metadata DB and create the admin login
+      # before `standalone` starts, so the password is known (not generated).
+      _AIRFLOW_DB_MIGRATE: "true"
+      _AIRFLOW_WWW_USER_CREATE: "true"
+      _AIRFLOW_WWW_USER_USERNAME: ${AIRFLOW_ADMIN_USER:-admin}
+      _AIRFLOW_WWW_USER_PASSWORD: ${AIRFLOW_ADMIN_PASSWORD:-admin}
+      # Connection id "warehouse" used by the extract plugin / PostgresHook
       AIRFLOW_CONN_WAREHOUSE: postgresql://${WAREHOUSE_USER:-warehouse}:${WAREHOUSE_PASSWORD:-warehouse}@warehouse:5432/${WAREHOUSE_DB:-warehouse}
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
       - airflow_logs:/opt/airflow/logs
     healthcheck:
-      test: ["CMD", "curl", "--fail", "http://localhost:8080/api/v2/monitor/health"]
+      test: ["CMD", "curl", "--fail", "http://localhost:8080/health"]
       interval: 15s
       timeout: 10s
       retries: 20
-      start_period: 60s
+      start_period: 90s
 
 volumes:
   warehouse_data:
+  airflow_db_data:
   airflow_logs:

@@ -1,0 +1,137 @@
+"""GridironOps medallion pipeline. Bronze stage only for now: land every
+source's raw payloads. Silver/Gold (dbt) and data-quality (GX) tasks hang off
+the extracts later.
+
+Mock vendors are walked by cursor (airflow/plugins/extract.py). The two real
+feeds have no cursor: each run lands the full current snapshot and the
+(_payload_hash, _source) unique index drops anything already seen.
+"""
+
+from __future__ import annotations
+
+import json
+import logging
+import uuid
+from datetime import datetime, timedelta
+
+import httpx
+from airflow.decorators import dag, task
+
+from extract import extract_resource, land_records
+
+log = logging.getLogger(__name__)
+
+# Compose service name -> (bronze source, resources). One extract task per resource.
+MOCK_VENDORS = {
+    "catapult_svc":     ("catapult",     8001, ["sessions"]),
+    "forcedeck_svc":    ("forcedeck",    8002, ["tests"]),
+    "ams_wellness_svc": ("ams_wellness", 8003, ["surveys"]),
+    "nutrition_svc":    ("nutrition",    8004, ["measurements"]),
+    "emr_svc":          ("emr",          8005, ["injuries", "status_updates"]),
+}
+
+# GEHA Field at Arrowhead Stadium (SEED_TEAM=KC in the mocks).
+STADIUM = {
+    "stadium": "GEHA Field at Arrowhead Stadium",
+    "team": "KC",
+    "latitude": 39.0489,
+    "longitude": -94.4839,
+    "timezone": "America/Chicago",
+}
+OPEN_METEO_HOURLY = [
+    "temperature_2m", "relative_humidity_2m", "apparent_temperature",
+    "precipitation", "wind_speed_10m", "wind_gusts_10m", "weather_code",
+]
+
+
+@dag(
+    dag_id="nfl_medallion",
+    schedule="*/15 * * * *",
+    start_date=datetime(2026, 9, 1),
+    catchup=False,
+    max_active_runs=1,
+    default_args={"retries": 2, "retry_delay": timedelta(minutes=1)},
+    tags=["bronze"],
+)
+def nfl_medallion():
+
+    # ------------------------------------------------------------ mock vendors
+    for service, (source, port, resources) in MOCK_VENDORS.items():
+        for resource in resources:
+            task_id = f"extract_{source}" if len(resources) == 1 else f"extract_{source}_{resource}"
+
+            @task(task_id=task_id)
+            def extract_mock(source: str = source, resource: str = resource,
+                             base_url: str = f"http://{service}:{port}") -> dict:
+                return extract_resource(source=source, base_url=base_url, resource=resource)
+
+            extract_mock()
+
+    # -------------------------------------------------------------- nflverse
+    @task
+    def extract_nflverse() -> dict:
+        import nfl_data_py as nfl
+
+        batch_id = uuid.uuid4()
+        stats = {}
+
+        rosters = None
+        for season in (2026, 2025):
+            try:
+                rosters = nfl.import_seasonal_rosters([season])
+                if len(rosters):
+                    break
+            except Exception as exc:  # nflverse 404s raise assorted errors
+                log.warning("season %s rosters unavailable (%s)", season, exc)
+        if rosters is None or not len(rosters):
+            raise RuntimeError("no roster data from nflverse")
+        stats["rosters"] = land_records(
+            source="nflverse", endpoint="rosters", batch_id=batch_id,
+            records=_df_records(rosters), schema_version=f"season={season}",
+        )
+
+        ids = nfl.import_ids()
+        stats["ids"] = land_records(
+            source="nflverse", endpoint="ids", batch_id=batch_id, records=_df_records(ids),
+        )
+        log.info("nflverse: %s new rows", stats)
+        return stats
+
+    # ------------------------------------------------------------ open-meteo
+    @task
+    def extract_open_meteo() -> dict:
+        batch_id = uuid.uuid4()
+        params = {
+            "latitude": STADIUM["latitude"],
+            "longitude": STADIUM["longitude"],
+            "timezone": STADIUM["timezone"],
+            "hourly": ",".join(OPEN_METEO_HOURLY),
+            "past_days": 7,
+            "forecast_days": 7,
+        }
+        body = httpx.get("https://api.open-meteo.com/v1/forecast", params=params,
+                         timeout=30).raise_for_status().json()
+        hourly, units = body["hourly"], body["hourly_units"]
+        # One payload per hour; the API's array-of-columns shape is unwound
+        # here but the values themselves are untouched.
+        records = [
+            {**STADIUM, "time": t,
+             **{k: hourly[k][i] for k in OPEN_METEO_HOURLY},
+             "units": {k: units[k] for k in OPEN_METEO_HOURLY}}
+            for i, t in enumerate(hourly["time"])
+        ]
+        inserted = land_records(source="open_meteo", endpoint="forecast",
+                                batch_id=batch_id, records=records)
+        log.info("open_meteo: %d hours fetched, %d new", len(records), inserted)
+        return {"fetched": len(records), "inserted": inserted}
+
+    extract_nflverse()
+    extract_open_meteo()
+
+
+def _df_records(df) -> list[dict]:
+    """DataFrame -> JSON-safe dicts (NaN -> null, dates -> ISO) without altering values."""
+    return json.loads(df.to_json(orient="records", date_format="iso"))
+
+
+nfl_medallion()
