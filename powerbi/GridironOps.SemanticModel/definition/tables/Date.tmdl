@@ -1,0 +1,64 @@
+/// gold.dim_date — the calendar; marked as the model's date table.
+table Date
+	dataCategory: Time
+
+	column date_day
+		dataType: dateTime
+		isKey
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: date_day
+
+	column iso_dow
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: iso_dow
+
+	column day_name
+		dataType: string
+		summarizeBy: none
+		sortByColumn: iso_dow
+		sourceColumn: day_name
+
+	column season_week
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: season_week
+
+	column day_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: day_type
+
+	column is_scheduled
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_scheduled
+
+	column counts_for_availability
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: counts_for_availability
+
+	column year
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: year
+
+	column month
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: month
+
+	partition Date = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_dim_date = Source{[Schema="gold",Item="dim_date"]}[Data]
+				in
+					gold_dim_date

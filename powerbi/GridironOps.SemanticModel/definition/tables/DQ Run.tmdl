@@ -1,0 +1,102 @@
+/// gold.dq_run_summary — the DQ scorecard behind the Data page.
+/// run_recency 1 = latest run. jsonb columns are dropped in M.
+table 'DQ Run'
+
+	column run_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: run_id
+
+	column source
+		dataType: string
+		summarizeBy: none
+		sourceColumn: source
+
+	column rows_in
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: rows_in
+
+	column duplicates_removed
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: duplicates_removed
+
+	column rows_quarantined
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: rows_quarantined
+
+	column rows_quarantined_dq
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: rows_quarantined_dq
+
+	column rows_quarantined_identity
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: rows_quarantined_identity
+
+	column rows_in_silver
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: rows_in_silver
+
+	column reconciles
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: reconciles
+
+	column pct_units_inferred
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: pct_units_inferred
+
+	column pct_timestamps_reformatted
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: pct_timestamps_reformatted
+
+	column expectations_run
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: expectations_run
+
+	column expectations_failed
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: expectations_failed
+
+	column created_at
+		dataType: dateTime
+		formatString: d mmm yyyy hh:nn
+		summarizeBy: none
+		sourceColumn: created_at
+
+	column run_recency
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: run_recency
+
+	partition 'DQ Run' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_dq_run_summary = Source{[Schema="gold",Item="dq_run_summary"]}[Data],
+					NoJson = Table.RemoveColumns(gold_dq_run_summary, {"resolved_by", "schema_versions_seen"}),
+					Typed = Table.TransformColumnTypes(NoJson, {{"created_at", type datetime}})
+				in
+					Typed

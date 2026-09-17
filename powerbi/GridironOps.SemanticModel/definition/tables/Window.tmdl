@@ -1,0 +1,20 @@
+/// Disconnected trailing-window picker for the Load and Player pages.
+table Window
+
+	column Window
+		dataType: string
+		summarizeBy: none
+		sortByColumn: Days
+		isNameInferred
+		sourceColumn: [Window]
+
+	column Days
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Days]
+
+	partition Window = calculated
+		mode: import
+		source = DATATABLE ( "Window", STRING, "Days", INTEGER, { { "28 days", 28 }, { "Season", 400 } } )

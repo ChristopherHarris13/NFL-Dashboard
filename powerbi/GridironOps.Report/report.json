@@ -1,0 +1,525 @@
+{
+  "config": "{\"version\": \"5.43\", \"themeCollection\": {\"baseTheme\": {\"name\": \"CY24SU06\", \"version\": \"5.43\", \"type\": 2}, \"customTheme\": {\"name\": \"GridironOpsClinical.json\", \"version\": \"5.43\", \"type\": 1}}, \"activeSectionIndex\": 0, \"defaultDrillFilterOtherVisuals\": true, \"settings\": {\"useNewFilterPaneExperience\": true}}",
+  "layoutOptimization": 0,
+  "resourcePackages": [
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "GridironOpsClinical.json",
+            "path": "GridironOpsClinical.json",
+            "type": 202
+          }
+        ],
+        "name": "RegisteredResources",
+        "type": 1
+      }
+    },
+    {
+      "resourcePackage": {
+        "disabled": false,
+        "items": [
+          {
+            "name": "CY24SU06",
+            "path": "BaseThemes/CY24SU06.json",
+            "type": 202
+          }
+        ],
+        "name": "SharedResources",
+        "type": 2
+      }
+    }
+  ],
+  "sections": [
+    {
+      "name": "ReportSection00a110c8",
+      "displayName": "Today",
+      "filters": "[]",
+      "ordinal": 0,
+      "visualContainers": [
+        {
+          "x": 8,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000001\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"AsOf.Days back\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"a\", \"Entity\": \"AsOf\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"a\"}}, \"Property\": \"Days back\"}, \"Name\": \"AsOf.Days back\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 166,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000002\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 166, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.team\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"team\"}, \"Name\": \"Player.team\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 324,
+          "y": 8,
+          "z": 0,
+          "width": 170,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000003\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 324, \"y\": 8, \"z\": 0, \"width\": 170, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.position\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"position\"}, \"Name\": \"Player.position\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 502,
+          "y": 8,
+          "z": 0,
+          "width": 170,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000004\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 502, \"y\": 8, \"z\": 0, \"width\": 170, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.As-of Label\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"As-of Label\"}, \"Name\": \"Measures.As-of Label\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 680,
+          "y": 8,
+          "z": 0,
+          "width": 95,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000005\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 680, \"y\": 8, \"z\": 0, \"width\": 95, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Red\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Red\"}, \"Name\": \"Measures.Red\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#D63A2F'\"}}}}}}}]}}}"
+        },
+        {
+          "x": 783,
+          "y": 8,
+          "z": 0,
+          "width": 95,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000006\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 783, \"y\": 8, \"z\": 0, \"width\": 95, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Amber\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Amber\"}, \"Name\": \"Measures.Amber\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#D98A00'\"}}}}}}}]}}}"
+        },
+        {
+          "x": 886,
+          "y": 8,
+          "z": 0,
+          "width": 95,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000007\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 886, \"y\": 8, \"z\": 0, \"width\": 95, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Green\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Green\"}, \"Name\": \"Measures.Green\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"labels\": [{\"properties\": {\"color\": {\"solid\": {\"color\": {\"expr\": {\"Literal\": {\"Value\": \"'#1E8A2E'\"}}}}}}}]}}}"
+        },
+        {
+          "x": 989,
+          "y": 8,
+          "z": 0,
+          "width": 90,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000008\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 989, \"y\": 8, \"z\": 0, \"width\": 90, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Out\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Out\"}, \"Name\": \"Measures.Out\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 1087,
+          "y": 8,
+          "z": 0,
+          "width": 95,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000009\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1087, \"y\": 8, \"z\": 0, \"width\": 95, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Limited\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Limited\"}, \"Name\": \"Measures.Limited\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 1190,
+          "y": 8,
+          "z": 0,
+          "width": 82,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000000a\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1190, \"y\": 8, \"z\": 0, \"width\": 82, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Silent\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Silent\"}, \"Name\": \"Measures.Silent\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 8,
+          "y": 100,
+          "z": 0,
+          "width": 1264,
+          "height": 612,
+          "config": "{\"name\": \"gridops00000000000c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 100, \"z\": 0, \"width\": 1264, \"height\": 612}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Player Day.flag_rank\"}, {\"queryRef\": \"Player Day.flag\"}, {\"queryRef\": \"Player.full_name\"}, {\"queryRef\": \"Player.position\"}, {\"queryRef\": \"Player Day.availability\"}, {\"queryRef\": \"Player Day.game_status\"}, {\"queryRef\": \"Player Day.readiness_score\"}, {\"queryRef\": \"Player Day.readiness_delta\"}, {\"queryRef\": \"Player Day.acwr_coupled\"}, {\"queryRef\": \"Player Day.load_7d\"}, {\"queryRef\": \"Player Day.days_since_survey\"}, {\"queryRef\": \"Player Day.open_injury_body_parts\"}, {\"queryRef\": \"Player Day.expected_return\"}, {\"queryRef\": \"Player Day.flag_reasons\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player Day\", \"Type\": 0}, {\"Name\": \"p1\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"flag_rank\"}, \"Name\": \"Player Day.flag_rank\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"flag\"}, \"Name\": \"Player Day.flag\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"full_name\"}, \"Name\": \"Player.full_name\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"position\"}, \"Name\": \"Player.position\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"availability\"}, \"Name\": \"Player Day.availability\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"game_status\"}, \"Name\": \"Player Day.game_status\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"readiness_score\"}, \"Name\": \"Player Day.readiness_score\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"readiness_delta\"}, \"Name\": \"Player Day.readiness_delta\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"acwr_coupled\"}, \"Name\": \"Player Day.acwr_coupled\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"load_7d\"}, \"Name\": \"Player Day.load_7d\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"days_since_survey\"}, \"Name\": \"Player Day.days_since_survey\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"open_injury_body_parts\"}, \"Name\": \"Player Day.open_injury_body_parts\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"expected_return\"}, \"Name\": \"Player Day.expected_return\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"flag_reasons\"}, \"Name\": \"Player Day.flag_reasons\"}], \"OrderBy\": [{\"Direction\": 1, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"flag_rank\"}}}, {\"Direction\": 1, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"readiness_score\"}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Player Day.flag_rank\": {\"displayName\": \"#\"}, \"Player Day.flag\": {\"displayName\": \"Flag\"}, \"Player.full_name\": {\"displayName\": \"Player\"}, \"Player.position\": {\"displayName\": \"Pos\"}, \"Player Day.availability\": {\"displayName\": \"Availability\"}, \"Player Day.game_status\": {\"displayName\": \"Game\"}, \"Player Day.readiness_score\": {\"displayName\": \"Readiness\"}, \"Player Day.readiness_delta\": {\"displayName\": \"\\u0394 vs 28d\"}, \"Player Day.acwr_coupled\": {\"displayName\": \"ACWR\"}, \"Player Day.load_7d\": {\"displayName\": \"7-day load\"}, \"Player Day.days_since_survey\": {\"displayName\": \"Days since survey\"}, \"Player Day.open_injury_body_parts\": {\"displayName\": \"Open injury\"}, \"Player Day.expected_return\": {\"displayName\": \"Expected return\"}, \"Player Day.flag_reasons\": {\"displayName\": \"Why\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Roster board \\u2014 red to green'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops00000000000b\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"Is As-of\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Is As-of\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        }
+      ],
+      "config": "{}",
+      "displayOption": 1,
+      "width": 1280.0,
+      "height": 720.0
+    },
+    {
+      "name": "ReportSection00a110c9",
+      "displayName": "Load",
+      "filters": "[]",
+      "ordinal": 1,
+      "visualContainers": [
+        {
+          "x": 8,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000000d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"AsOf.Days back\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"a\", \"Entity\": \"AsOf\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"a\"}}, \"Property\": \"Days back\"}, \"Name\": \"AsOf.Days back\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 166,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000000e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 166, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.team\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"team\"}, \"Name\": \"Player.team\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 324,
+          "y": 8,
+          "z": 0,
+          "width": 170,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000000f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 324, \"y\": 8, \"z\": 0, \"width\": 170, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.position\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"position\"}, \"Name\": \"Player.position\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 482,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000010\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 482, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Window.Window\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"w\", \"Entity\": \"Window\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"w\"}}, \"Property\": \"Window\"}, \"Name\": \"Window.Window\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 8,
+          "y": 100,
+          "z": 0,
+          "width": 620,
+          "height": 330,
+          "config": "{\"name\": \"gridops000000000012\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 100, \"z\": 0, \"width\": 620, \"height\": 330}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Player.full_name\"}], \"Y\": [{\"queryRef\": \"Measures.Load 7d\"}, {\"queryRef\": \"Measures.Load Norm\"}], \"Tooltips\": [{\"queryRef\": \"Measures.Load vs Norm %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}, {\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"full_name\"}, \"Name\": \"Player.full_name\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Load 7d\"}, \"Name\": \"Measures.Load 7d\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Load Norm\"}, \"Name\": \"Measures.Load Norm\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Load vs Norm %\"}, \"Name\": \"Measures.Load vs Norm %\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Load vs Norm %\"}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Player.full_name\": {\"displayName\": \"Player\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'7-day load vs each player's own 28-day norm'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops000000000011\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"Is As-of\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Is As-of\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 636,
+          "y": 100,
+          "z": 0,
+          "width": 636,
+          "height": 330,
+          "config": "{\"name\": \"gridops000000000014\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 636, \"y\": 100, \"z\": 0, \"width\": 636, \"height\": 330}}], \"singleVisual\": {\"visualType\": \"columnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Date.date_day\"}], \"Y\": [{\"queryRef\": \"CountNonNull(Player Day.player_day_sk)\"}], \"Series\": [{\"queryRef\": \"Player Day.acwr_band\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Date\", \"Type\": 0}, {\"Name\": \"p\", \"Entity\": \"Player Day\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"date_day\"}, \"Name\": \"Date.date_day\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"player_day_sk\"}}, \"Function\": 5}, \"Name\": \"CountNonNull(Player Day.player_day_sk)\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"acwr_band\"}, \"Name\": \"Player Day.acwr_band\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"CountNonNull(Player Day.player_day_sk)\": {\"displayName\": \"Players\"}, \"Date.date_day\": {\"displayName\": \"Day\"}, \"Player Day.acwr_band\": {\"displayName\": \"ACWR band\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Players by ACWR band, by day'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops000000000013\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"In Window\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"In Window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 8,
+          "y": 438,
+          "z": 0,
+          "width": 1264,
+          "height": 274,
+          "config": "{\"name\": \"gridops000000000016\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 438, \"z\": 0, \"width\": 1264, \"height\": 274}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.full_name\"}, {\"queryRef\": \"Player Day.load_7d\"}, {\"queryRef\": \"Player Day.load_28d_avg_week\"}, {\"queryRef\": \"Measures.Load vs Norm %\"}, {\"queryRef\": \"Player Day.acwr_coupled\"}, {\"queryRef\": \"Player Day.acwr_band\"}, {\"queryRef\": \"Player Day.sessions\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}, {\"Name\": \"p1\", \"Entity\": \"Player Day\", \"Type\": 0}, {\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"full_name\"}, \"Name\": \"Player.full_name\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"load_7d\"}, \"Name\": \"Player Day.load_7d\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"load_28d_avg_week\"}, \"Name\": \"Player Day.load_28d_avg_week\"}, {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Load vs Norm %\"}, \"Name\": \"Measures.Load vs Norm %\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"acwr_coupled\"}, \"Name\": \"Player Day.acwr_coupled\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"acwr_band\"}, \"Name\": \"Player Day.acwr_band\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p1\"}}, \"Property\": \"sessions\"}, \"Name\": \"Player Day.sessions\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Load vs Norm %\"}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Player.full_name\": {\"displayName\": \"Player\"}, \"Player Day.load_7d\": {\"displayName\": \"7-day load\"}, \"Player Day.load_28d_avg_week\": {\"displayName\": \"28d norm (avg week)\"}, \"Player Day.acwr_coupled\": {\"displayName\": \"ACWR\"}, \"Player Day.acwr_band\": {\"displayName\": \"Band\"}, \"Player Day.sessions\": {\"displayName\": \"Sessions\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Load detail \\u2014 as-of day'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops000000000015\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"Is As-of\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Is As-of\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        }
+      ],
+      "config": "{}",
+      "displayOption": 1,
+      "width": 1280.0,
+      "height": 720.0
+    },
+    {
+      "name": "ReportSection00a110ca",
+      "displayName": "Injury report",
+      "filters": "[]",
+      "ordinal": 2,
+      "visualContainers": [
+        {
+          "x": 8,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000017\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"AsOf.Days back\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"a\", \"Entity\": \"AsOf\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"a\"}}, \"Property\": \"Days back\"}, \"Name\": \"AsOf.Days back\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 166,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000018\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 166, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.team\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"team\"}, \"Name\": \"Player.team\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 324,
+          "y": 8,
+          "z": 0,
+          "width": 170,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000019\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 324, \"y\": 8, \"z\": 0, \"width\": 170, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.position\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"position\"}, \"Name\": \"Player.position\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 502,
+          "y": 8,
+          "z": 0,
+          "width": 130,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000001a\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 502, \"y\": 8, \"z\": 0, \"width\": 130, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Open Injuries\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Open Injuries\"}, \"Name\": \"Measures.Open Injuries\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 640,
+          "y": 8,
+          "z": 0,
+          "width": 100,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000001b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 640, \"y\": 8, \"z\": 0, \"width\": 100, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Out\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Out\"}, \"Name\": \"Measures.Out\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 748,
+          "y": 8,
+          "z": 0,
+          "width": 110,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000001c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 748, \"y\": 8, \"z\": 0, \"width\": 110, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Limited\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Limited\"}, \"Name\": \"Measures.Limited\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 8,
+          "y": 100,
+          "z": 0,
+          "width": 1264,
+          "height": 330,
+          "config": "{\"name\": \"gridops00000000001e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 100, \"z\": 0, \"width\": 1264, \"height\": 330}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Player.full_name\"}, {\"queryRef\": \"Player.position\"}, {\"queryRef\": \"Injury.body_part\"}, {\"queryRef\": \"Injury.side\"}, {\"queryRef\": \"Injury.injury_type\"}, {\"queryRef\": \"Injury.severity\"}, {\"queryRef\": \"Injury Status.practice_status\"}, {\"queryRef\": \"Injury Status.game_status\"}, {\"queryRef\": \"Injury.event_date\"}, {\"queryRef\": \"Injury.expected_rtp\"}, {\"queryRef\": \"Injury.days_out\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"p\", \"Entity\": \"Player\", \"Type\": 0}, {\"Name\": \"i\", \"Entity\": \"Injury\", \"Type\": 0}, {\"Name\": \"i1\", \"Entity\": \"Injury Status\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"full_name\"}, \"Name\": \"Player.full_name\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"position\"}, \"Name\": \"Player.position\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"body_part\"}, \"Name\": \"Injury.body_part\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"side\"}, \"Name\": \"Injury.side\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"injury_type\"}, \"Name\": \"Injury.injury_type\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"severity\"}, \"Name\": \"Injury.severity\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i1\"}}, \"Property\": \"practice_status\"}, \"Name\": \"Injury Status.practice_status\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i1\"}}, \"Property\": \"game_status\"}, \"Name\": \"Injury Status.game_status\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"event_date\"}, \"Name\": \"Injury.event_date\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"expected_rtp\"}, \"Name\": \"Injury.expected_rtp\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"days_out\"}, \"Name\": \"Injury.days_out\"}], \"OrderBy\": [{\"Direction\": 1, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i1\"}}, \"Property\": \"practice_status\"}}}, {\"Direction\": 1, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"full_name\"}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Player.full_name\": {\"displayName\": \"Player\"}, \"Player.position\": {\"displayName\": \"Pos\"}, \"Injury.body_part\": {\"displayName\": \"Body part\"}, \"Injury.side\": {\"displayName\": \"Side\"}, \"Injury.injury_type\": {\"displayName\": \"Type\"}, \"Injury.severity\": {\"displayName\": \"Severity\"}, \"Injury Status.practice_status\": {\"displayName\": \"Practice\"}, \"Injury Status.game_status\": {\"displayName\": \"Game\"}, \"Injury.event_date\": {\"displayName\": \"Event\"}, \"Injury.expected_rtp\": {\"displayName\": \"Expected RTP\"}, \"Injury.days_out\": {\"displayName\": \"Days out\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Practice / injury report \\u2014 as-of day'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops00000000001d\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"Is As-of (Injury)\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Is As-of (Injury)\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 8,
+          "y": 438,
+          "z": 0,
+          "width": 620,
+          "height": 274,
+          "config": "{\"name\": \"gridops00000000001f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 438, \"z\": 0, \"width\": 620, \"height\": 274}}], \"singleVisual\": {\"visualType\": \"clusteredBarChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Injury.body_region\"}], \"Y\": [{\"queryRef\": \"CountNonNull(Injury.injury_id)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"i\", \"Entity\": \"Injury\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"body_region\"}, \"Name\": \"Injury.body_region\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"injury_id\"}}, \"Function\": 5}, \"Name\": \"CountNonNull(Injury.injury_id)\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"injury_id\"}}, \"Function\": 5}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Injury.body_region\": {\"displayName\": \"Body region\"}, \"CountNonNull(Injury.injury_id)\": {\"displayName\": \"Injuries\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Injuries by body region \\u2014 season'\"}}}}}]}}}"
+        },
+        {
+          "x": 636,
+          "y": 438,
+          "z": 0,
+          "width": 636,
+          "height": 274,
+          "config": "{\"name\": \"gridops000000000020\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 636, \"y\": 438, \"z\": 0, \"width\": 636, \"height\": 274}}], \"singleVisual\": {\"visualType\": \"pivotTable\", \"projections\": {\"Rows\": [{\"queryRef\": \"Injury.severity\"}], \"Columns\": [{\"queryRef\": \"Injury.body_region\"}], \"Values\": [{\"queryRef\": \"CountNonNull(Injury.injury_id)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"i\", \"Entity\": \"Injury\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"severity\"}, \"Name\": \"Injury.severity\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"body_region\"}, \"Name\": \"Injury.body_region\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"injury_id\"}}, \"Function\": 5}, \"Name\": \"CountNonNull(Injury.injury_id)\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Injury.severity\": {\"displayName\": \"Severity\"}, \"Injury.body_region\": {\"displayName\": \"Body region\"}, \"CountNonNull(Injury.injury_id)\": {\"displayName\": \"Injuries\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Severity \\u00d7 body region'\"}}}}}]}}}"
+        }
+      ],
+      "config": "{}",
+      "displayOption": 1,
+      "width": 1280.0,
+      "height": 720.0
+    },
+    {
+      "name": "ReportSection00a110cb",
+      "displayName": "Data",
+      "filters": "[]",
+      "ordinal": 3,
+      "visualContainers": [
+        {
+          "x": 8,
+          "y": 8,
+          "z": 0,
+          "width": 200,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000021\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 8, \"z\": 0, \"width\": 200, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Last Run\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Last Run\"}, \"Name\": \"Measures.Last Run\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 216,
+          "y": 8,
+          "z": 0,
+          "width": 260,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000022\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 216, \"y\": 8, \"z\": 0, \"width\": 260, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Reconciles\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Reconciles\"}, \"Name\": \"Measures.Reconciles\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 484,
+          "y": 8,
+          "z": 0,
+          "width": 150,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000023\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 484, \"y\": 8, \"z\": 0, \"width\": 150, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Rows In\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Rows In\"}, \"Name\": \"Measures.Rows In\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 642,
+          "y": 8,
+          "z": 0,
+          "width": 160,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000024\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 642, \"y\": 8, \"z\": 0, \"width\": 160, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Rows In Silver\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Rows In Silver\"}, \"Name\": \"Measures.Rows In Silver\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 810,
+          "y": 8,
+          "z": 0,
+          "width": 160,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000025\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 810, \"y\": 8, \"z\": 0, \"width\": 160, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Quarantined %\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Quarantined %\"}, \"Name\": \"Measures.Quarantined %\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 978,
+          "y": 8,
+          "z": 0,
+          "width": 170,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000026\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 978, \"y\": 8, \"z\": 0, \"width\": 170, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Expectations\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Expectations\"}, \"Name\": \"Measures.Expectations\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 8,
+          "y": 100,
+          "z": 0,
+          "width": 620,
+          "height": 42,
+          "config": "{\"name\": \"gridops000000000027\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 100, \"z\": 0, \"width\": 620, \"height\": 42}}], \"singleVisual\": {\"visualType\": \"textbox\", \"drillFilterOtherVisuals\": true, \"objects\": {\"general\": [{\"properties\": {\"paragraphs\": [{\"textRuns\": [{\"value\": \"Why you can trust the numbers\", \"textStyle\": {\"fontWeight\": \"bold\", \"fontSize\": \"14pt\"}}]}]}}]}}}"
+        },
+        {
+          "x": 8,
+          "y": 150,
+          "z": 0,
+          "width": 1264,
+          "height": 250,
+          "config": "{\"name\": \"gridops000000000029\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 150, \"z\": 0, \"width\": 1264, \"height\": 250}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"DQ Run.source\"}, {\"queryRef\": \"DQ Run.rows_in\"}, {\"queryRef\": \"DQ Run.duplicates_removed\"}, {\"queryRef\": \"DQ Run.rows_quarantined\"}, {\"queryRef\": \"DQ Run.rows_in_silver\"}, {\"queryRef\": \"DQ Run.reconciles\"}, {\"queryRef\": \"DQ Run.expectations_failed\"}, {\"queryRef\": \"DQ Run.pct_units_inferred\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"DQ Run\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"source\"}, \"Name\": \"DQ Run.source\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"rows_in\"}, \"Name\": \"DQ Run.rows_in\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"duplicates_removed\"}, \"Name\": \"DQ Run.duplicates_removed\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"rows_quarantined\"}, \"Name\": \"DQ Run.rows_quarantined\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"rows_in_silver\"}, \"Name\": \"DQ Run.rows_in_silver\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"reconciles\"}, \"Name\": \"DQ Run.reconciles\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"expectations_failed\"}, \"Name\": \"DQ Run.expectations_failed\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"pct_units_inferred\"}, \"Name\": \"DQ Run.pct_units_inferred\"}], \"OrderBy\": [{\"Direction\": 1, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"source\"}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"DQ Run.source\": {\"displayName\": \"Source\"}, \"DQ Run.rows_in\": {\"displayName\": \"Rows in\"}, \"DQ Run.duplicates_removed\": {\"displayName\": \"Duplicates removed\"}, \"DQ Run.rows_quarantined\": {\"displayName\": \"Quarantined\"}, \"DQ Run.rows_in_silver\": {\"displayName\": \"Rows in silver\"}, \"DQ Run.reconciles\": {\"displayName\": \"Reconciles\"}, \"DQ Run.expectations_failed\": {\"displayName\": \"Expectations failed\"}, \"DQ Run.pct_units_inferred\": {\"displayName\": \"% units inferred\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Latest run by source'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops000000000028\", \"expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"DQ Run\"}}, \"Property\": \"run_recency\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"DQ Run\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"run_recency\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 8,
+          "y": 408,
+          "z": 0,
+          "width": 1264,
+          "height": 304,
+          "config": "{\"name\": \"gridops00000000002b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 408, \"z\": 0, \"width\": 1264, \"height\": 304}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"DQ Run.created_at\"}], \"Y\": [{\"queryRef\": \"Sum(DQ Run.rows_quarantined)\"}], \"Series\": [{\"queryRef\": \"DQ Run.source\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"DQ Run\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"created_at\"}, \"Name\": \"DQ Run.created_at\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"rows_quarantined\"}}, \"Function\": 0}, \"Name\": \"Sum(DQ Run.rows_quarantined)\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"source\"}, \"Name\": \"DQ Run.source\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"DQ Run.created_at\": {\"displayName\": \"Run\"}, \"DQ Run.source\": {\"displayName\": \"Source\"}, \"Sum(DQ Run.rows_quarantined)\": {\"displayName\": \"Quarantined rows\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Quarantined rows \\u2014 last 12 runs'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops00000000002a\", \"expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"DQ Run\"}}, \"Property\": \"run_recency\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"t\", \"Entity\": \"DQ Run\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 4, \"Left\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"t\"}}, \"Property\": \"run_recency\"}}, \"Right\": {\"Literal\": {\"Value\": \"12L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        }
+      ],
+      "config": "{}",
+      "displayOption": 1,
+      "width": 1280.0,
+      "height": 720.0
+    },
+    {
+      "name": "ReportSection00a110cc",
+      "displayName": "Player",
+      "filters": "[]",
+      "ordinal": 4,
+      "visualContainers": [
+        {
+          "x": 8,
+          "y": 8,
+          "z": 0,
+          "width": 200,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000002c\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 8, \"z\": 0, \"width\": 200, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Selected Player\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Selected Player\"}, \"Name\": \"Measures.Selected Player\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 216,
+          "y": 8,
+          "z": 0,
+          "width": 100,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000002d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 216, \"y\": 8, \"z\": 0, \"width\": 100, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Flag (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Flag (as-of)\"}, \"Name\": \"Measures.Flag (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 324,
+          "y": 8,
+          "z": 0,
+          "width": 120,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000002e\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 324, \"y\": 8, \"z\": 0, \"width\": 120, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Availability (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Availability (as-of)\"}, \"Name\": \"Measures.Availability (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 452,
+          "y": 8,
+          "z": 0,
+          "width": 120,
+          "height": 84,
+          "config": "{\"name\": \"gridops00000000002f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 452, \"y\": 8, \"z\": 0, \"width\": 120, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Game Status (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Game Status (as-of)\"}, \"Name\": \"Measures.Game Status (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 580,
+          "y": 8,
+          "z": 0,
+          "width": 100,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000030\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 580, \"y\": 8, \"z\": 0, \"width\": 100, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Readiness (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Readiness (as-of)\"}, \"Name\": \"Measures.Readiness (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 688,
+          "y": 8,
+          "z": 0,
+          "width": 90,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000031\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 688, \"y\": 8, \"z\": 0, \"width\": 90, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.ACWR\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"ACWR\"}, \"Name\": \"Measures.ACWR\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 786,
+          "y": 8,
+          "z": 0,
+          "width": 100,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000032\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 786, \"y\": 8, \"z\": 0, \"width\": 100, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.ACWR Band (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"ACWR Band (as-of)\"}, \"Name\": \"Measures.ACWR Band (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 894,
+          "y": 8,
+          "z": 0,
+          "width": 90,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000033\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 894, \"y\": 8, \"z\": 0, \"width\": 90, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Weight (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Weight (as-of)\"}, \"Name\": \"Measures.Weight (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 992,
+          "y": 8,
+          "z": 0,
+          "width": 180,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000034\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 992, \"y\": 8, \"z\": 0, \"width\": 180, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"card\", \"projections\": {\"Values\": [{\"queryRef\": \"Measures.Flag Reasons (as-of)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Select\": [{\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"Flag Reasons (as-of)\"}, \"Name\": \"Measures.Flag Reasons (as-of)\"}]}, \"drillFilterOtherVisuals\": true}}"
+        },
+        {
+          "x": 1180,
+          "y": 8,
+          "z": 0,
+          "width": 92,
+          "height": 84,
+          "config": "{\"name\": \"gridops000000000035\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 1180, \"y\": 8, \"z\": 0, \"width\": 92, \"height\": 84}}], \"singleVisual\": {\"visualType\": \"slicer\", \"projections\": {\"Values\": [{\"queryRef\": \"Window.Window\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"w\", \"Entity\": \"Window\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"w\"}}, \"Property\": \"Window\"}, \"Name\": \"Window.Window\"}]}, \"drillFilterOtherVisuals\": true, \"objects\": {\"data\": [{\"properties\": {\"mode\": {\"expr\": {\"Literal\": {\"Value\": \"'Dropdown'\"}}}}}]}}}"
+        },
+        {
+          "x": 8,
+          "y": 100,
+          "z": 0,
+          "width": 420,
+          "height": 300,
+          "config": "{\"name\": \"gridops000000000037\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 100, \"z\": 0, \"width\": 420, \"height\": 300}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Date.date_day\"}], \"Y\": [{\"queryRef\": \"Avg(Player Day.acwr_coupled)\"}, {\"queryRef\": \"Avg(Player Day.acwr_ewma)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Date\", \"Type\": 0}, {\"Name\": \"p\", \"Entity\": \"Player Day\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"date_day\"}, \"Name\": \"Date.date_day\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"acwr_coupled\"}}, \"Function\": 1}, \"Name\": \"Avg(Player Day.acwr_coupled)\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"acwr_ewma\"}}, \"Function\": 1}, \"Name\": \"Avg(Player Day.acwr_ewma)\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Date.date_day\": {\"displayName\": \"Day\"}, \"Avg(Player Day.acwr_coupled)\": {\"displayName\": \"ACWR\"}, \"Avg(Player Day.acwr_ewma)\": {\"displayName\": \"ACWR (EWMA)\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'ACWR \\u2014 coupled and EWMA'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops000000000036\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"In Window\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"In Window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 436,
+          "y": 100,
+          "z": 0,
+          "width": 420,
+          "height": 300,
+          "config": "{\"name\": \"gridops000000000039\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 436, \"y\": 100, \"z\": 0, \"width\": 420, \"height\": 300}}], \"singleVisual\": {\"visualType\": \"columnChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Date.date_day\"}], \"Y\": [{\"queryRef\": \"Sum(Player Day.external_load)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Date\", \"Type\": 0}, {\"Name\": \"p\", \"Entity\": \"Player Day\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"date_day\"}, \"Name\": \"Date.date_day\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"external_load\"}}, \"Function\": 0}, \"Name\": \"Sum(Player Day.external_load)\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Date.date_day\": {\"displayName\": \"Day\"}, \"Sum(Player Day.external_load)\": {\"displayName\": \"External load\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'External load by day'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops000000000038\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"In Window\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"In Window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 864,
+          "y": 100,
+          "z": 0,
+          "width": 408,
+          "height": 300,
+          "config": "{\"name\": \"gridops00000000003b\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 864, \"y\": 100, \"z\": 0, \"width\": 408, \"height\": 300}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Date.date_day\"}], \"Y\": [{\"queryRef\": \"Avg(Player Day.readiness_score)\"}, {\"queryRef\": \"Avg(Player Day.readiness_28d_mean)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Date\", \"Type\": 0}, {\"Name\": \"p\", \"Entity\": \"Player Day\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"date_day\"}, \"Name\": \"Date.date_day\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"readiness_score\"}}, \"Function\": 1}, \"Name\": \"Avg(Player Day.readiness_score)\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"readiness_28d_mean\"}}, \"Function\": 1}, \"Name\": \"Avg(Player Day.readiness_28d_mean)\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Date.date_day\": {\"displayName\": \"Day\"}, \"Avg(Player Day.readiness_score)\": {\"displayName\": \"Readiness\"}, \"Avg(Player Day.readiness_28d_mean)\": {\"displayName\": \"28d mean\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Readiness vs own 28-day mean'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops00000000003a\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"In Window\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"In Window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 8,
+          "y": 408,
+          "z": 0,
+          "width": 420,
+          "height": 304,
+          "config": "{\"name\": \"gridops00000000003d\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 8, \"y\": 408, \"z\": 0, \"width\": 420, \"height\": 304}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Date.date_day\"}], \"Y\": [{\"queryRef\": \"Avg(Force Plate Test.asymmetry_pct)\"}, {\"queryRef\": \"Avg(Force Plate Test.asymmetry_4w_avg)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Date\", \"Type\": 0}, {\"Name\": \"f\", \"Entity\": \"Force Plate Test\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"date_day\"}, \"Name\": \"Date.date_day\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"asymmetry_pct\"}}, \"Function\": 1}, \"Name\": \"Avg(Force Plate Test.asymmetry_pct)\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"f\"}}, \"Property\": \"asymmetry_4w_avg\"}}, \"Function\": 1}, \"Name\": \"Avg(Force Plate Test.asymmetry_4w_avg)\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Date.date_day\": {\"displayName\": \"Day\"}, \"Avg(Force Plate Test.asymmetry_pct)\": {\"displayName\": \"Asymmetry %\"}, \"Avg(Force Plate Test.asymmetry_4w_avg)\": {\"displayName\": \"4-week avg\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Force-plate asymmetry % (tests and 4-week avg)'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops00000000003c\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"In Window\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"In Window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 436,
+          "y": 408,
+          "z": 0,
+          "width": 420,
+          "height": 304,
+          "config": "{\"name\": \"gridops00000000003f\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 436, \"y\": 408, \"z\": 0, \"width\": 420, \"height\": 304}}], \"singleVisual\": {\"visualType\": \"lineChart\", \"projections\": {\"Category\": [{\"queryRef\": \"Date.date_day\"}], \"Y\": [{\"queryRef\": \"Avg(Player Day.weight_kg)\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"d\", \"Entity\": \"Date\", \"Type\": 0}, {\"Name\": \"p\", \"Entity\": \"Player Day\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"d\"}}, \"Property\": \"date_day\"}, \"Name\": \"Date.date_day\"}, {\"Aggregation\": {\"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"p\"}}, \"Property\": \"weight_kg\"}}, \"Function\": 1}, \"Name\": \"Avg(Player Day.weight_kg)\"}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Date.date_day\": {\"displayName\": \"Day\"}, \"Avg(Player Day.weight_kg)\": {\"displayName\": \"Weight (kg)\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Weight (kg)'\"}}}}}]}}}",
+          "filters": "[{\"name\": \"gridops00000000003e\", \"expression\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Entity\": \"Measures\"}}, \"Property\": \"In Window\"}}, \"filter\": {\"Version\": 2, \"From\": [{\"Name\": \"m\", \"Entity\": \"Measures\", \"Type\": 0}], \"Where\": [{\"Condition\": {\"Comparison\": {\"ComparisonKind\": 0, \"Left\": {\"Measure\": {\"Expression\": {\"SourceRef\": {\"Source\": \"m\"}}, \"Property\": \"In Window\"}}, \"Right\": {\"Literal\": {\"Value\": \"1L\"}}}}}]}, \"type\": \"Advanced\", \"howCreated\": 1}]"
+        },
+        {
+          "x": 864,
+          "y": 408,
+          "z": 0,
+          "width": 408,
+          "height": 304,
+          "config": "{\"name\": \"gridops000000000040\", \"layouts\": [{\"id\": 0, \"position\": {\"x\": 864, \"y\": 408, \"z\": 0, \"width\": 408, \"height\": 304}}], \"singleVisual\": {\"visualType\": \"tableEx\", \"projections\": {\"Values\": [{\"queryRef\": \"Injury.body_part\"}, {\"queryRef\": \"Injury.side\"}, {\"queryRef\": \"Injury.severity\"}, {\"queryRef\": \"Injury.event_date\"}, {\"queryRef\": \"Injury.return_date\"}, {\"queryRef\": \"Injury.days_out\"}, {\"queryRef\": \"Injury.expected_rtp\"}]}, \"prototypeQuery\": {\"Version\": 2, \"From\": [{\"Name\": \"i\", \"Entity\": \"Injury\", \"Type\": 0}], \"Select\": [{\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"body_part\"}, \"Name\": \"Injury.body_part\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"side\"}, \"Name\": \"Injury.side\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"severity\"}, \"Name\": \"Injury.severity\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"event_date\"}, \"Name\": \"Injury.event_date\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"return_date\"}, \"Name\": \"Injury.return_date\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"days_out\"}, \"Name\": \"Injury.days_out\"}, {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"expected_rtp\"}, \"Name\": \"Injury.expected_rtp\"}], \"OrderBy\": [{\"Direction\": 2, \"Expression\": {\"Column\": {\"Expression\": {\"SourceRef\": {\"Source\": \"i\"}}, \"Property\": \"event_date\"}}}]}, \"drillFilterOtherVisuals\": true, \"columnProperties\": {\"Injury.body_part\": {\"displayName\": \"Body part\"}, \"Injury.side\": {\"displayName\": \"Side\"}, \"Injury.severity\": {\"displayName\": \"Severity\"}, \"Injury.event_date\": {\"displayName\": \"Event\"}, \"Injury.return_date\": {\"displayName\": \"Returned\"}, \"Injury.days_out\": {\"displayName\": \"Days out\"}, \"Injury.expected_rtp\": {\"displayName\": \"Expected RTP\"}}, \"vcObjects\": {\"title\": [{\"properties\": {\"show\": {\"expr\": {\"Literal\": {\"Value\": \"true\"}}}, \"text\": {\"expr\": {\"Literal\": {\"Value\": \"'Injury history'\"}}}}}]}}}"
+        }
+      ],
+      "config": "{\"visibility\": 1}",
+      "displayOption": 1,
+      "width": 1280.0,
+      "height": 720.0
+    }
+  ],
+  "publicCustomVisuals": []
+}

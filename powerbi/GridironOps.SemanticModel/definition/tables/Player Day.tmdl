@@ -1,0 +1,252 @@
+/// gold.fact_player_day — one row per tracked player per simulated day.
+/// Every as-of number on Today, Load and Player. The Flag is computed in dbt.
+table 'Player Day'
+
+	column player_day_sk
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: player_day_sk
+
+	column player_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: player_sk
+
+	column date_day
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: date_day
+
+	column season_week
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: season_week
+
+	column day_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: day_type
+
+	column sessions
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: sessions
+
+	column external_load
+		dataType: double
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: external_load
+
+	column internal_load
+		dataType: int64
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: internal_load
+
+	column load_7d
+		dataType: double
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: load_7d
+
+	column load_28d_avg_week
+		dataType: double
+		formatString: #,0
+		summarizeBy: sum
+		sourceColumn: load_28d_avg_week
+
+	column acwr_coupled
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: acwr_coupled
+
+	column acwr_ewma
+		dataType: double
+		formatString: 0.00
+		summarizeBy: average
+		sourceColumn: acwr_ewma
+
+	column acwr_band
+		dataType: string
+		summarizeBy: none
+		sourceColumn: acwr_band
+
+	column history_days
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: history_days
+
+	column readiness_score
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: readiness_score
+
+	column readiness_28d_mean
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: readiness_28d_mean
+
+	column readiness_delta
+		dataType: double
+		formatString: +0.0;-0.0;0.0
+		summarizeBy: average
+		sourceColumn: readiness_delta
+
+	column soreness
+		dataType: double
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: soreness
+
+	column fatigue
+		dataType: double
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: fatigue
+
+	column sleep_hours
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: sleep_hours
+
+	column stress
+		dataType: double
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: stress
+
+	column mood
+		dataType: double
+		formatString: 0
+		summarizeBy: average
+		sourceColumn: mood
+
+	column last_survey_date
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: last_survey_date
+
+	column days_since_survey
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: days_since_survey
+
+	column is_silent
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_silent
+
+	column last_test_date
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: last_test_date
+
+	column asymmetry_4w_avg
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: asymmetry_4w_avg
+
+	column jump_height_4w_max
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: jump_height_4w_max
+
+	column last_weigh_in
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: last_weigh_in
+
+	column weight_kg
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: weight_kg
+
+	column body_fat_pct
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: body_fat_pct
+
+	column open_injuries
+		dataType: int64
+		formatString: 0
+		summarizeBy: sum
+		sourceColumn: open_injuries
+
+	column practice_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: practice_status
+
+	column availability
+		dataType: string
+		summarizeBy: none
+		sourceColumn: availability
+
+	column game_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: game_status
+
+	column open_injury_body_parts
+		dataType: string
+		summarizeBy: none
+		sourceColumn: open_injury_body_parts
+
+	column expected_return
+		dataType: dateTime
+		formatString: d mmm
+		summarizeBy: none
+		sourceColumn: expected_return
+
+	column days_since_injury
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: days_since_injury
+
+	column flag
+		dataType: string
+		summarizeBy: none
+		sourceColumn: flag
+
+	column flag_rank
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: flag_rank
+
+	column flag_reasons
+		dataType: string
+		summarizeBy: none
+		sourceColumn: flag_reasons
+
+	partition 'Player Day' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_fact_player_day = Source{[Schema="gold",Item="fact_player_day"]}[Data]
+				in
+					gold_fact_player_day

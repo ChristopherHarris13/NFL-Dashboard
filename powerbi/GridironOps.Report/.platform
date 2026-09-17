@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "GridironOps"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "1424f373-e592-4c1d-80d0-d88a7f180426"
+  }
+}

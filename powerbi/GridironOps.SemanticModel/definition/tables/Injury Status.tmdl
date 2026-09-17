@@ -1,0 +1,69 @@
+/// gold.fact_injury_status — practice / game status per open injury per day.
+/// Reaches Player through Injury; no direct relationship to Player (ambiguity).
+table 'Injury Status'
+
+	column injury_status_sk
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: injury_status_sk
+
+	column injury_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: injury_id
+
+	column player_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: player_sk
+
+	column date_day
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: date_day
+
+	column season_week
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: season_week
+
+	column day_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: day_type
+
+	column counts_for_availability
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: counts_for_availability
+
+	column practice_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: practice_status
+
+	column game_status
+		dataType: string
+		summarizeBy: none
+		sourceColumn: game_status
+
+	column is_unavailable
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_unavailable
+
+	partition 'Injury Status' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_fact_injury_status = Source{[Schema="gold",Item="fact_injury_status"]}[Data],
+					Typed = Table.TransformColumnTypes(gold_fact_injury_status, {{"injury_id", type text}})
+				in
+					Typed

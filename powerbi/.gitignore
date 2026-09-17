@@ -1,0 +1,4 @@
+# Power BI Desktop local state (caches, unsaved-changes journal) — not source
+**/.pbi/localSettings.json
+**/.pbi/cache.abf
+**/.pbi/unappliedChanges.json

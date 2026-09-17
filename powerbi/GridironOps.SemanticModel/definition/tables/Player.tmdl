@@ -1,0 +1,97 @@
+/// gold.dim_player_current — the current version of every player, one row each.
+table Player
+
+	column player_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: player_sk
+
+	column gsis_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: gsis_id
+
+	column nfl_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: nfl_id
+
+	column espn_id
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: espn_id
+
+	column pfr_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: pfr_id
+
+	column full_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: full_name
+
+	column first_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: first_name
+
+	column last_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: last_name
+
+	column football_name
+		dataType: string
+		summarizeBy: none
+		sourceColumn: football_name
+
+	column team
+		dataType: string
+		summarizeBy: none
+		sourceColumn: team
+
+	column position
+		dataType: string
+		summarizeBy: none
+		sourceColumn: position
+
+	column roster_weight_lbs
+		dataType: double
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: roster_weight_lbs
+
+	column roster_height_in
+		dataType: double
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: roster_height_in
+
+	column on_roster
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: on_roster
+
+	column valid_from
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: valid_from
+
+	partition Player = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_dim_player_current = Source{[Schema="gold",Item="dim_player_current"]}[Data]
+				in
+					gold_dim_player_current

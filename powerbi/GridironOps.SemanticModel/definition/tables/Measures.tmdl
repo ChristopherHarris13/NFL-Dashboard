@@ -1,0 +1,112 @@
+/// Home for every measure. The one data column is hidden; only measures show.
+table Measures
+
+	measure 'Latest Data Day' = CALCULATE ( MAX ( 'Player Day'[date_day] ), REMOVEFILTERS () )
+		formatString: d mmm yyyy
+
+	measure 'As-of' = [Latest Data Day] - SELECTEDVALUE ( AsOf[Days back], 0 )
+		formatString: d mmm yyyy
+
+	measure 'As-of Label' = FORMAT ( [As-of], "ddd d mmm yyyy" )
+
+	measure 'Window Days' = SELECTEDVALUE ( Window[Days], 28 )
+		formatString: 0
+
+	/// 1 on the as-of day, else 0. Visual-level filter (= 1) on every table/card built from Player Day.
+	measure 'Is As-of' = IF ( MAX ( 'Player Day'[date_day] ) = [As-of], 1, 0 )
+		formatString: 0
+
+	/// Same, for visuals built from Injury Status.
+	measure 'Is As-of (Injury)' = IF ( MAX ( 'Injury Status'[date_day] ) = [As-of], 1, 0 )
+		formatString: 0
+
+	/// 1 inside the trailing window ending on the as-of day. Visual-level filter on
+	/// Player-page charts, whose axis must be Date[date_day].
+	measure 'In Window' = VAR d = [As-of] RETURN IF ( MAX ( 'Date'[date_day] ) > d - [Window Days] && MAX ( 'Date'[date_day] ) <= d, 1, 0 )
+		formatString: 0
+
+	measure Players = VAR d = [As-of] RETURN CALCULATE ( DISTINCTCOUNT ( 'Player Day'[player_sk] ), 'Player Day'[date_day] = d )
+		formatString: 0
+
+	measure Red = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "red" )
+		formatString: 0
+
+	measure Amber = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "amber" )
+		formatString: 0
+
+	measure Green = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "green" )
+		formatString: 0
+
+	measure Out = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Out" )
+		formatString: 0
+
+	measure Limited = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Limited" )
+		formatString: 0
+
+	measure Silent = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[is_silent] = TRUE () )
+		formatString: 0
+
+	measure 'Open Injuries' = VAR d = [As-of] RETURN CALCULATE ( DISTINCTCOUNT ( 'Injury Status'[injury_id] ), 'Injury Status'[date_day] = d )
+		formatString: 0
+
+	measure 'Load 7d' = VAR d = [As-of] RETURN CALCULATE ( SUM ( 'Player Day'[load_7d] ), 'Player Day'[date_day] = d )
+		formatString: #,0
+
+	measure 'Load Norm' = VAR d = [As-of] RETURN CALCULATE ( SUM ( 'Player Day'[load_28d_avg_week] ), 'Player Day'[date_day] = d )
+		formatString: #,0
+
+	measure 'Load vs Norm %' = DIVIDE ( [Load 7d] - [Load Norm], [Load Norm] )
+		formatString: +0.0%;-0.0%;0.0%
+
+	measure ACWR = VAR d = [As-of] RETURN CALCULATE ( AVERAGE ( 'Player Day'[acwr_coupled] ), 'Player Day'[date_day] = d )
+		formatString: 0.00
+
+	measure 'Last Run' = CALCULATE ( MAX ( 'DQ Run'[created_at] ), 'DQ Run'[run_recency] = 1 )
+		formatString: d mmm yyyy hh:nn
+
+	measure 'Rows In' = CALCULATE ( SUM ( 'DQ Run'[rows_in] ), 'DQ Run'[run_recency] = 1 )
+		formatString: #,0
+
+	measure 'Rows In Silver' = CALCULATE ( SUM ( 'DQ Run'[rows_in_silver] ), 'DQ Run'[run_recency] = 1 )
+		formatString: #,0
+
+	measure 'Quarantined %' = DIVIDE ( CALCULATE ( SUM ( 'DQ Run'[rows_quarantined] ), 'DQ Run'[run_recency] = 1 ), [Rows In] )
+		formatString: 0.00%
+
+	measure Reconciles = IF ( CALCULATE ( COUNTROWS ( 'DQ Run' ), 'DQ Run'[run_recency] = 1, 'DQ Run'[reconciles] = FALSE () ) = 0, "All sources reconcile", "RECONCILIATION FAILED" )
+
+	measure Expectations = CALCULATE ( SUM ( 'DQ Run'[expectations_run] ) - SUM ( 'DQ Run'[expectations_failed] ), 'DQ Run'[run_recency] = 1 ) & " / " & CALCULATE ( SUM ( 'DQ Run'[expectations_run] ), 'DQ Run'[run_recency] = 1 )
+
+	/// Player drill-through page header values (the as-of row as measures).
+	measure 'Selected Player' = SELECTEDVALUE ( Player[full_name] )
+
+	measure 'Selected Pos' = SELECTEDVALUE ( Player[position] )
+
+	measure 'Selected Team' = SELECTEDVALUE ( Player[team] )
+
+	measure 'Flag (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag] ), 'Player Day'[date_day] = d )
+
+	measure 'Availability (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[availability] ), 'Player Day'[date_day] = d )
+
+	measure 'Game Status (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[game_status] ), 'Player Day'[date_day] = d )
+
+	measure 'Readiness (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[readiness_score] ), 'Player Day'[date_day] = d )
+		formatString: 0.0
+
+	measure 'ACWR Band (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[acwr_band] ), 'Player Day'[date_day] = d )
+
+	measure 'Weight (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[weight_kg] ), 'Player Day'[date_day] = d )
+		formatString: 0.0
+
+	measure 'Flag Reasons (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag_reasons] ), 'Player Day'[date_day] = d )
+
+	column Column1
+		dataType: string
+		isHidden
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Column1]
+
+	partition Measures = calculated
+		mode: import
+		source = ROW ( "Column1", "" )

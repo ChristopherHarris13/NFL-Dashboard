@@ -1,0 +1,109 @@
+/// gold.fact_strength — one row per force-plate test, with the rolling
+/// 4-week asymmetry view.
+table 'Force Plate Test'
+
+	column strength_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: strength_sk
+
+	column test_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: test_id
+
+	column player_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: player_sk
+
+	column test_ts
+		dataType: dateTime
+		formatString: d mmm yyyy hh:nn
+		summarizeBy: none
+		sourceColumn: test_ts
+
+	column test_date
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: test_date
+
+	column test_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: test_type
+
+	column rep
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: rep
+
+	column jump_height_cm
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: jump_height_cm
+
+	column peak_force_n
+		dataType: double
+		formatString: #,0
+		summarizeBy: average
+		sourceColumn: peak_force_n
+
+	column force_unit_inferred
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: force_unit_inferred
+
+	column rfd
+		dataType: double
+		formatString: #,0
+		summarizeBy: average
+		sourceColumn: rfd
+
+	column asymmetry_pct
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: asymmetry_pct
+
+	column device_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: device_id
+
+	column asymmetry_4w_avg
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: asymmetry_4w_avg
+
+	column asymmetry_trend
+		dataType: double
+		formatString: +0.0;-0.0;0.0
+		summarizeBy: average
+		sourceColumn: asymmetry_trend
+
+	column jump_height_4w_max
+		dataType: double
+		formatString: 0.0
+		summarizeBy: average
+		sourceColumn: jump_height_4w_max
+
+	partition 'Force Plate Test' = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_fact_strength = Source{[Schema="gold",Item="fact_strength"]}[Data],
+					Typed = Table.TransformColumnTypes(gold_fact_strength, {{"test_id", type text}, {"test_ts", type datetime}})
+				in
+					Typed

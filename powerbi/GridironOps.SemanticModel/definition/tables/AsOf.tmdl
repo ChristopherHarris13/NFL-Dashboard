@@ -1,0 +1,13 @@
+/// Disconnected as-of control: 0 = latest simulated day, N = N days back.
+table AsOf
+
+	column 'Days back'
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Days back]
+
+	partition AsOf = calculated
+		mode: import
+		source = SELECTCOLUMNS ( GENERATESERIES ( 0, 60, 1 ), "Days back", [Value] )

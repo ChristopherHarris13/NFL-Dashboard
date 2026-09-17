@@ -1,0 +1,115 @@
+/// gold.fact_injury — one row per injury. qc_flags (array) is dropped in M.
+table Injury
+
+	column injury_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: injury_sk
+
+	column injury_id
+		dataType: string
+		isHidden
+		summarizeBy: none
+		sourceColumn: injury_id
+
+	column player_sk
+		dataType: int64
+		formatString: 0
+		isHidden
+		summarizeBy: none
+		sourceColumn: player_sk
+
+	column team
+		dataType: string
+		summarizeBy: none
+		sourceColumn: team
+
+	column event_ts
+		dataType: dateTime
+		formatString: d mmm yyyy hh:nn
+		summarizeBy: none
+		sourceColumn: event_ts
+
+	column event_date
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: event_date
+
+	column opened_at
+		dataType: dateTime
+		formatString: d mmm yyyy hh:nn
+		summarizeBy: none
+		sourceColumn: opened_at
+
+	column body_part
+		dataType: string
+		summarizeBy: none
+		sourceColumn: body_part
+
+	column body_region
+		dataType: string
+		summarizeBy: none
+		sourceColumn: body_region
+
+	column side
+		dataType: string
+		summarizeBy: none
+		sourceColumn: side
+
+	column body_part_raw
+		dataType: string
+		summarizeBy: none
+		sourceColumn: body_part_raw
+
+	column injury_type
+		dataType: string
+		summarizeBy: none
+		sourceColumn: injury_type
+
+	column severity
+		dataType: string
+		summarizeBy: none
+		sourceColumn: severity
+
+	column expected_rtp
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: expected_rtp
+
+	column return_date
+		dataType: dateTime
+		formatString: d mmm yyyy
+		summarizeBy: none
+		sourceColumn: return_date
+
+	column is_open
+		dataType: boolean
+		summarizeBy: none
+		sourceColumn: is_open
+
+	column days_out
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: days_out
+
+	column status_updates
+		dataType: int64
+		formatString: 0
+		summarizeBy: none
+		sourceColumn: status_updates
+
+	partition Injury = m
+		mode: import
+		source =
+				let
+					Source = PostgreSQL.Database("localhost:5432", "warehouse"),
+					gold_fact_injury = Source{[Schema="gold",Item="fact_injury"]}[Data],
+					NoArrays = Table.RemoveColumns(gold_fact_injury, {"qc_flags"}),
+					Typed = Table.TransformColumnTypes(NoArrays, {{"injury_id", type text}, {"event_ts", type datetime}, {"opened_at", type datetime}})
+				in
+					Typed
