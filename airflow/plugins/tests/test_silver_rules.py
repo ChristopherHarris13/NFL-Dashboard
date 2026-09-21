@@ -10,7 +10,6 @@ from silver.catapult import normalise_distance, normalise_speed
 from silver.common import parse_facility_local
 from silver.emr import parse_body_part
 from silver.forcedeck import normalise_force
-from silver.nutrition import infer_weight_unit
 from silver.wellness import rescale, shape_of
 
 
@@ -26,22 +25,6 @@ from silver.wellness import rescale, shape_of
 def test_force_normalisation(value, unit, expected_n, inferred):
     n, inf = normalise_force(value, unit)
     assert n == pytest.approx(expected_n, abs=0.1) and inf is inferred
-
-
-# ------------------------------------------------------------- nutrition
-
-@pytest.mark.parametrize("value,label,lean,roster,expected", [
-    (95.0, "kg", None, None, ("kg", "label")),          # honest kg label
-    (95.0, "lb", None, None, ("kg", "magnitude")),      # stale lb label on a kg value
-    (310.0, None, None, None, ("lb", "magnitude")),     # no label, only lb is possible
-    (136.0, "lb", 250.0, None, ("kg", "lean_mass")),    # 136 'lb' below 250 lb lean mass -> kg
-    (150.0, "lb", None, 330.0, ("kg", "roster")),       # 150 kg ~ 330 lb roster
-    (150.0, "lb", None, 155.0, ("lb", "roster")),       # 150 lb ~ 155 lb roster
-    (150.0, "lb", None, None, ("lb", "label")),         # nothing else to go on
-    (150.0, None, None, None, ("lb", "default")),
-])
-def test_weight_unit_inference(value, label, lean, roster, expected):
-    assert infer_weight_unit(value, label, lean, roster) == expected
 
 
 # -------------------------------------------------------------- wellness

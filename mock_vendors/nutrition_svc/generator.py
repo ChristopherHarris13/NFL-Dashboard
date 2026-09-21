@@ -3,7 +3,8 @@
 Identity: NAME ONLY, heavily mangled on purpose (AJ vs A.J., nicknames,
 Jr./III appearing and vanishing, occasional Last-First). Timestamps:
 date only, MM/DD/YYYY. Weekly Wednesday weigh-ins, monthly DEXA, irregular
-BIA 1-2x/month.
+BIA 1-2x/month. Weights are ALWAYS measured in lb; only the unit label
+gets mangled (says 'kg' or goes missing), never the value.
 """
 
 from __future__ import annotations
@@ -144,12 +145,11 @@ class NutritionGenerator:
             elif record["body_fat_pct"] is not None:
                 record["body_fat_pct"] = 1.5
 
-        wt_val, wt_label = dirt.swap_unit(
-            record["weight"], "lb", "kg",
-            self.dirt.p(SERVICE, "unit_swap_weight"), rng,
+        wt_label = dirt.mislabel_unit(
+            "lb", "kg",
+            self.dirt.p(SERVICE, "weight_unit_mislabel"), rng,
             wrong_label_p=0.30, omit_label_p=0.40,
         )
-        record["weight"] = wt_val
         dirt.put_unit(record, "weight_unit", wt_label)
 
         if rng.random() < self.dirt.p(SERVICE, "lean_mass_ambiguity"):

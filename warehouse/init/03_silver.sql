@@ -21,7 +21,7 @@ CREATE TABLE IF NOT EXISTS silver.dim_player_master (
     football_name text,              -- what the player goes by ("Joshua", "Hollywood")
     team         text,
     position     text,
-    weight_lbs   numeric,            -- roster weight; nutrition uses it to infer lb vs kg
+    weight_lbs   numeric,            -- roster weight
     height_in    numeric,
     valid_from   timestamptz NOT NULL DEFAULT now(),
     valid_to     timestamptz,        -- set when the player drops off the roster snapshot
@@ -91,13 +91,11 @@ CREATE TABLE IF NOT EXISTS silver.nutrition_measurements (
     team                  text,
     measured_on           date NOT NULL,
     method                text NOT NULL,
-    weight_kg             numeric,
-    weight_raw            numeric NOT NULL,
-    weight_unit_raw       text,
-    weight_unit_inferred  boolean NOT NULL,
-    weight_unit_evidence  text,          -- 'label' | 'magnitude' | 'lean_mass' | 'roster' | 'default'
+    weight_lbs            numeric NOT NULL,
+    weight_unit_raw       text,          -- vendor label; ignored — values are always lb even when this says 'kg'
+    weight_mislabeled     boolean NOT NULL,
     body_fat_pct          numeric,
-    lean_mass_kg          numeric,
+    lean_mass_lbs         numeric,
     lean_mass_raw         numeric,
     lean_mass_was_pct     boolean NOT NULL,
     hydration_status      text,

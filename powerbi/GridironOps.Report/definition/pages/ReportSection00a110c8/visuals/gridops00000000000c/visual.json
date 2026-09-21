@@ -1,0 +1,324 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "gridops00000000000c",
+  "position": {
+    "x": 8,
+    "y": 100,
+    "z": 10000,
+    "height": 612,
+    "width": 1264
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "flag_rank"
+                }
+              },
+              "queryRef": "Player Day.flag_rank",
+              "displayName": "#"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "flag"
+                }
+              },
+              "queryRef": "Player Day.flag",
+              "displayName": "Flag"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player"
+                    }
+                  },
+                  "Property": "full_name"
+                }
+              },
+              "queryRef": "Player.full_name",
+              "displayName": "Player"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player"
+                    }
+                  },
+                  "Property": "position"
+                }
+              },
+              "queryRef": "Player.position",
+              "displayName": "Pos"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "availability"
+                }
+              },
+              "queryRef": "Player Day.availability",
+              "displayName": "Availability"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "game_status"
+                }
+              },
+              "queryRef": "Player Day.game_status",
+              "displayName": "Game"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "readiness_score"
+                }
+              },
+              "queryRef": "Player Day.readiness_score",
+              "displayName": "Readiness"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "readiness_delta"
+                }
+              },
+              "queryRef": "Player Day.readiness_delta",
+              "displayName": "Δ vs 28d"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "acwr_coupled"
+                }
+              },
+              "queryRef": "Player Day.acwr_coupled",
+              "displayName": "ACWR"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "load_7d"
+                }
+              },
+              "queryRef": "Player Day.load_7d",
+              "displayName": "7-day load"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "days_since_survey"
+                }
+              },
+              "queryRef": "Player Day.days_since_survey",
+              "displayName": "Days since survey"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "open_injury_body_parts"
+                }
+              },
+              "queryRef": "Player Day.open_injury_body_parts",
+              "displayName": "Open injury"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "expected_return"
+                }
+              },
+              "queryRef": "Player Day.expected_return",
+              "displayName": "Expected return"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player Day"
+                    }
+                  },
+                  "Property": "flag_reasons"
+                }
+              },
+              "queryRef": "Player Day.flag_reasons",
+              "displayName": "Why"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Player Day"
+                  }
+                },
+                "Property": "flag_rank"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Player Day"
+                  }
+                },
+                "Property": "readiness_score"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Roster board — red to green'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "gridops00000000000b",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Key Measures"
+              }
+            },
+            "Property": "Is As-of"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "m",
+              "Entity": "Key Measures",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "m"
+                        }
+                      },
+                      "Property": "Is As-of"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

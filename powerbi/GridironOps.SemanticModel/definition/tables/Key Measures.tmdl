@@ -37,31 +37,31 @@ table 'Key Measures'
 		formatString: 0
 		lineageTag: 0e48115f-8304-447c-9e49-6e5c645f766f
 
-	measure Red = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "red" )
+	measure Red = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "red" ) + 0
 		formatString: 0
 		lineageTag: 2ee4e292-3ead-47c9-ba97-228ff0fedcee
 
-	measure Amber = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "amber" )
+	measure Amber = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "amber" ) + 0
 		formatString: 0
 		lineageTag: 8594dddc-1ea7-4115-bceb-2a4c9b2074f5
 
-	measure Green = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "green" )
+	measure Green = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[flag] = "green" ) + 0
 		formatString: 0
 		lineageTag: 9754012c-30fc-40ae-83ec-cd5ef254a6e2
 
-	measure Out = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Out" )
+	measure Out = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Out" ) + 0
 		formatString: 0
 		lineageTag: 536e5316-3e3e-4f24-908b-116d2e93d1fd
 
-	measure Limited = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Limited" )
+	measure Limited = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[availability] = "Limited" ) + 0
 		formatString: 0
 		lineageTag: 440763a1-50fa-4339-b9d5-07bd1b41d35a
 
-	measure Silent = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[is_silent] = TRUE () )
+	measure Silent = VAR d = [As-of] RETURN CALCULATE ( COUNTROWS ( 'Player Day' ), 'Player Day'[date_day] = d, 'Player Day'[is_silent] = TRUE () ) + 0
 		formatString: 0
 		lineageTag: ed03fe08-b6da-4079-b1c6-a57fbbdf63d4
 
-	measure 'Open Injuries' = VAR d = [As-of] RETURN CALCULATE ( DISTINCTCOUNT ( 'Injury Status'[injury_id] ), 'Injury Status'[date_day] = d )
+	measure 'Open Injuries' = VAR d = [As-of] RETURN CALCULATE ( DISTINCTCOUNT ( 'Injury Status'[injury_id] ), 'Injury Status'[date_day] = d ) + 0
 		formatString: 0
 		lineageTag: ab218967-c887-4af3-b702-c5f7d11d5269
 
@@ -113,27 +113,27 @@ table 'Key Measures'
 	measure 'Selected Team' = SELECTEDVALUE ( Player[team] )
 		lineageTag: db4ecb55-f086-4660-b57b-bb13573b1eef
 
-	measure 'Flag (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag] ), 'Player Day'[date_day] = d )
+	measure Flag = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag] ), 'Player Day'[date_day] = d )
 		lineageTag: c2386a54-c274-447a-8673-64a430336046
 
-	measure 'Availability (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[availability] ), 'Player Day'[date_day] = d )
+	measure Availability = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[availability] ), 'Player Day'[date_day] = d )
 		lineageTag: 9acb5544-6388-4ac7-bd63-78620239eca3
 
-	measure 'Game Status (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[game_status] ), 'Player Day'[date_day] = d )
+	measure 'Game Status' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[game_status] ), 'Player Day'[date_day] = d )
 		lineageTag: 609a726e-7326-4c53-b999-3d9f4c87070c
 
-	measure 'Readiness (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[readiness_score] ), 'Player Day'[date_day] = d )
+	measure Readiness = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[readiness_score] ), 'Player Day'[date_day] = d )
 		formatString: 0.0
 		lineageTag: d2c09655-61fe-4ea3-9781-0e86e013ccc6
 
-	measure 'ACWR Band (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[acwr_band] ), 'Player Day'[date_day] = d )
+	measure 'ACWR Band' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[acwr_band] ), 'Player Day'[date_day] = d )
 		lineageTag: ded84869-b1ac-444c-964d-549a7e3e8609
 
-	measure 'Weight (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[weight_kg] ), 'Player Day'[date_day] = d )
+	measure 'Weight (lb)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[weight_lbs] ), 'Player Day'[date_day] = d )
 		formatString: 0.0
 		lineageTag: feb8edd8-be5d-444e-9920-64d36c7491e4
 
-	measure 'Flag Reasons (as-of)' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag_reasons] ), 'Player Day'[date_day] = d )
+	measure 'Flag Reasons' = VAR d = [As-of] RETURN CALCULATE ( MAX ( 'Player Day'[flag_reasons] ), 'Player Day'[date_day] = d )
 		lineageTag: 3069928c-6201-497c-a510-076e0da527ec
 
 	column Column1

@@ -1,12 +1,11 @@
 -- Staging views: Bronze payloads unpacked, deduplicated (latest ingest per
 -- business key) and unit-converted, so Great Expectations validates typed
 -- columns in canonical units — the range checks are meaningless on raw JSON
--- where a weight might be lb or kg. Views, so they are always current.
+-- where a label might not match the value. Views, so they are always current.
 --
 -- These conversions are the validation surface; silver/*.py is the source of
--- truth for Silver values (its nutrition inference also uses roster weight,
--- which needs identity and isn't available here). The DQ summary asserts the
--- two agree on row counts every run.
+-- truth for Silver values. The DQ summary asserts the two agree on row
+-- counts every run.
 --
 -- Also: per-source quarantine tables and the DQ scorecard tables.
 
@@ -120,14 +119,10 @@ SELECT bronze_id,
        CASE WHEN payload->>'measured_on' ~ '^\d{2}/\d{2}/\d{4}$'
             THEN to_date(payload->>'measured_on', 'MM/DD/YYYY') END AS measured_on,
        payload->>'method'                                    AS method,
-       w                                                     AS weight_raw,
+       -- Values are always taken in lb; the vendor label is unreliable and ignored.
+       w                                                     AS weight_lbs,
        weight_unit,
-       -- Same evidence ladder as silver/nutrition.py minus the roster tiebreak.
-       CASE WHEN weight_unit = 'kg' THEN w
-            WHEN w < 130 THEN w
-            WHEN w > 200 THEN w * 0.45359237
-            WHEN lean >= 100 AND w < lean THEN w
-            ELSE w * 0.45359237 END                          AS weight_kg,
+       weight_unit = 'kg'                                    AS weight_mislabeled,
        (payload->>'body_fat_pct')::numeric                   AS body_fat_pct,
        lean                                                  AS lean_mass_raw,
        lean < 100                                            AS lean_mass_is_pct,

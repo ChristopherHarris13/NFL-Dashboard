@@ -213,12 +213,12 @@ table 'Player Day'
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column weight_kg
+	column weight_lbs
 		dataType: double
 		formatString: 0.0
 		lineageTag: 368abd1e-bd16-4e80-bb3e-a3d77ce16f00
 		summarizeBy: average
-		sourceColumn: weight_kg
+		sourceColumn: weight_lbs
 
 	column body_fat_pct
 		dataType: double

@@ -154,7 +154,7 @@ select * from silver.quarantine_identity;   -- e.g. two active players sharing a
 | Table | Dedup key | What Silver had to handle |
 |---|---|---|
 | `forcedeck_tests` | `test_id`, latest ingest wins | `peak_force` in N or lbf with the label missing ⅓ of the time → `force_unit_inferred` (<1500 is lbf); epoch → UTC; aborted reps and null test types flagged in `qc_flags`, not dropped |
-| `nutrition_measurements` | `measurement_id` | hardest names; weight in lb/kg with the label missing *or stale* → `weight_unit_evidence` ∈ label / magnitude / lean_mass (weight can't be below lean mass) / roster (closest to roster weight) / default; `lean_mass` sometimes a percent (`lean_mass_was_pct`) |
+| `nutrition_measurements` | `measurement_id` | hardest names; weight always measured in lb but the label is missing *or wrong* (`kg` on an lb value) → label ignored, value taken as lb, `weight_mislabeled` flagged; `lean_mass` sometimes a percent (`lean_mass_was_pct`) |
 | `wellness_surveys` | `survey_id`; resubmissions flagged per player-day | v1/v2 shape from the **keys** (the envelope lies about backfilled rows); Likert 1–5 → 1–10 with the scale **inferred from the day's cohort** (any answer > 5 means the 10-point scale that day) — it flips on exactly `SCALE_CHANGE_DATE` without being told; naive ET times, bogus `+00:00` corrected and flagged |
 | `emr_injuries` / `emr_status_updates` | `injury_id` / `update_id`, latest `updated_at` wins | `"Last Jr., First"` names; free-text body parts → canonical + `side` pulled from `(R)` / `L mcl` / `left …` (`side_source`); out-of-order updates ordered by event time; corrections marked `is_correction`; `stale_expected_rtp` when RTP predates the last DNP |
 | `catapult_sessions` | `session_id` | `cat_…` ids resolved via `/v1/athletes` names and pinned; speed unit by magnitude (m/s and mph don't overlap, so a stale label loses); distance trusts a `yd` label and flags a missing one — a stale `m` on a yd value is not detectable by magnitude and is left for GX to catch distributionally; late arrival is *not* computed (Bronze lacks emission time and the sim clock runs ahead of wall-clock) — `_ingested_at` is carried so Gold can compare across runs |
@@ -169,8 +169,8 @@ Gold only ever sees rows that passed. Between Bronze and Silver:
 
 1. **Staging views** (`silver.stg_<source>`) unpack the JSON, deduplicate
    (latest ingest per business key) and convert units, so range checks run
-   on typed columns in canonical units — a 250 lb weight is checked as
-   113 kg, not against a kg range.
+   on typed columns in canonical units — a body weight is checked in lb
+   regardless of what the vendor's unit label claims.
 2. **Great Expectations suites** — one per source in
    `great_expectations/expectations/*.json`, 7–12 expectations each, mapped
    to the injected dirt (aborted reps, null test types, impossible
@@ -297,13 +297,13 @@ preferred weight, availability, new and open injuries with practice status,
 EPA and snaps. A player's slice reads like a season log:
 
 ```
- wk | full_name  | load_wk |  acwr | band     | ready | weight_kg | avail | inj | body_part | status | epa
-  3 | Joe Burrow |  1409.1 |       |          |  6.10 |      96.3 | 1.000 |   0 |           | FP     |
-  4 | Joe Burrow |  2720.3 | 1.243 | sweet    |  6.78 |     97.25 | 0.750 |   1 | hamstring | DNP    |
-  5 | Joe Burrow |  3408.5 | 1.364 | elevated |  5.61 |           | 0.000 |   0 |           | DNP    |
-  6 | Joe Burrow |  2745.7 | 1.068 | sweet    |  6.45 |      99.4 | 0.500 |   0 |           | LP     |
-  7 | Joe Burrow |  2736.3 | 0.943 | sweet    |  6.42 |           | 1.000 |   0 |           | LP     |
-  8 | Joe Burrow |  2693.7 | 0.930 | sweet    |  6.55 |    100.61 | 1.000 |   0 |           | FP     | -2.14
+ wk | full_name  | load_wk |  acwr | band     | ready | weight_lbs | avail | inj | body_part | status | epa
+  3 | Joe Burrow |  1409.1 |       |          |  6.10 |      212.3 | 1.000 |   0 |           | FP     |
+  4 | Joe Burrow |  2720.3 | 1.243 | sweet    |  6.78 |      214.4 | 0.750 |   1 | hamstring | DNP    |
+  5 | Joe Burrow |  3408.5 | 1.364 | elevated |  5.61 |            | 0.000 |   0 |           | DNP    |
+  6 | Joe Burrow |  2745.7 | 1.068 | sweet    |  6.45 |      219.1 | 0.500 |   0 |           | LP     |
+  7 | Joe Burrow |  2736.3 | 0.943 | sweet    |  6.42 |            | 1.000 |   0 |           | LP     |
+  8 | Joe Burrow |  2693.7 | 0.930 | sweet    |  6.55 |      221.8 | 1.000 |   0 |           | FP     | -2.14
 ```
 
 ### Does the injected load → injury correlation flow through?

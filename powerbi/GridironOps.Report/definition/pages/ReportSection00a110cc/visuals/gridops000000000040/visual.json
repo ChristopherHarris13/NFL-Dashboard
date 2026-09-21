@@ -1,0 +1,161 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "gridops000000000040",
+  "position": {
+    "x": 864,
+    "y": 408,
+    "z": 15000,
+    "height": 304,
+    "width": 408,
+    "tabOrder": 16000
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "body_part"
+                }
+              },
+              "queryRef": "Injury.body_part",
+              "displayName": "Body part"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "side"
+                }
+              },
+              "queryRef": "Injury.side",
+              "displayName": "Side"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "severity"
+                }
+              },
+              "queryRef": "Injury.severity",
+              "displayName": "Severity"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "event_date"
+                }
+              },
+              "queryRef": "Injury.event_date",
+              "displayName": "Event"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "return_date"
+                }
+              },
+              "queryRef": "Injury.return_date",
+              "displayName": "Returned"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "days_out"
+                }
+              },
+              "queryRef": "Injury.days_out",
+              "displayName": "Days out"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "expected_rtp"
+                }
+              },
+              "queryRef": "Injury.expected_rtp",
+              "displayName": "Expected RTP"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Injury"
+                  }
+                },
+                "Property": "event_date"
+              }
+            },
+            "direction": "Descending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Injury history'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  }
+}

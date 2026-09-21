@@ -62,11 +62,11 @@ strength_asof as (
 
 -- body comp: the latest preferred weigh-in on or before the day
 weight_day as (
-    select player_sk, measured_on, weight_kg, body_fat_pct, method
+    select player_sk, measured_on, weight_lbs, body_fat_pct, method
     from {{ ref('fact_nutrition') }} where is_preferred
 ),
 weight_asof as (
-    select x.player_sk, x.date_day, x.last_weigh_in, n.weight_kg, n.body_fat_pct
+    select x.player_sk, x.date_day, x.last_weigh_in, n.weight_lbs, n.body_fat_pct
     from (
         select g.player_sk, g.date_day,
                max(n.measured_on) over (partition by g.player_sk order by g.date_day rows unbounded preceding) as last_weigh_in
@@ -101,7 +101,7 @@ joined as (
         g.date_day - wd.last_survey_date                                                 as days_since_survey,
         coalesce(g.date_day - wd.last_survey_date >= 3, true)                            as is_silent,
         sa.last_test_date, sa.asymmetry_4w_avg, sa.jump_height_4w_max,
-        wa.last_weigh_in, wa.weight_kg, wa.body_fat_pct,
+        wa.last_weigh_in, wa.weight_lbs, wa.body_fat_pct,
         coalesce(ij.open_injuries, 0)                                                    as open_injuries,
         case ij.practice_rank when 1 then 'DNP' when 2 then 'LP' when 3 then 'FP' end     as practice_status,
         case ij.practice_rank when 1 then 'Out' when 2 then 'Limited' else 'Available' end as availability,
@@ -139,7 +139,7 @@ select
     readiness_score, readiness_28d_mean, readiness_delta, soreness, fatigue, sleep_hours, stress, mood,
     last_survey_date, days_since_survey, is_silent,
     last_test_date, asymmetry_4w_avg, jump_height_4w_max,
-    last_weigh_in, weight_kg, body_fat_pct,
+    last_weigh_in, weight_lbs, body_fat_pct,
     open_injuries, practice_status, availability, game_status, open_injury_body_parts, expected_return, days_since_injury,
     case when cardinality(red_reasons) > 0 then 'red'
          when cardinality(amber_reasons) > 0 then 'amber'

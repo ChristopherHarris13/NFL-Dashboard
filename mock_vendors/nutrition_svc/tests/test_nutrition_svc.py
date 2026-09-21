@@ -43,8 +43,8 @@ def test_default_dirt_visibly_present(default_client, clean_client):
     clean_names = {r["player_name"] for r in walk(clean_client, "measurements", limit=500)}
     # name mangling produces names outside the canonical roster spellings
     assert any(r["player_name"] not in clean_names for r in records)
-    # kg-swapped weights (numerically < 150) and omitted unit labels
-    assert any(r["weight"] < 150 for r in records)
+    # unit labels mangled ('kg' on an lb value) or omitted — values stay lb
+    assert any(r.get("weight_unit") == "kg" for r in records)
     assert any("weight_unit" not in r for r in records)
     # lean_mass emitted as a percent with no indicator
     assert any(r["lean_mass"] < 100 for r in records)

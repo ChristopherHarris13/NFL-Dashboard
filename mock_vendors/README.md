@@ -102,7 +102,7 @@ Probabilities below are the defaults in `dirt_config.yaml`.
 ### nutrition_svc
 | Defect | p | What it does |
 |---|---|---|
-| `unit_swap_weight` | 0.30 | lb→kg; `weight_unit` omitted 40% of the time |
+| `weight_unit_mislabel` | 0.30 | label only — value is always lb: `weight_unit` says `kg` 30% of mangles, omitted 40% |
 | `method_disagreement` | 0.20 | DEXA and BIA same date, `body_fat_pct` differs 3–6 pts |
 | `outlier` | 0.02 | weight 600 or 45; body_fat 1.5 |
 | `lean_mass_ambiguity` | 0.35 | `lean_mass` as a percent instead of absolute, no indicator |

@@ -46,7 +46,7 @@ strength as (
 ),
 nutrition as (
     select distinct on (n.player_sk, d.season_week) n.player_sk, d.season_week,
-           n.weight_kg, n.body_fat_pct, n.method as weight_method, n.measured_on as last_weigh_in
+           n.weight_lbs, n.body_fat_pct, n.method as weight_method, n.measured_on as last_weigh_in
     from {{ ref('fact_nutrition') }} n
     join {{ ref('dim_date') }} d on d.date_day = n.measured_on
     where n.is_preferred
@@ -96,7 +96,7 @@ select
     s.asymmetry_pct, round(s.asymmetry_4w_avg::numeric, 2) as asymmetry_4w_avg,
     round(s.asymmetry_trend::numeric, 2) as asymmetry_trend, s.jump_height_4w_max, s.last_test_date,
     -- body comp
-    n.weight_kg, n.body_fat_pct, n.weight_method, n.last_weigh_in,
+    n.weight_lbs, n.body_fat_pct, n.weight_method, n.last_weigh_in,
     -- availability & injury
     a.availability_pct, a.scheduled_sessions, a.missed_sessions,
     coalesce(i.new_injuries, 0)                    as new_injuries,

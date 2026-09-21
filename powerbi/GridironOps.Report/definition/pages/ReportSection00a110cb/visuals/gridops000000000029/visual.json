@@ -1,0 +1,227 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "gridops000000000029",
+  "position": {
+    "x": 8,
+    "y": 150,
+    "z": 7000,
+    "height": 250,
+    "width": 1264
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "source"
+                }
+              },
+              "queryRef": "DQ Run.source",
+              "displayName": "Source"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "rows_in"
+                }
+              },
+              "queryRef": "DQ Run.rows_in",
+              "displayName": "Rows in"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "duplicates_removed"
+                }
+              },
+              "queryRef": "DQ Run.duplicates_removed",
+              "displayName": "Duplicates removed"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "rows_quarantined"
+                }
+              },
+              "queryRef": "DQ Run.rows_quarantined",
+              "displayName": "Quarantined"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "rows_in_silver"
+                }
+              },
+              "queryRef": "DQ Run.rows_in_silver",
+              "displayName": "Rows in silver"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "reconciles"
+                }
+              },
+              "queryRef": "DQ Run.reconciles",
+              "displayName": "Reconciles"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "expectations_failed"
+                }
+              },
+              "queryRef": "DQ Run.expectations_failed",
+              "displayName": "Expectations failed"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "DQ Run"
+                    }
+                  },
+                  "Property": "pct_units_inferred"
+                }
+              },
+              "queryRef": "DQ Run.pct_units_inferred",
+              "displayName": "% units inferred"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "DQ Run"
+                  }
+                },
+                "Property": "source"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Latest run by source'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "gridops000000000028",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "DQ Run"
+              }
+            },
+            "Property": "run_recency"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "t",
+              "Entity": "DQ Run",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Column": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "t"
+                        }
+                      },
+                      "Property": "run_recency"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      }
+    ]
+  }
+}

@@ -197,6 +197,22 @@ def swap_unit(value: float, from_unit: str, to_unit: str, p: float,
     return converted, to_unit                # honestly labeled
 
 
+def mislabel_unit(unit: str, wrong_unit: str, p: float, rng: random.Random,
+                  wrong_label_p: float = 0.4, omit_label_p: float = 0.3):
+    """Maybe mangle only the LABEL: the value stays in `unit`, but the export
+    sometimes writes `wrong_unit` or omits the label entirely. Returns the
+    label (correct, wrong, or ABSENT); the caller's value is untouched.
+    """
+    if rng.random() >= p:
+        return unit
+    roll = rng.random()
+    if roll < wrong_label_p:
+        return wrong_unit                    # value untouched, label wrong
+    if roll < wrong_label_p + omit_label_p:
+        return ABSENT                        # value untouched, label gone
+    return unit
+
+
 def outlier(value: float, p: float, rng: random.Random,
             replacement: tuple[float, float] | float) -> float:
     """Replace with a physiologically impossible value."""
@@ -238,7 +254,7 @@ def schema_drift(record: dict, drift_date: date, event_date: date,
 
 
 def put_unit(record: dict, field: str, label) -> dict:
-    """Attach a unit label produced by swap_unit, honoring ABSENT."""
+    """Attach a unit label produced by swap_unit/mislabel_unit, honoring ABSENT."""
     if label is ABSENT:
         record.pop(field, None)
     else:

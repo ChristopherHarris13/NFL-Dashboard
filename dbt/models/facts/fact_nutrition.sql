@@ -3,8 +3,8 @@
 select
     bronze_id                                 as nutrition_sk,
     measurement_id, player_sk, measured_on, method,
-    weight_kg, weight_unit_inferred, weight_unit_evidence,
-    body_fat_pct, lean_mass_kg, lean_mass_was_pct, hydration_status,
+    weight_lbs, weight_mislabeled,
+    body_fat_pct, lean_mass_lbs, lean_mass_was_pct, hydration_status,
     case method when 'DEXA' then 1 when 'BIA' then 2 else 3 end                         as method_rank,
     row_number() over (partition by player_sk, measured_on
                        order by case method when 'DEXA' then 1 when 'BIA' then 2 else 3 end, bronze_id) = 1

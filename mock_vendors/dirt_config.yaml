@@ -39,8 +39,8 @@ ams_wellness_svc:
     p: 0.05            # append +00:00 to a local time that is really ET
 
 nutrition_svc:
-  unit_swap_weight:
-    p: 0.30            # lb -> kg; omit weight_unit 40% of the time
+  weight_unit_mislabel:
+    p: 0.30            # label only: 'kg' on an lb value 30%, omitted 40%; value stays lb
   method_disagreement:
     p: 0.20            # DEXA + BIA same date, body_fat_pct differs 3-6 pts
   outlier:

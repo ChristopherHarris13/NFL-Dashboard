@@ -52,9 +52,9 @@
     {
       "type": "expect_column_values_to_be_between",
       "kwargs": {
-        "column": "weight_kg",
-        "min_value": 60,
-        "max_value": 180
+        "column": "weight_lbs",
+        "min_value": 130,
+        "max_value": 420
       }
     },
     {

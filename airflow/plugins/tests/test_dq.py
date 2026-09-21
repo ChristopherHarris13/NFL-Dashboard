@@ -42,7 +42,7 @@ def test_range_checks_are_in_canonical_units():
     assert "peak_force_n" in cols and "peak_force_raw" not in cols
     nu = json.loads((REPO / "great_expectations/expectations/nutrition.json").read_text())
     cols = {e["kwargs"].get("column") for e in nu["expectations"]}
-    assert "weight_kg" in cols and "weight_raw" not in cols
+    assert "weight_lbs" in cols and "weight_raw" not in cols
 
 
 def test_load_suites_filters_by_source():

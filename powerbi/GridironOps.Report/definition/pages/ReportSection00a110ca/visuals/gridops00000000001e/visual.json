@@ -1,0 +1,436 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.12.0/schema.json",
+  "name": "gridops00000000001e",
+  "position": {
+    "x": 8,
+    "y": 100,
+    "z": 6000,
+    "height": 330,
+    "width": 1264
+  },
+  "visual": {
+    "visualType": "tableEx",
+    "query": {
+      "queryState": {
+        "Values": {
+          "projections": [
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player"
+                    }
+                  },
+                  "Property": "full_name"
+                }
+              },
+              "queryRef": "Player.full_name",
+              "displayName": "Player"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Player"
+                    }
+                  },
+                  "Property": "position"
+                }
+              },
+              "queryRef": "Player.position",
+              "displayName": "Pos"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "body_part"
+                }
+              },
+              "queryRef": "Injury.body_part",
+              "displayName": "Body part"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "side"
+                }
+              },
+              "queryRef": "Injury.side",
+              "displayName": "Side"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "injury_type"
+                }
+              },
+              "queryRef": "Injury.injury_type",
+              "displayName": "Type"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "severity"
+                }
+              },
+              "queryRef": "Injury.severity",
+              "displayName": "Severity"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury Status"
+                    }
+                  },
+                  "Property": "practice_status"
+                }
+              },
+              "queryRef": "Injury Status.practice_status",
+              "displayName": "Practice"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury Status"
+                    }
+                  },
+                  "Property": "game_status"
+                }
+              },
+              "queryRef": "Injury Status.game_status",
+              "displayName": "Game"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "event_date"
+                }
+              },
+              "queryRef": "Injury.event_date",
+              "displayName": "Event"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "expected_rtp"
+                }
+              },
+              "queryRef": "Injury.expected_rtp",
+              "displayName": "Expected RTP"
+            },
+            {
+              "field": {
+                "Column": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "Injury"
+                    }
+                  },
+                  "Property": "days_out"
+                }
+              },
+              "queryRef": "Injury.days_out",
+              "displayName": "Days out"
+            }
+          ]
+        }
+      },
+      "sortDefinition": {
+        "sort": [
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Injury Status"
+                  }
+                },
+                "Property": "practice_status"
+              }
+            },
+            "direction": "Ascending"
+          },
+          {
+            "field": {
+              "Column": {
+                "Expression": {
+                  "SourceRef": {
+                    "Entity": "Player"
+                  }
+                },
+                "Property": "full_name"
+              }
+            },
+            "direction": "Ascending"
+          }
+        ]
+      }
+    },
+    "visualContainerObjects": {
+      "title": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "text": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Practice / injury report — as-of day'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "drillFilterOtherVisuals": true
+  },
+  "filterConfig": {
+    "filters": [
+      {
+        "name": "gridops00000000001d",
+        "field": {
+          "Measure": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Key Measures"
+              }
+            },
+            "Property": "Is As-of (Injury)"
+          }
+        },
+        "type": "Advanced",
+        "filter": {
+          "Version": 2,
+          "From": [
+            {
+              "Name": "m",
+              "Entity": "Key Measures",
+              "Type": 0
+            }
+          ],
+          "Where": [
+            {
+              "Condition": {
+                "Comparison": {
+                  "ComparisonKind": 0,
+                  "Left": {
+                    "Measure": {
+                      "Expression": {
+                        "SourceRef": {
+                          "Source": "m"
+                        }
+                      },
+                      "Property": "Is As-of (Injury)"
+                    }
+                  },
+                  "Right": {
+                    "Literal": {
+                      "Value": "1L"
+                    }
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "howCreated": "User"
+      },
+      {
+        "name": "df643b24bc3c9106a095",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Player"
+              }
+            },
+            "Property": "full_name"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "da841daa1b3ed6e78c0b",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Player"
+              }
+            },
+            "Property": "position"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "3f1ef8ba66e529610750",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "body_part"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "be2afd32e2b6950cb75e",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "side"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "1d146f0297449600d033",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "injury_type"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4e00912b6e06ecd10179",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "severity"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "bd494dfb9040071c8ad3",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury Status"
+              }
+            },
+            "Property": "practice_status"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "9e49e0cfd54da6d9a88c",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury Status"
+              }
+            },
+            "Property": "game_status"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "cab30ae65d4b086dc151",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "event_date"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "4abff6106218035e3906",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "expected_rtp"
+          }
+        },
+        "type": "Categorical"
+      },
+      {
+        "name": "e82d5f3087c706aad6b5",
+        "field": {
+          "Column": {
+            "Expression": {
+              "SourceRef": {
+                "Entity": "Injury"
+              }
+            },
+            "Property": "days_out"
+          }
+        },
+        "type": "Advanced"
+      }
+    ]
+  }
+}

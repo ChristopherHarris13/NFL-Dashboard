@@ -290,7 +290,7 @@ Page → *Format → Page information → Drillthrough*: add `Player[full_name]`
 
 Top: the player's name (Card `SELECTEDVALUE(Player[full_name])`), Pos,
 Team; Cards for the as-of row: `flag` (colour by value), `availability`,
-`game_status`, `readiness_score`, `acwr_coupled` + `acwr_band`, `weight_kg`;
+`game_status`, `readiness_score`, `acwr_coupled` + `acwr_band`, `weight_lbs`;
 a text-style Card for `flag_reasons`. All with `Is As-of = 1`.
 
 Body (all with visual filter `In Window = 1`; Window slicer on this page):
@@ -302,7 +302,7 @@ Body (all with visual filter `In Window = 1`; Window slicer on this page):
 4. **Scatter** — Force Plate Test `asymmetry_pct` by `test_date` (small markers)
    with `asymmetry_4w_avg` as a line (second line visual layered, or use a
    line-and-clustered-column). Constant lines at ±10.
-5. **Line** — `weight_kg` by day (carried forward).
+5. **Line** — `weight_lbs` by day (carried forward).
 6. **Table** — this player's injuries: `body_part`, `side`, `severity`,
    `event_date`, `return_date`, `days_out`, `expected_rtp`.
 
